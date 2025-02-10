@@ -1,50 +1,90 @@
-# React + TypeScript + Vite
+# Recrutamento e Seleção com IA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositório contém o código-fonte do Front-end do projeto de Trabalho de Graduação (TG) focado na utilização de Inteligência Artificial para otimizar processos de recrutamento e seleção.
 
-Currently, two official plugins are available:
+## Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**React.ts** - Biblioteca para criação de interfaces dinâmicas.
 
-## Expanding the ESLint configuration
+**TypeScript** - Superset do JavaScript que adiciona tipagem estática.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**styled-components** - Biblioteca para estilização de componentes com CSS-in-JS.
 
-- Configure the top-level `parserOptions` property like this:
+**Vite com SWC** - Ferramenta de build rápida e otimizadora de código para desenvolvimento eficiente.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+
+## Objetivo do Projeto
+
+O objetivo deste projeto é desenvolver uma plataforma que utilize Inteligência Artificial para tornar os processos de recrutamento e seleção mais eficientes, reduzindo o tempo de triagem de currículos e melhorando a correspondência entre candidatos e vagas.
+
+
+## Funcionalidades Principais
+
+Triagem Automática de Currículos com IA
+
+Sistema de Recomendacão de Candidatos com base em match de habilidades
+
+Dashboard Interativa para visualização de insights sobre os candidatos
+
+Filtros Avançados para seleção personalizada de perfis
+
+
+## Como Executar o Projeto
+
+1. Clone este repositório:
+
+```bash
+git clone https://github.com/jonasmouradev/TG-Frontend.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Acesse o diretório do projeto:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+cd TG-Frontend
 ```
+
+Instale as dependências:
+
+```bash
+yarn
+```
+
+Execute o projeto em ambiente de desenvolvimento
+
+```bash
+yarn dev
+```
+
+Acesse a aplicação pelo navegador no endereço indicado no terminal.
+
+
+## Estrutura do Projeto
+
+.
+├── eslint.config.js
+├── index.html
+├── package.json
+├── public
+├── README.md
+├── src
+│   ├── App.tsx
+│   ├── assets
+│   ├── components
+│   │   └── navbar
+│   ├── index.css
+│   ├── main.tsx
+│   ├── pages
+│   │   ├── Configs
+│   │   └── home
+│   ├── routes
+│   ├── styles
+│   └── vite-env.d.ts
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── yarn.lock
+
+## Licença
+
+Este projeto está licenciado sob a MIT License.
