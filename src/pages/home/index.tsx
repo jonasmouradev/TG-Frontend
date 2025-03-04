@@ -1,11 +1,18 @@
-import { useNavigate } from "react-router";
+// import { useNavigate } from 'react-router';
+import { useUserContext } from '@/contexts/UserContext';
 
 export default function Home() {
-  const navigate = useNavigate();
+  const user = useUserContext();
+
   return (
-    <>
-      <h1>Home</h1>
-      <button onClick={() => navigate("/configs")}>Go to Configs</button>
-    </>
+    <div className="bg-slate-50 h-screen w-screen flex flex-col justify-center items-center">
+      <ul className="">
+        <li>Nome: {user.name}</li>
+        <li>E-mail: {user.email}</li>
+        <li>Password: {user.password}</li>
+        <li>User Type {user.userType}</li>
+        <li>User ID: {user.id}</li>
+      </ul>
+    </div>
   );
 }
