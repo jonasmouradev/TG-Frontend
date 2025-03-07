@@ -5,7 +5,7 @@
 /* ... */
 
 :root {
-  font-family: "Roboto", serif;
+  font-family: 'Roboto', serif;
   padding: 0px;
   margin: 0px;
 }
@@ -17,8 +17,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
-
-
 
 @layer base {
   :root {
@@ -75,8 +73,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

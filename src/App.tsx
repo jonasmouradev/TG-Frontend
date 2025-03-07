@@ -3,7 +3,6 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes';
 import { ThemeProvider } from 'styled-components';
 import { UserContext } from './contexts/UserContext';
-import Navbar from './components/navbar';
 import { useState } from 'react';
 import { User } from './types/user';
 
@@ -24,7 +23,6 @@ function App() {
     <div className="h-screen w-screen">
       <ThemeProvider theme={{ mode: 'dark' }}>
         <UserContext.Provider value={user}>
-          <Navbar />
           <RouterProvider router={router} />
         </UserContext.Provider>
       </ThemeProvider>
