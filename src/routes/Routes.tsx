@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../layout/Layout';
-import Configs from '../pages/configs';
-import Home from '../pages/home';
-import SignUp from '../pages/signUp';
-import Profile from '@/pages/profile/Profile';
-import SignIn from '@/pages/signIn/SignIn';
+import Home from '@/pages/home';
+import SignUp from '@/pages/signUp';
+import SignIn from '@/pages/signIn';
+import Configs from '@/pages/configs';
+import Profile from '@/pages/profile';
+import Layout from '@/layout/Layout';
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +14,18 @@ export const router = createBrowserRouter([
   {
     path: '/signIn',
     element: <SignUp />,
+  },
+  {
+    path: '/change-email/:secret',
+    element: <div>Change Email</div>,
+  },
+  {
+    path: '/activate/:id',
+    element: <div>Activate</div>,
+  },
+  {
+    path: '/:secret/reset-password/:email',
+    element: <div>Reset Password</div>,
   },
   {
     element: <Layout />,
