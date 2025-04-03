@@ -8,12 +8,12 @@ Este repositório contém o código-fonte do Front-end do projeto de Trabalho de
 
 **TypeScript** - Superset do JavaScript que adiciona tipagem estática.
 
-**styled-components** - Biblioteca para estilização de componentes com CSS-in-JS.
+**Styled-Components** - Biblioteca para estilização de componentes com CSS-in-JS.
 
-**Vite com SWC** - Ferramenta de build rápida e otimizadora de código para desenvolvimento eficiente.
+**Vite com SWC** - combinação da ferramenta de construção Vite e do compilador SWC.
 
-**Vitest e Testing Library** - Ferramentas úteis para testes automatizados no front-end. Totalmente comoatível com Vite.
-
+**Vitest e Testing Library** - Ferramentas úteis para testes automatizados no front-end. Totalmente compatível com Vite.
+/
 
 ## Objetivo do Projeto
 
