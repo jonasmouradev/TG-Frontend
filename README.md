@@ -1,6 +1,6 @@
-# Recrutamento e Seleção com IA
+# Recrutamento e Seleção
 
-Este repositório contém o código-fonte do Front-end do projeto de Trabalho de Graduação (TG) focado na utilização de Inteligência Artificial para otimizar processos de recrutamento e seleção.
+Este repositório contém o código-fonte do Front-end do projeto de Trabalho de Graduação (TG), focado em implementar um sistema para recrutamento e seleção especializado para nichos, que serão implementados de maneira totalmente pensada, incialmente por: Tecnologia.
 
 ## Tecnologias Utilizadas
 
@@ -12,21 +12,22 @@ Este repositório contém o código-fonte do Front-end do projeto de Trabalho de
 
 **Vite com SWC** - Ferramenta de build rápida e otimizadora de código para desenvolvimento eficiente.
 
+**Vitest e Testing Library** - Ferramentas úteis para testes automatizados no front-end. Totalmente comoatível com Vite.
+
 
 ## Objetivo do Projeto
 
-O objetivo deste projeto é desenvolver uma plataforma que utilize Inteligência Artificial para tornar os processos de recrutamento e seleção mais eficientes, reduzindo o tempo de triagem de currículos e melhorando a correspondência entre candidatos e vagas.
+O objetivo deste projeto é desenvolver uma plataforma que atenda o nicho de tecnologia no recrutamento e seleção, trazendo funcionalidades que ofereçam a melhor experiência personalizada, tanto para empresas e recrutadores quanto candidatos, sem a necessidade de "pular" entre diferentes plataformas. 
 
 
 ## Funcionalidades Principais
 
-Triagem Automática de Currículos com IA
-
-Sistema de Recomendacão de Candidatos com base em match de habilidades
-
-Dashboard Interativa para visualização de insights sobre os candidatos
-
-Filtros Avançados para seleção personalizada de perfis
+- Sistema de Recomendacão de Candidatos com base em match de requisitos
+- Criação e personalização de processos seletivos
+- Dashboard Interativa para visualização de insights sobre os candidatos
+- Filtros Avançados para seleção personalizada de perfis
+- Interação de empresa com recrutadores
+- Interface simples, intuitiva e moderna
 
 
 ## Como Executar o Projeto
@@ -56,34 +57,6 @@ yarn dev
 ```
 
 Acesse a aplicação pelo navegador no endereço indicado no terminal.
-
-
-## Estrutura do Projeto
-
-.
-├── eslint.config.js
-├── index.html
-├── package.json
-├── public
-├── README.md
-├── src
-│   ├── App.tsx
-│   ├── assets
-│   ├── components
-│   │   └── navbar
-│   ├── index.css
-│   ├── main.tsx
-│   ├── pages
-│   │   ├── Configs
-│   │   └── home
-│   ├── routes
-│   ├── styles
-│   └── vite-env.d.ts
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── vite.config.ts
-└── yarn.lock
 
 ## Licença
 
