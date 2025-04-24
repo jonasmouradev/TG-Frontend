@@ -16,8 +16,8 @@ export default function Navbar() {
   return (
     <>
       {user.id && (
-        <nav className="w-screen h-16 bg-slate-900 text-white">
-          <ul className="h-full flex justify-around items-center">
+        <nav className='w-screen h-16 bg-white text-white fixed top-0 left-0 z-10 cursor-pointer shadow-md'>
+          <ul className='h-full flex justify-around items-center text-black'>
             <li>
               <a onClick={() => handleNavigation('/home')}>Home</a>
             </li>

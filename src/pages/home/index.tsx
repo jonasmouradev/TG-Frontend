@@ -5,8 +5,8 @@ export default function Home() {
   const user = useUserContext();
 
   return (
-    <div className="bg-slate-50 h-screen w-screen flex flex-col justify-center items-center">
-      <ul className="">
+    <div className='bg-white h-screen w-screen flex flex-col justify-center items-center'>
+      <ul className=''>
         <li>Nome: {user.name}</li>
         <li>E-mail: {user.email}</li>
         <li>Password: {user.password}</li>

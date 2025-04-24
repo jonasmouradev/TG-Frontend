@@ -1,7 +1,6 @@
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes';
-import { ThemeProvider } from 'styled-components';
 import { UserContext } from './contexts/UserContext';
 import { useState } from 'react';
 import { User } from './types/user';
@@ -20,12 +19,10 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-screen">
-      <ThemeProvider theme={{ mode: 'dark' }}>
-        <UserContext.Provider value={user}>
-          <RouterProvider router={router} />
-        </UserContext.Provider>
-      </ThemeProvider>
+    <div className='h-screen w-screen'>
+      <UserContext.Provider value={user}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </div>
   );
 }
