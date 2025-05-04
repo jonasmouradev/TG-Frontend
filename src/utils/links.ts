@@ -1,3 +1,7 @@
-export const links = {
-  api: import.meta.env.VITE_API_URL,
+interface ILinks {
+  api: string;
+}
+
+export const links: ILinks = {
+  api: import.meta.env.VITE_APP_API_URL,
 };
