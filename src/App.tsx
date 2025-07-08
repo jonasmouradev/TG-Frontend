@@ -1,7 +1,7 @@
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes';
-import { UserContext } from './contexts/UserContext';
+import { UserContext } from '@/shared/contexts/UserContext';
 import { useState } from 'react';
 import { User } from './types/user';
 
@@ -19,7 +19,7 @@ function App() {
   }
 
   return (
-    <div className='h-screen w-screen'>
+    <div className="h-screen w-screen">
       <UserContext.Provider value={user}>
         <RouterProvider router={router} />
       </UserContext.Provider>

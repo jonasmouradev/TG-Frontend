@@ -1,23 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Home from '@/pages/home';
-import SignUp from '@/pages/signUp';
-import SignIn from '@/pages/signIn';
-import Configs from '@/pages/configs';
-import Profile from '@/pages/profile';
-import Layout from '@/layout/Layout';
+import { HomePage } from '@/features/home';
+import { SignUpPage, SignInPage } from '@/features/auth';
+import { ProfilePage } from '@/features/profile';
+import { SettingsPage } from '@/features/settings';
+import { Layout } from '@/shared/components/layout';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <SignIn />,
+    element: <SignInPage />,
   },
   {
     path: '/*',
-    element: <SignIn />,
+    element: <SignInPage />,
   },
   {
     path: '/signUp',
-    element: <SignUp />,
+    element: <SignUpPage />,
   },
   {
     path: '/change-email/:secret',
@@ -36,15 +35,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/home',
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: '/configs',
-        element: <Configs />,
+        element: <SettingsPage />,
       },
       {
         path: '/profile',
-        element: <Profile />,
+        element: <ProfilePage />,
       },
       {
         path: '*',

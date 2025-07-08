@@ -23,11 +23,11 @@
     "noUncheckedSideEffectImports": true,
 
     /* Config */
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "paths": {
       "@/*": ["./*"],
       "@components/*": ["./components/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/features"]
 }
