@@ -1,11 +1,11 @@
 // import { useNavigate } from 'react-router';
-import { useUserContext } from '@/shared/contexts/UserContext';
+import useUserContext from '@/shared/contexts/UserContext';
 
 export default function HomePage() {
   const user = useUserContext();
 
   return (
-    <div className="bg-white h-screen w-screen flex flex-col justify-center items-center">
+    <div className="bg-zinc-950 h-screen w-screen flex flex-col justify-center items-center">
       <ul className="">
         <li>Nome: {user.name}</li>
         <li>E-mail: {user.email}</li>

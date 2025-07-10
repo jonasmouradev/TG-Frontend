@@ -3,7 +3,7 @@ import { HomePage } from '@/features/home';
 import { SignUpPage, SignInPage } from '@/features/auth';
 import { ProfilePage } from '@/features/profile';
 import { SettingsPage } from '@/features/settings';
-import { Layout } from '@/shared/components/layout';
+import Layout from '@/shared/components/layout/Layout';
 
 export const router = createBrowserRouter([
   {
