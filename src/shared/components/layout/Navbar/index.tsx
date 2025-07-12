@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const navigateList: { label: string; path: string; icon: ElementType }[] = [
     {
-      label: 'Home',
+      label: 'Página Inicial',
       path: '/home',
       icon: House,
     },
@@ -32,7 +32,7 @@ const Navbar = () => {
       icon: NotebookText,
     },
     {
-      label: 'Configs',
+      label: 'Configurações',
       path: '/configs',
       icon: Settings,
     },
@@ -53,15 +53,16 @@ const Navbar = () => {
               />
             </div>
           </div>
+          <h1 className="text-zinc-400 px-8">Menu Principal</h1>
           <ul className="h-full flex flex-col items-center text-zinc-50 p-4">
             {navigateList.map((item, index) => (
               <li
                 onClick={() => handleNavigation(item.path)}
                 key={index}
-                className="flex w-full text-center items-center p-4 hover:bg-zinc-700 transition-colors gap-3 rounded-sm"
+                className="flex w-full text-center items-center px-4 py-3 hover:bg-zinc-700 transition-colors gap-3 rounded-sm text-white"
               >
-                {item.icon && <item.icon />}
-                <a className="flex items-center justify-center">{item.label}</a>
+                {item.icon && <item.icon size={18} />}
+                <a className="flex items-center justify-center text-sm font-medium">{item.label}</a>
               </li>
             ))}
           </ul>
