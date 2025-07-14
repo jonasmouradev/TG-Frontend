@@ -1,10 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { HomePage } from '@/features/home';
 import { ProfilePage } from '@/features/profile';
 import { SettingsPage } from '@/features/settings';
 import { SignUpPage, SignInPage } from '@/features/auth';
 import Layout from '@/shared/components/layout/Layout';
 import { paths } from '@/shared/utils/constants';
+import { lazy } from 'react';
+
+// TODO: add lazy load and change page export to default to avoid .then(module => ({ default: module.HomePage })));
+// import { HomePage } from '@/features/home';
+const HomePage = lazy(() => import('@/features/home').then(module => ({ default: module.HomePage })));
 
 export const router = createBrowserRouter([
   {
