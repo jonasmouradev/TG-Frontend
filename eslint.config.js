@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import prettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
+import cypress from 'eslint-plugin-cypress';
 import typescriptEslintEslintPlugin from '@typescript-eslint/eslint-plugin';
 
 export default tseslint.config(
@@ -20,14 +21,13 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       '@typescript-eslint': typescriptEslintEslintPlugin,
       prettier: prettier,
+      cypress: cypress,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       '@typescript-eslint/no-explicit-any': 'warn',
+      'require-data-selectors': 'warn',
     },
   },
 );
