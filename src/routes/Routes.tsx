@@ -38,6 +38,22 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: '/activity',
+        element: <h1>Activity</h1>,
+      },
+      {
+        path: '/registers',
+        element: <h1>Registers</h1>,
+      },
+      {
+        path: '/inbox',
+        element: <h1>Inbox</h1>,
+      },
+      {
+        path: '/statistics',
+        element: <h1>Statistics</h1>,
+      },
+      {
         path: '/configs',
         element: <SettingsPage />,
       },
