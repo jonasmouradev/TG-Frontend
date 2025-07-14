@@ -1,6 +1,9 @@
 import { api } from '@/shared/services/api';
 import { UserType, UpdateUserInput } from '../types';
 
+// TODO: Remove mock when backend is ready
+import getCurrentUserMock from '@/mock/getCurrentUser.json';
+
 export async function getUser(id: string): Promise<UserType> {
   const response = await api.get(`/users/${id}`);
   return response.data;
@@ -26,9 +29,11 @@ export async function updateEmail(id: string, email: string): Promise<void> {
   return response.data;
 }
 
-export async function updateUsername(id: string, username: string): Promise<void> {
-  const response = await api.put(`/users/${id}`, { username });
-  return response.data;
+export async function updateUsername(id: string, username: string): Promise<any> {
+  // const response = await api.put(`/users/${id}`, { username });
+  // return response.data;
+  console.log('Mocked updateUsername called with:', { id, username });
+  return getCurrentUserMock;
 }
 
 export async function deleteUser(id: string): Promise<void> {

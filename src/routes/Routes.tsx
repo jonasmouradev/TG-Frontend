@@ -1,13 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { HomePage } from '@/features/home';
-import { SignUpPage, SignInPage } from '@/features/auth';
 import { ProfilePage } from '@/features/profile';
 import { SettingsPage } from '@/features/settings';
+import { SignUpPage, SignInPage } from '@/features/auth';
 import Layout from '@/shared/components/layout/Layout';
+import { paths } from '@/shared/utils/constants';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: paths.SIGN_IN,
     element: <SignInPage />,
   },
   {

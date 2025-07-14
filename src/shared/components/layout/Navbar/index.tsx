@@ -4,6 +4,7 @@ import { House, Activity, Search, NotebookText, Settings, Inbox, ChartColumn, Pl
 import { ElementType } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Button } from '../../ui';
+import { paths } from '@/shared/utils/constants';
 
 const Navbar = () => {
   const user = useUserContext();
@@ -20,12 +21,12 @@ const Navbar = () => {
   const navigateList: { label: string; path: string; icon: ElementType }[] = [
     {
       label: 'Página Inicial',
-      path: '/home',
+      path: paths.HOME,
       icon: House,
     },
     {
       label: 'Atividade',
-      path: '/activity',
+      path: paths.ACTIVITY,
       icon: Activity,
     },
     {
