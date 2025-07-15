@@ -101,7 +101,7 @@ const Navbar = () => {
   return (
     <>
       {user.id && (
-        <nav className="flex flex-col relative w-72 h-screen bg-white dark:bg-transparent border-r-2 border-zinc-200 dark:border-zinc-800 top-0 left-0 z-10 cursor-pointer shadow-md">
+        <nav className="flex flex-col relative w-96 h-screen bg-white dark:bg-transparent border-r-2 border-zinc-200 dark:border-zinc-800 top-0 left-0 z-10 cursor-pointer shadow-md">
           <Header />
           <MenuItems />
           <Footer />
