@@ -92,7 +92,6 @@ const Navbar = () => {
       <button
         onClick={toggleTheme}
         className="text-zinc-400 hover:text-zinc-200 transition-colors p-1 rounded-md hover:bg-zinc-700"
-        aria-label={`Alternar para tema ${theme === 'light' ? 'escuro' : 'claro'}`}
       >
         {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
       </button>
@@ -102,7 +101,7 @@ const Navbar = () => {
   return (
     <>
       {user.id && (
-        <nav className="flex flex-col w-72 h-screen bg-white dark:bg-transparent border-r-2 border-zinc-200 dark:border-zinc-800 fixed top-0 left-0 z-10 cursor-pointer shadow-md">
+        <nav className="flex flex-col relative w-72 h-screen bg-white dark:bg-transparent border-r-2 border-zinc-200 dark:border-zinc-800 top-0 left-0 z-10 cursor-pointer shadow-md">
           <Header />
           <MenuItems />
           <Footer />

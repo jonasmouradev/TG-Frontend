@@ -20,50 +20,50 @@ export const router = createBrowserRouter([
     element: <SignInPage />,
   },
   {
-    path: '/signUp',
+    path: paths.SIGN_UP,
     element: <SignUpPage />,
   },
   {
-    path: '/change-email/:secret',
+    path: paths.CHANGE_EMAIL,
     element: <div>Change Email</div>,
   },
   {
-    path: '/activate/:id',
+    path: paths.ACTIVATE,
     element: <div>Activate</div>,
   },
   {
-    path: '/:secret/reset-password/:email',
+    path: paths.RESET_PASSWORD,
     element: <div>Reset Password</div>,
   },
   {
     element: <Layout />,
     children: [
       {
-        path: '/home',
+        path: paths.HOME,
         element: <HomePage />,
       },
       {
-        path: '/activity',
+        path: paths.ACTIVITY,
         element: <h1>Activity</h1>,
       },
       {
-        path: '/registers',
+        path: paths.REGISTERS,
         element: <h1>Registers</h1>,
       },
       {
-        path: '/inbox',
+        path: paths.INBOX,
         element: <h1>Inbox</h1>,
       },
       {
-        path: '/statistics',
+        path: paths.STATISTICS,
         element: <h1>Statistics</h1>,
       },
       {
-        path: '/configs',
+        path: paths.CONFIGS,
         element: <SettingsPage />,
       },
       {
-        path: '/profile',
+        path: paths.PROFILE,
         element: <ProfilePage />,
       },
       {
