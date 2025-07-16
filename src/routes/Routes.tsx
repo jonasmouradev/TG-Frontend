@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
         element: <h1>Statistics</h1>,
       },
       {
-        path: paths.CONFIGS,
+        path: paths.SETTINGS,
         element: <SettingsPage />,
       },
       {

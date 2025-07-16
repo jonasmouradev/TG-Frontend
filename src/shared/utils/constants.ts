@@ -4,7 +4,7 @@ export const paths = {
   REGISTERS: '/registers',
   INBOX: '/inbox',
   STATISTICS: '/statistics',
-  CONFIGS: '/configs',
+  SETTINGS: '/settings',
   PROFILE: '/profile',
   SIGN_UP: '/signUp',
   SIGN_IN: '/',
