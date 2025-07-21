@@ -1,27 +1,26 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { ProfilePage } from '@/features/profile';
-import { SettingsPage } from '@/features/settings';
-import { SignUpPage, SignInPage } from '@/features/auth';
 import Layout from '@/shared/components/layout/Layout';
 import { paths } from '@/shared/utils/constants';
 import { lazy } from 'react';
 
-// TODO: add lazy load and change page export to default to avoid .then(module => ({ default: module.HomePage })));
-// import { HomePage } from '@/features/home';
-const HomePage = lazy(() => import('@/features/home').then(module => ({ default: module.HomePage })));
+const Home = lazy(() => import('@/features/home'));
+const SignIn = lazy(() => import('@/features/auth/pages/SignInPage'));
+const SignUp = lazy(() => import('@/features/auth/pages/SignUpPage'));
+const Settings = lazy(() => import('@/features/settings'));
 
 export const router = createBrowserRouter([
   {
     path: paths.SIGN_IN,
-    element: <SignInPage />,
+    element: <SignIn />,
   },
   {
     path: '/*',
-    element: <SignInPage />,
+    element: <SignIn />,
   },
   {
     path: paths.SIGN_UP,
-    element: <SignUpPage />,
+    element: <SignUp />,
   },
   {
     path: paths.CHANGE_EMAIL,
@@ -40,7 +39,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: paths.HOME,
-        element: <HomePage />,
+        element: <Home />,
       },
       {
         path: paths.ACTIVITY,
@@ -60,7 +59,7 @@ export const router = createBrowserRouter([
       },
       {
         path: paths.SETTINGS,
-        element: <SettingsPage />,
+        element: <Settings />,
       },
       {
         path: paths.PROFILE,

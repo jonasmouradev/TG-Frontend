@@ -1,14 +1,14 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import Navbar from '@/shared/components/layout/Navbar';
+import Sidebar from '@/shared/components/layout/Sidebar';
 import { paths } from '@/shared/utils/constants';
 
 const Layout = () => {
   const location = useLocation();
-  const hideNavbarRoutes: string[] = [paths.SIGN_UP, paths.SIGN_IN];
+  const hideSidebarRoutes: string[] = [paths.SIGN_UP, paths.SIGN_IN];
 
   return (
     <div className="flex w-screen">
-      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+      {!hideSidebarRoutes.includes(location.pathname) && <Sidebar />}
       <Outlet />
     </div>
   );

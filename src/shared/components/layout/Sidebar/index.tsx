@@ -5,11 +5,13 @@ import { ElementType } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Button } from '../../ui';
 import { paths } from '@/shared/utils/constants';
+import { useTranslation } from 'react-i18next';
 
-const Navbar = () => {
+const Sidebar = () => {
   const user = useUserContext();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
 
   const handleNavigation = (path: string) => {
@@ -20,32 +22,32 @@ const Navbar = () => {
 
   const navigateList: { label: string; path: string; icon: ElementType }[] = [
     {
-      label: 'Página Inicial',
+      label: t('home_page'),
       path: paths.HOME,
       icon: House,
     },
     {
-      label: 'Atividade',
+      label: t('activity'),
       path: paths.ACTIVITY,
       icon: Activity,
     },
     {
-      label: 'Registros',
+      label: t('registers'),
       path: paths.REGISTERS,
       icon: NotebookText,
     },
     {
-      label: 'Caixa de Entrada',
+      label: t('inbox'),
       path: paths.INBOX,
       icon: Inbox,
     },
     {
-      label: 'Estatísticas',
+      label: t('statistics'),
       path: paths.STATISTICS,
       icon: ChartColumn,
     },
     {
-      label: 'Configurações',
+      label: t('settings'),
       path: paths.SETTINGS,
       icon: Settings,
     },
@@ -53,13 +55,13 @@ const Navbar = () => {
 
   const Header = () => (
     <header className="h-48 w-72 flex flex-col justify-evenly font-sans items-center">
-      <h1 className="text-3xl text-gray-800 dark:text-zinc-50 self-start pl-6">Seleto Inc</h1>
+      <h1 className="text-3xl text-primary self-start pl-6">Seleto Inc</h1>
       <div className="relative w-full px-4">
         <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-gray-600 w-4 h-4" />
         <input
           type="search"
-          placeholder="Pesquisar..."
-          className="w-full h-8 pl-10 pr-3 py-2 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent text-gray-600 dark:text-gray-50 dark:placeholder-zinc-400 text-sm focus:outline-none dark:focus:border-zinc-600"
+          placeholder={t('search')}
+          className="w-full h-8 pl-10 pr-3 py-2 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent text-primary dark:placeholder-zinc-400 text-sm focus:outline-none dark:focus:border-zinc-600"
         />
       </div>
     </header>
@@ -67,7 +69,7 @@ const Navbar = () => {
 
   const MenuItems = () => (
     <>
-      <ul className="h-auto flex flex-col items-center text-gray-700 dark:text-zinc-50 p-4">
+      <ul className="h-auto flex flex-col items-center text-primary p-4">
         {navigateList.map((item, index) => (
           <li
             onClick={() => handleNavigation(item.path)}
@@ -81,17 +83,17 @@ const Navbar = () => {
       </ul>
       <div className="relative w-full px-4">
         <Plus className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
-        <Button className="bg-blue-500 w-full dark:text-white hover:bg-zinc-700">Criar uma vaga</Button>
+        <Button className="bg-blue-500 w-full text-white hover:bg-zinc-700">{t('create_vacancy')}</Button>
       </div>
     </>
   );
 
   const Footer = () => (
     <footer className="flex justify-between px-8 bg-transparent dark:border-t border-gray-800 mt-auto py-6">
-      <h1 className="text-gray-800 dark:text-gray-400">Tema</h1>
+      <h1 className="text-secondary">{t('theme')}</h1>
       <button
         onClick={toggleTheme}
-        className="text-gray-800 dark:text-gray-400 hover:dark:text-zinc-200 transition-colors p-1 rounded-md dark:hover:bg-zinc-700"
+        className="text-secondary hover:text-zinc-200 transition-colors p-1 rounded-md hover:bg-zinc-700"
       >
         {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
       </button>
@@ -111,4 +113,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Sidebar;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@/shared/components/ui/Button';
+import { Button } from '@/styles/styledComponents/Button';
 import { Input } from '@/shared/components/ui/Input';
 
 export default function SettingsPage() {
