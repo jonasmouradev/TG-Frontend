@@ -1,4 +1,3 @@
-// import { useNavigate } from 'react-router';
 import { Button } from '@/shared';
 import useUserContext from '@/shared/contexts/UserContext';
 import { useLocation } from 'react-router';

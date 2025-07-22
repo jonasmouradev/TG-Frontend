@@ -8,6 +8,7 @@ const Home = lazy(() => import('@/features/home'));
 const SignIn = lazy(() => import('@/features/auth/pages/SignInPage'));
 const SignUp = lazy(() => import('@/features/auth/pages/SignUpPage'));
 const Settings = lazy(() => import('@/features/settings'));
+const NotFound = lazy(() => import('@/features/NotFound'));
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/*',
-    element: <SignIn />,
+    element: <NotFound />,
   },
   {
     path: paths.SIGN_UP,

@@ -12,11 +12,9 @@ Este repositório contém o código-fonte do Front-end do projeto de Trabalho de
 
 **Vite com SWC** - Ferramenta de build rápida e otimizadora de código para desenvolvimento eficiente.
 
-
 ## Objetivo do Projeto
 
 O objetivo deste projeto é desenvolver uma plataforma que utilize Inteligência Artificial para tornar os processos de recrutamento e seleção mais eficientes, reduzindo o tempo de triagem de currículos e melhorando a correspondência entre candidatos e vagas.
-
 
 ## Funcionalidades Principais
 
@@ -27,7 +25,6 @@ Sistema de Recomendacão de Candidatos com base em match de habilidades
 Dashboard Interativa para visualização de insights sobre os candidatos
 
 Filtros Avançados para seleção personalizada de perfis
-
 
 ## Como Executar o Projeto
 
@@ -57,7 +54,6 @@ yarn dev
 
 Acesse a aplicação pelo navegador no endereço indicado no terminal.
 
-
 ## Estrutura do Projeto
 
 .
@@ -70,7 +66,7 @@ Acesse a aplicação pelo navegador no endereço indicado no terminal.
 │   ├── App.tsx
 │   ├── assets
 │   ├── components
-│   │   └── navbar
+│   │   └── sidebar
 │   ├── index.css
 │   ├── main.tsx
 │   ├── pages
