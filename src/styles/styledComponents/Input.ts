@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   height?: string;
@@ -19,11 +19,11 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = styled.input<InputProps>`
-  height: ${(props) => props.height || "40px"};
-  width: ${(props) => props.width || "100%"};
-  border: ${(props) => props.border || "1px solid #ccc"};
-  border-radius: ${(props) => props.borderRadius || "5px"};
-  background-color: ${(props) => props.backgroundColor || "transparent"};
-  color: ${(props) => props.color || "black"};
-  padding: ${(props) => props.padding || "1rem"};
+  height: ${props => props.height || '40px'};
+  width: ${props => props.width || '100%'};
+  border: ${props => props.border || '1px solid #ccc'};
+  border-radius: ${props => props.borderRadius || '5px'};
+  background-color: ${props => props.backgroundColor || 'transparent'};
+  color: ${props => props.color || 'black'};
+  padding: ${props => props.padding || '1rem'};
 `;

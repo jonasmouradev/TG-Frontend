@@ -1,48 +1,69 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { HomePage } from '@/features/home';
-import { SignUpPage, SignInPage } from '@/features/auth';
 import { ProfilePage } from '@/features/profile';
-import { SettingsPage } from '@/features/settings';
-import { Layout } from '@/shared/components/layout';
+import Layout from '@/shared/components/layout/Layout';
+import { paths } from '@/shared/utils/constants';
+import { lazy } from 'react';
+
+const Home = lazy(() => import('@/features/home'));
+const SignIn = lazy(() => import('@/features/auth/pages/SignInPage'));
+const SignUp = lazy(() => import('@/features/auth/pages/SignUpPage'));
+const Settings = lazy(() => import('@/features/settings'));
+const NotFound = lazy(() => import('@/features/NotFound'));
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <SignInPage />,
+    path: paths.SIGN_IN,
+    element: <SignIn />,
   },
   {
     path: '/*',
-    element: <SignInPage />,
+    element: <NotFound />,
   },
   {
-    path: '/signUp',
-    element: <SignUpPage />,
+    path: paths.SIGN_UP,
+    element: <SignUp />,
   },
   {
-    path: '/change-email/:secret',
+    path: paths.CHANGE_EMAIL,
     element: <div>Change Email</div>,
   },
   {
-    path: '/activate/:id',
+    path: paths.ACTIVATE,
     element: <div>Activate</div>,
   },
   {
-    path: '/:secret/reset-password/:email',
+    path: paths.RESET_PASSWORD,
     element: <div>Reset Password</div>,
   },
   {
     element: <Layout />,
     children: [
       {
-        path: '/home',
-        element: <HomePage />,
+        path: paths.HOME,
+        element: <Home />,
       },
       {
-        path: '/configs',
-        element: <SettingsPage />,
+        path: paths.ACTIVITY,
+        element: <h1>Activity</h1>,
       },
       {
-        path: '/profile',
+        path: paths.REGISTERS,
+        element: <h1>Registers</h1>,
+      },
+      {
+        path: paths.INBOX,
+        element: <h1>Inbox</h1>,
+      },
+      {
+        path: paths.STATISTICS,
+        element: <h1>Statistics</h1>,
+      },
+      {
+        path: paths.SETTINGS,
+        element: <Settings />,
+      },
+      {
+        path: paths.PROFILE,
         element: <ProfilePage />,
       },
       {

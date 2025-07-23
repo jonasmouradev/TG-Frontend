@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 
 export const UserContext = createContext<User | undefined>(undefined);
 
-export function useUserContext() {
+export default function useUserContext() {
   const user = useContext(UserContext);
 
   if (!user) {

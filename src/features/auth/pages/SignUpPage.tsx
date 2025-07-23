@@ -41,25 +41,13 @@ export default function SignUpPage() {
           <div className="h-fit w-96 space-y-2 drop-shadow-md flex flex-col">
             <h1 className="text-2xl font-bold">Cadastro</h1>
             <Input type="text" placeholder="Nome" {...register('name')} />
-            <Input
-              type="text"
-              placeholder="Nome de usuário"
-              {...register('username')}
-            />
+            <Input type="text" placeholder="Nome de usuário" {...register('username')} />
             <Input type="email" placeholder="E-mail" {...register('email')} />
-            <Input
-              type="password"
-              placeholder="Senha"
-              {...register('password')}
-            />
+            <Input type="password" placeholder="Senha" {...register('password')} />
             <Button className="w-1/2" disabled={isLoading}>
               {isLoading ? 'Criando conta...' : 'Criar conta'}
             </Button>
-            <button
-              type="button"
-              className="text-blue-800 underline"
-              onClick={() => navigate('/')}
-            >
+            <button type="button" className="text-blue-800 underline" onClick={() => navigate('/')}>
               Já tem uma conta? Faça login
             </button>
           </div>

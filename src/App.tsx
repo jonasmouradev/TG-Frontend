@@ -4,6 +4,7 @@ import { router } from './routes/Routes';
 import { UserContext } from '@/shared/contexts/UserContext';
 import { useState } from 'react';
 import { User } from './types/user';
+import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';
 
 function App() {
   const [user] = useState<User>({
@@ -19,11 +20,11 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-screen">
+    <ThemeProvider>
       <UserContext.Provider value={user}>
         <RouterProvider router={router} />
       </UserContext.Provider>
-    </div>
+    </ThemeProvider>
   );
 }
 

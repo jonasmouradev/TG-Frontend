@@ -3,5 +3,5 @@ export interface User {
   name: string;
   email: string;
   password: string;
-  userType: "admin" | "user";
+  userType: 'admin' | 'user';
 }
