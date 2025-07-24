@@ -7,6 +7,7 @@ import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'rec
 import ChartData from '@/mock/ChartData.json';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   const user = useUserContext();
@@ -44,7 +45,12 @@ export default function HomePage() {
   };
 
   return (
-    <main className="h-screen w-screen grid grid-cols-4 grid-rows-12">
+    <motion.main
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="h-screen w-screen grid grid-cols-4 grid-rows-12"
+    >
       <header className="flex flex-col col-span-4 row-span-2 p-6 gap-2">
         <h3 className="text-sm text-secondary">{location.pathname}</h3>
         <h1 className="text-3xl">{`${t('hello')}, ${user.name}`}</h1>
@@ -108,6 +114,6 @@ export default function HomePage() {
           </ul>
         </div>
       </section>
-    </main>
+    </motion.main>
   );
 }
