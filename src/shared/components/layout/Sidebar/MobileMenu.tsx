@@ -22,13 +22,11 @@ const MobileMenu = ({ handleNavigation, navigateList, toggleTheme, theme, isOpen
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ type: 'tween', duration: 0.3 }}
-          className="fixed inset-0 z-2 md:hidden"
+          className="fixed inset-0 z-2 lg:hidden"
         >
-          {/* Overlay */}
           <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsOpen(false)} />
 
-          {/* Menu Content */}
-          <div className="relative w-72 h-full dark:bg-zinc-950 border-r dark:border-gray-800 flex flex-col">
+          <div className="relative w-72 h-screen dark:bg-zinc-950 border-r dark:border-gray-800 flex flex-col">
             <div className="flex justify-between items-center p-4 border-b dark:border-gray-800">
               <h1 className="text-2xl text-primary">Seleto Inc</h1>
               <button

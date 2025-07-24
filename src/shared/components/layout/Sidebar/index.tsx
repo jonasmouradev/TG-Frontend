@@ -1,25 +1,14 @@
 import useUserContext from '@/shared/contexts/UserContext';
 import useTheme from '@/shared/hooks/useTheme';
-import {
-  House,
-  Activity,
-  Search,
-  NotebookText,
-  Settings,
-  Inbox,
-  ChartColumn,
-  Plus,
-  Moon,
-  Sun,
-  Menu,
-} from 'lucide-react';
-import { ElementType, useState } from 'react';
+import { House, Activity, Search, NotebookText, Settings, Inbox, ChartColumn, Plus, Moon, Sun } from 'lucide-react';
+import { ElementType } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Button } from '../../ui';
 import { paths } from '@/shared/utils/constants';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import MobileMenu from './MobileMenu';
+import { useSidebar } from '@/shared/contexts/SidebarContext';
 
 const Sidebar = () => {
   const user = useUserContext();
@@ -27,18 +16,14 @@ const Sidebar = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
+  const { isOpen, setIsOpen } = useSidebar();
   const isActive = (path: string) => location.pathname === path;
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleNavigation = (path: string) => {
     if (location.pathname !== path) {
       navigate(path);
     }
     setIsOpen(false);
-  };
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
   };
 
   const navigateList: { label: string; path: string; icon: ElementType; isActive: boolean }[] = [
@@ -107,11 +92,11 @@ const Sidebar = () => {
           >
             {item.isActive && <div className="absolute left-0 top-0 w-1 h-full bg-blue-500 rounded-l-sm" />}
             {item.icon && <item.icon size={18} />}
-            <a className="md:flex hidden items-center justify-center text-sm font-medium">{item.label}</a>
+            <a className="lg:flex hidden items-center justify-center text-sm font-medium">{item.label}</a>
           </motion.li>
         ))}
       </ul>
-      <div className="md:block hidden w-full px-4">
+      <div className="lg:block hidden w-full px-4">
         <Plus className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
         <Button className="bg-blue-500 w-full text-white hover:bg-zinc-700">{t('create_vacancy')}</Button>
       </div>
@@ -119,7 +104,7 @@ const Sidebar = () => {
   );
 
   const Footer = () => (
-    <footer className="md:flex hidden justify-between px-8 bg-transparent dark:border-t border-gray-800 mt-auto py-6">
+    <footer className="lg:flex hidden justify-between px-8 bg-transparent dark:border-t border-gray-800 mt-auto py-6">
       <h1 className="text-secondary">{t('theme')}</h1>
       <button
         onClick={toggleTheme}
@@ -134,13 +119,7 @@ const Sidebar = () => {
     <>
       {user.id && (
         <>
-          <button
-            onClick={toggleMenu}
-            className="fixed top-4 left-4 z-2 md:hidden text-primary hover:text-zinc-200 transition-colors p-2 rounded-md hover:bg-zinc-700"
-          >
-            <Menu size={24} />
-          </button>
-          <nav className="hidden md:flex w-72 flex-col relative h-screen dark:bg-zinc-950 border-r dark:border-gray-800 top-0 left-0 z-10 cursor-pointer shadow-md">
+          <nav className="hidden lg:flex w-72 flex-col relative h-screen dark:bg-zinc-950 border-r dark:border-gray-800 top-0 left-0 z-10 cursor-pointer shadow-md">
             <Header />
             <MenuItems />
             <Footer />

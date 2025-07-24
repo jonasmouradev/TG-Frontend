@@ -5,6 +5,7 @@ import { UserContext } from '@/shared/contexts/UserContext';
 import { useState } from 'react';
 import { User } from './types/user';
 import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';
+import { SidebarProvider } from './shared/contexts/SidebarContext';
 
 function App() {
   const [user] = useState<User>({
@@ -22,7 +23,9 @@ function App() {
   return (
     <ThemeProvider>
       <UserContext.Provider value={user}>
-        <RouterProvider router={router} />
+        <SidebarProvider>
+          <RouterProvider router={router} />
+        </SidebarProvider>
       </UserContext.Provider>
     </ThemeProvider>
   );
