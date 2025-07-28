@@ -1,8 +1,7 @@
 import { Button } from '@/shared';
 import useUserContext from '@/shared/contexts/UserContext';
-import { useSidebar } from '@/shared/contexts/SidebarContext';
 import { useLocation } from 'react-router';
-import { CirclePlus, ChevronRight, Calendar, ChartColumnBig, Menu } from 'lucide-react';
+import { CirclePlus, ChevronRight, Calendar, ChartColumnBig } from 'lucide-react';
 import LastActivities from '@/mock/LastActivities.json';
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartData from '@/mock/ChartData.json';
@@ -14,7 +13,6 @@ export default function HomePage() {
   const user = useUserContext();
   const location = useLocation();
   const { t } = useTranslation();
-  const { toggleMenu } = useSidebar();
 
   const HomeButton = ({
     icon,
@@ -48,10 +46,6 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col">
-      <button onClick={toggleMenu} className="m-2 lg:hidden text-primary hover:text-zinc-200 p-2 rounded-lg">
-        <Menu size={24} />
-      </button>
-
       <motion.main
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
