@@ -2,9 +2,10 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes';
 import { UserContext } from '@/shared/contexts/UserContext';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { User } from './types/user';
 import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';
+import { SidebarProvider } from './shared/contexts/SidebarContext';
 
 function App() {
   const [user] = useState<User>({
@@ -20,11 +21,15 @@ function App() {
   }
 
   return (
-    <ThemeProvider>
-      <UserContext.Provider value={user}>
-        <RouterProvider router={router} />
-      </UserContext.Provider>
-    </ThemeProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ThemeProvider>
+        <UserContext.Provider value={user}>
+          <SidebarProvider>
+            <RouterProvider router={router} />
+          </SidebarProvider>
+        </UserContext.Provider>
+      </ThemeProvider>
+    </Suspense>
   );
 }
 
