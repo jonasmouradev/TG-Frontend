@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, PropsWithChildren } from 'react';
 
 interface SidebarContextType {
   isOpen: boolean;
@@ -8,7 +8,7 @@ interface SidebarContextType {
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
-export const SidebarProvider = ({ children }: { children: ReactNode }) => {
+export const SidebarProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
