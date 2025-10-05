@@ -25,8 +25,9 @@
     /* Config */
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"],
-      "@components/*": ["./components/*"]
+      "@core/*": ["./@core/*"],
+      "@components/*": ["./components/*"],
+      "@/*": ["./*"]
     }
   },
   "include": ["src", "src/features"]

@@ -19,3 +19,28 @@ export interface SelectOption {
   label: string;
   value: string;
 }
+
+export interface IToken {
+  exp: number;
+  iat: number;
+  iss: string;
+  jti: string;
+  nbf: number;
+  prv: string;
+  sub: string;
+  user: IUser;
+}
+
+export interface IUser {
+  config: {
+    auth2f: boolean;
+    default_interface: 'LIGHT' | 'DARK';
+    default_language: string;
+    default_timezone: string;
+    master: boolean;
+  };
+  profile_id: string;
+  id: string;
+  type: 'COMPANY' | 'PERSON';
+  username: string;
+}
