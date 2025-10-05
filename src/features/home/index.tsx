@@ -1,6 +1,6 @@
 import { Button } from '@/shared';
 import useUserContext from '@/shared/contexts/UserContext';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { CirclePlus, ChevronRight, Calendar, ChartColumnBig } from 'lucide-react';
 import LastActivities from '@/mock/LastActivities.json';
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
@@ -8,11 +8,13 @@ import ChartData from '@/mock/ChartData.json';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { paths } from '@/shared/utils/constants';
 
 export default function HomePage() {
   const user = useUserContext();
   const location = useLocation();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const HomeButton = ({
     icon,
@@ -20,18 +22,20 @@ export default function HomePage() {
     subtitle,
     style,
     whiteSubtitle,
+    navigateTo,
   }: {
     icon: ReactNode;
     title: string;
     subtitle: string;
     style?: string;
     whiteSubtitle?: boolean;
+    navigateTo?: string;
   }) => {
     const baseStyle =
       'bg-background border border-border text-primary w-full flex justify-between flex-1 [&_svg]:size-7 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-lg';
 
     return (
-      <Button className={`${baseStyle} ${style}`}>
+      <Button className={`${baseStyle} ${style}`} onClick={() => navigate(navigateTo || '')}>
         <div className="flex flex-row gap-6 items-center">
           {icon}
           <div>
@@ -45,19 +49,19 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center items-center bg-white-10 backdrop-blur-md lg:border border-white/20 lg:rounded-r-md">
       <motion.main
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="h-screen w-screen lg:w-auto lg:grid grid-cols-4 grid-rows-12"
+        className="h-screen w-screen lg:w-full lg:h-full lg:grid grid-cols-4 grid-rows-12"
       >
         <header className="flex flex-col col-span-4 row-span-2 p-6 gap-2 lg:pt-16">
           <h3 className="text-sm text-secondary">{location.pathname}</h3>
           <h1 className="text-3xl">{`${t('hello')}, ${user.name}`}</h1>
         </header>
         <article className="col-span-2 row-span-6 p-6 flex flex-col gap-4">
-          <div className="dark:bg-zinc-950 border shadow-lg rounded-sm dark:border-gray-800 p-6 flex justifty-center items-center">
+          <div className="shadow-lg rounded-sm dark:bg-white/5 backdrop-blur-md border border-white/20 p-6 flex justify-center items-center">
             <div className="flex flex-col gap-2 items-center w-full border-r dark:border-gray-800">
               <span className="text-sm text-secondary">{t('in_progress')}</span>
               <span className="text-4xl">1</span>
@@ -72,15 +76,26 @@ export default function HomePage() {
               icon={<CirclePlus size={64} />}
               title={t('vacancy')}
               subtitle={t('create_vacancy')}
-              style="bg-blue-500 text-white hover:bg-blue-600 dark:hover:bg-blue-600 border border-blue-500 dark:border-blue-600"
+              style="bg-blue-500 text-white hover:bg-blue-600 dark:hover:bg-blue-600 bg-white/5 backdrop-blur-lg border border-white/20"
               whiteSubtitle={true}
+              navigateTo={paths.NEW_VACANCY}
             />
-            <HomeButton icon={<Calendar size={64} />} title={t('process')} subtitle={t('view_process')} />
-            <HomeButton icon={<ChartColumnBig size={64} />} title={t('statistics')} subtitle={t('track_data')} />
+            <HomeButton
+              icon={<Calendar size={64} />}
+              title={t('process')}
+              subtitle={t('view_process')}
+              style="bg-white/5 backdrop-blur-md border border-white/20"
+            />
+            <HomeButton
+              icon={<ChartColumnBig size={64} />}
+              title={t('statistics')}
+              subtitle={t('track_data')}
+              style="bg-white/5 backdrop-blur-md border border-white/20"
+            />
           </div>
         </article>
         <article className="hidden lg:block col-span-2 lg:row-span-6 p-6">
-          <div className="dark:bg-zinc-950 border shadow-lg rounded-sm dark:border-gray-800 p-6 flex justify-between items-center h-full">
+          <div className="shadow-lg rounded-sm dark:bg-white/5 backdrop-blur-md border border-white/20 p-6 flex justify-between items-center h-full">
             <BarChart
               width={1000}
               height={500}
@@ -103,7 +118,7 @@ export default function HomePage() {
           </div>
         </article>
         <section className="col-span-4 row-span-4 p-6">
-          <div className="bg-background border rounded-sm dark:border-gray-800 flex flex-col h-full">
+          <div className="bg-background border rounded-sm dark:bg-white/5 backdrop-blur-md border border-white/20 flex flex-col h-full">
             <h3 className=" p-4 text-2xl border-b dark:border-gray-800">{t('last_activities')}</h3>
             <ul className="overflow-y-auto  p-4 h-36">
               {LastActivities.map((activity, index) => (

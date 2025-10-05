@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.x",
+    "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-label": "^2.1.x",
     "@radix-ui/react-slot": "^1.2.x",
     "@types/js-cookie": "^3.0.x",
@@ -79,6 +80,7 @@
     "@types/react-dom": "^19.1.x",
     "@types/styled-theming": "^2.2.x",
     "@vitejs/plugin-react-swc": "^3.10.x",
+    "@vitest/browser": "3.2.4",
     "@vitest/coverage-v8": "3.2.x",
     "@vitest/ui": "^3.2.x",
     "autoprefixer": "^10.4.2x",
@@ -96,6 +98,7 @@
     "jest": "^29.5.x",
     "jsdom": "^26.1.x",
     "lint-staged": "^16.1.x",
+    "playwright": "^1.54.1",
     "postcss": "^8.5.6",
     "pre-commit": "^1.2.x",
     "prettier": "^3.6.x",
@@ -106,9 +109,7 @@
     "typescript": "^5.8.x",
     "typescript-eslint": "^8.35.x",
     "vite": "^7.0.x",
-    "vitest": "^3.2.x",
-    "@vitest/browser": "3.2.4",
-    "playwright": "^1.54.1"
+    "vitest": "^3.2.x"
   },
   "config": {
     "commitizen": {

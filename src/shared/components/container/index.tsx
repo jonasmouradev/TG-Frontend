@@ -2,7 +2,7 @@ import { FC, PropsWithChildren } from 'react';
 
 const Container: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="max-w-full h-full overflow-hidden shadow-md dark:border border-gray-800 p-4 rounded-lg mb-4">
+    <div className="max-w-full h-full overflow-hidden shadow-md dark:border border-gray-800 p-4 rounded-lg mb-4 flex flex-col gap-4">
       {children}
     </div>
   );

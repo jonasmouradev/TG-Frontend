@@ -119,7 +119,7 @@ const Sidebar = () => {
     <>
       {user.id && (
         <>
-          <nav className="hidden lg:flex w-72 flex-col relative h-screen dark:bg-zinc-950 border-r dark:border-gray-800 top-0 left-0 z-10 cursor-pointer shadow-md">
+          <nav className="hidden lg:flex w-72 flex-col relative h-[90vh] bg-white/5 backdrop-blur-md lg:border-t lg:border-b lg:border-l border-white/20 top-0 left-0 z-10 cursor-pointer rounded-l-md">
             <Header />
             <MenuItems />
             <Footer />
