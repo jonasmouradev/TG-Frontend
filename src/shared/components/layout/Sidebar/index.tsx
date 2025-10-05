@@ -92,7 +92,7 @@ const Sidebar = () => {
           >
             {item.isActive && <div className="absolute left-0 top-0 w-1 h-full bg-blue-500 rounded-l-sm" />}
             {item.icon && <item.icon size={18} />}
-            <a className="lg:flex hidden items-center justify-center text-sm font-medium">{item.label}</a>
+            <span className="lg:flex hidden items-center justify-center text-sm font-medium">{item.label}</span>
           </motion.li>
         ))}
       </ul>
@@ -117,7 +117,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {user.id && (
+      {!!user.id && (
         <>
           <nav className="hidden lg:flex w-72 flex-col relative h-[90vh] bg-white/5 backdrop-blur-md lg:border-t lg:border-b lg:border-l border-white/20 top-0 left-0 z-10 cursor-pointer rounded-l-md">
             <Header />

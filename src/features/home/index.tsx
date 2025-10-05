@@ -49,7 +49,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-white-10 backdrop-blur-md lg:border border-white/20 lg:rounded-r-md">
+    <div className="flex flex-col justify-center items-center bg-white-10 backdrop-blur-md lg:border border-white/20 lg:rounded-r-md z-100">
       <motion.main
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

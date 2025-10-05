@@ -9,8 +9,8 @@ const Activity = () => {
   ];
 
   return (
-    <div className="flex flex-col w-full h-full p-4">
-      <Accordion type="single" collapsible className="w-full dark:border border-gray-800 mb-4 p-4 rounded-md">
+    <div className="flex flex-col w-full h-full p-4 lg:border border-white/20 lg:rounded-r-md">
+      <Accordion type="single" collapsible className="w-full dark:border border-white/20 mb-4 p-4 rounded-md">
         <AccordionItem value="item-1">
           <AccordionTrigger>Processos seletivos em aberto</AccordionTrigger>
           <AccordionContent>
@@ -38,7 +38,7 @@ const Activity = () => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <Accordion type="single" collapsible className="w-full dark:border border-gray-800 mb-4 p-4 rounded-md">
+      <Accordion type="single" collapsible className="w-full dark:border border-white/20 rounded-md mb-4 p-4">
         <AccordionItem value="item-2">
           <AccordionTrigger>Processos seletivos fechados</AccordionTrigger>
           <AccordionContent>
