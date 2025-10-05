@@ -1,3 +1,3 @@
-import Activity from './pages';
+import Activity from './pages/Activity';
 
 export default Activity;

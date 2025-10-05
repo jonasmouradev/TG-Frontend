@@ -10,6 +10,7 @@ const SignUp = lazy(() => import('@/features/auth/pages/SignUpPage'));
 const Settings = lazy(() => import('@/features/settings'));
 const NotFound = lazy(() => import('@/features/NotFound'));
 const Activity = lazy(() => import('@/features/activity'));
+const NewVacancy = lazy(() => import('@/features/newVacancy/pages/NewVacancy'));
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
       {
         path: paths.PROFILE,
         element: <ProfilePage />,
+      },
+      {
+        path: paths.NEW_VACANCY,
+        element: <NewVacancy />,
       },
       {
         path: '*',
