@@ -3,7 +3,7 @@ import FormTitle from './FormTitle';
 import FormField from './FormField';
 
 const Form = ({ children }: { children: React.ReactNode }) => {
-  return <div className="m-4">{children}</div>;
+  return <form className="m-4">{children}</form>;
 };
 
 Form.Button = FormButton;

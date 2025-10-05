@@ -1,18 +1,19 @@
-import Container from '@/shared/components/container';
-import Form from '../components/Form';
+import Step1VacancyInfo from '../components/Steps/Step1VacancyInfo';
+import Step2Requirements from '../components/Steps/Step2Requirements';
+import { StepSummary } from '../components/Steps/StepSummary';
+import { useCreateJobWizard } from '../hooks/useCreateVacancyWizard';
+import Stepper from '@/features/newVacancy/components/Stepper';
 
 const NewVacancy = () => {
+  const { step } = useCreateJobWizard();
+
   return (
-    <Container>
-      <Form>
-        <Form.Field title="Cargo/Posição" placeholder="Cargo/Posição" />
-        {/* <Form.Field title="Área/Departamento" placeholder="Área/Departamento" />
-        <Form.Field title="Nível" placeholder="Nível" />
-        <Form.Field title="Modelo de Trabalho" placeholder="Modelo de Trabalho" />
-        <Form.Field title="Localização" placeholder="Localização" /> */}
-        <Form.Button text="Próximo" />
-      </Form>
-    </Container>
+    <div className="max-w-2xl mx-auto mt-8 p-4 border rounded shadow">
+      <Stepper current={step} total={4} />
+      {step === 1 && <Step1VacancyInfo />}
+      {step === 2 && <Step2Requirements />}
+      {step === 4 && <StepSummary />}
+    </div>
   );
 };
 
