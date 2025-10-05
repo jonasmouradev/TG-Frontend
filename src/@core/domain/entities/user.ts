@@ -1,0 +1,51 @@
+export type UserType = 'COMPANY' | 'PERSON';
+
+export type UserConfig = {
+  auth2f: boolean;
+  default_interface: 'LIGHT' | 'DARK';
+  default_language: string;
+  default_timezone: string;
+  layout_name: string;
+  master: boolean;
+};
+
+export type UserProps = {
+  profile_id: string;
+  email: string;
+  id: string;
+  type: UserType;
+  username: string;
+  config: UserConfig;
+};
+
+export class User {
+  private readonly props: UserProps;
+
+  constructor(props: UserProps) {
+    this.props = props;
+  }
+
+  get profileId(): string {
+    return this.props.profile_id;
+  }
+
+  get email(): string {
+    return this.props.email;
+  }
+
+  get id(): string {
+    return this.props.id;
+  }
+
+  get type(): UserType {
+    return this.props.type;
+  }
+
+  get username(): string {
+    return this.props.username;
+  }
+
+  get config() {
+    return this.props.config;
+  }
+}

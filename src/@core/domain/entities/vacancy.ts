@@ -1,0 +1,134 @@
+import { DateTime } from 'luxon';
+
+export const VacancyType = {
+  FULL_TIME: 'full_time',
+  PART_TIME: 'part_time',
+  CONTRACT: 'contract',
+  INTERNSHIP: 'internship',
+  TEMPORARY: 'temporary',
+} as const;
+export type VacancyType = (typeof VacancyType)[keyof typeof VacancyType];
+
+export const ExperienceLevel = {
+  ENTRY: 'entry',
+  JUNIOR: 'junior',
+  MID: 'mid',
+  SENIOR: 'senior',
+  LEAD: 'lead',
+} as const;
+export type ExperienceLevel = (typeof ExperienceLevel)[keyof typeof ExperienceLevel];
+
+export const VacancyStatus = {
+  DRAFT: 'draft',
+  PUBLISHED: 'published',
+  PAUSED: 'paused',
+  CLOSED: 'closed',
+  EXPIRED: 'expired',
+} as const;
+export type VacancyStatus = (typeof VacancyStatus)[keyof typeof VacancyStatus];
+
+type VacancyProps = {
+  id: string;
+  title: string;
+  description: string;
+  companyId: string;
+  location: string;
+  salaryMin?: number;
+  salaryMax?: number;
+  currency?: string;
+  type: VacancyType;
+  level: ExperienceLevel;
+  remote: boolean;
+  benefits?: string[];
+  requirements: string[];
+  responsibilities: string[];
+  status: VacancyStatus;
+  publicationDate: DateTime;
+  expirationDate?: DateTime;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+};
+
+export class Vacancy {
+  private readonly props: VacancyProps;
+
+  constructor(props: VacancyProps) {
+    this.props = props;
+  }
+
+  get id(): string {
+    return this.props.id;
+  }
+
+  get title(): string {
+    return this.props.title;
+  }
+
+  get description(): string {
+    return this.props.description;
+  }
+
+  get companyId(): string {
+    return this.props.companyId;
+  }
+
+  get location(): string {
+    return this.props.location;
+  }
+
+  get salaryMin(): number | undefined {
+    return this.props.salaryMin;
+  }
+
+  get salaryMax(): number | undefined {
+    return this.props.salaryMax;
+  }
+
+  get currency(): string | undefined {
+    return this.props.currency;
+  }
+
+  get type(): VacancyType {
+    return this.props.type;
+  }
+
+  get level(): ExperienceLevel {
+    return this.props.level;
+  }
+
+  get remote(): boolean {
+    return this.props.remote;
+  }
+
+  get benefits(): string[] | undefined {
+    return this.props.benefits;
+  }
+
+  get requirements(): string[] {
+    return this.props.requirements;
+  }
+
+  get responsibilities(): string[] {
+    return this.props.responsibilities;
+  }
+
+  get status(): VacancyStatus {
+    return this.props.status;
+  }
+
+  get publicationDate(): DateTime {
+    return this.props.publicationDate;
+  }
+
+  get expirationDate(): DateTime | undefined {
+    return this.props.expirationDate;
+  }
+
+  get createdAt(): DateTime {
+    return this.props.createdAt;
+  }
+
+  get updatedAt(): DateTime {
+    return this.props.updatedAt;
+  }
+}

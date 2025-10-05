@@ -1,3 +1,5 @@
+import { PaginatedList } from '@core/domain/entities';
+
 export const paths = {
   HOME: '/home',
   ACTIVITY: '/activity',
@@ -14,3 +16,15 @@ export const paths = {
 } as const;
 
 export type Paths = keyof typeof paths;
+
+export const MINUTE_IN_MILLISECONDS = 60 * 1000;
+
+export const emptyPaginatedList: PaginatedList<any> = {
+  data: [],
+  meta: {
+    total: 0,
+    perPage: 10,
+    currentPage: 1,
+    lastPage: 1,
+  },
+} as const;
