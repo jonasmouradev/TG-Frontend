@@ -5,7 +5,6 @@ import { UserContext } from '@/shared/contexts/UserContext';
 import { Suspense, useState } from 'react';
 import { User } from './types/user';
 import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';
-import { SidebarProvider } from './shared/contexts/SidebarContext';
 
 function App() {
   const [user] = useState<User>({
@@ -24,9 +23,7 @@ function App() {
     <Suspense fallback={<div>Loading...</div>}>
       <ThemeProvider>
         <UserContext.Provider value={user}>
-          <SidebarProvider>
-            <RouterProvider router={router} />
-          </SidebarProvider>
+          <RouterProvider router={router} />
         </UserContext.Provider>
       </ThemeProvider>
     </Suspense>

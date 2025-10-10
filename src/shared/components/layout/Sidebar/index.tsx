@@ -3,140 +3,163 @@ import useTheme from '@/shared/hooks/useTheme';
 import { House, Activity, Search, NotebookText, Settings, Inbox, ChartColumn, Plus, Moon, Sun } from 'lucide-react';
 import { ElementType } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { Button } from '../../ui';
+import { Button } from '@/components/ui/button';
 import { paths } from '@/shared/utils/constants';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import MobileMenu from './MobileMenu';
-import { useSidebar } from '@/shared/contexts/SidebarContext';
+import {
+  Sidebar as ShadcnSidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from '@/components/ui/sidebar';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 
-const Sidebar = () => {
+const AppSidebar = () => {
   const user = useUserContext();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
-  const { isOpen, setIsOpen } = useSidebar();
+  const { setOpenMobile } = useSidebar();
   const isActive = (path: string) => location.pathname === path;
 
   const handleNavigation = (path: string) => {
     if (location.pathname !== path) {
       navigate(path);
     }
-    setIsOpen(false);
+    setOpenMobile(false);
   };
 
-  const navigateList: { label: string; path: string; icon: ElementType; isActive: boolean }[] = [
+  const navigateList: { label: string; path: string; icon: ElementType }[] = [
     {
       label: t('home_page'),
       path: paths.HOME,
       icon: House,
-      isActive: isActive(paths.HOME),
     },
     {
       label: t('activity'),
       path: paths.ACTIVITY,
       icon: Activity,
-      isActive: isActive(paths.ACTIVITY),
     },
     {
       label: t('registers'),
       path: paths.REGISTERS,
       icon: NotebookText,
-      isActive: isActive(paths.REGISTERS),
     },
     {
       label: t('inbox'),
       path: paths.INBOX,
       icon: Inbox,
-      isActive: isActive(paths.INBOX),
     },
     {
       label: t('statistics'),
       path: paths.STATISTICS,
       icon: ChartColumn,
-      isActive: isActive(paths.STATISTICS),
     },
     {
       label: t('settings'),
       path: paths.SETTINGS,
       icon: Settings,
-      isActive: isActive(paths.SETTINGS),
     },
   ];
 
-  const Header = () => (
-    <header className="h-48 w-72 flex flex-col justify-evenly font-sans items-center">
-      <h1 className="text-3xl text-primary self-start pl-6">Seleto Inc</h1>
-      <div className="relative w-full px-4">
-        <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-gray-600 w-4 h-4" />
-        <input
-          type="search"
-          placeholder={t('search')}
-          className="w-full h-8 pl-10 pr-3 py-2 rounded-md border border-gray-300 dark:border-gray-800 bg-transparent text-primary dark:placeholder-zinc-400 text-sm focus:outline-none dark:focus:border-zinc-600"
-        />
-      </div>
-    </header>
-  );
-
-  const MenuItems = () => (
-    <>
-      <ul className="h-auto flex flex-col items-center text-primary p-4">
-        {navigateList.map(item => (
-          <motion.li
-            onClick={() => handleNavigation(item.path)}
-            key={item.path}
-            className={`flex w-full text-center items-center px-4 py-3 my-1 dark:hover:bg-gray-700 transition-colors gap-3 rounded-sm dark:text-zinc-200 relative ${
-              item.isActive ? 'bg-gray-100 dark:bg-gray-800' : ''
-            }`}
-          >
-            {item.isActive && <div className="absolute left-0 top-0 w-1 h-full bg-blue-500 rounded-l-sm" />}
-            {item.icon && <item.icon size={18} />}
-            <span className="lg:flex hidden items-center justify-center text-sm font-medium">{item.label}</span>
-          </motion.li>
-        ))}
-      </ul>
-      <div className="lg:block hidden w-full px-4">
-        <Plus className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
-        <Button className="bg-blue-500 w-full text-white hover:bg-zinc-700">{t('create_vacancy')}</Button>
-      </div>
-    </>
-  );
-
-  const Footer = () => (
-    <footer className="lg:flex hidden justify-between px-8 bg-transparent dark:border-t border-gray-800 mt-auto py-6">
-      <h1 className="text-secondary">{t('theme')}</h1>
-      <button
-        onClick={toggleTheme}
-        className="text-secondary hover:text-zinc-200 transition-colors p-1 rounded-md hover:bg-zinc-700"
-      >
-        {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-      </button>
-    </footer>
-  );
+  if (!user.id) {
+    return null;
+  }
 
   return (
-    <>
-      {!!user.id && (
-        <>
-          <nav className="hidden lg:flex w-72 flex-col relative h-[90vh] bg-white/5 backdrop-blur-md lg:border-t lg:border-b lg:border-l border-white/20 top-0 left-0 z-10 cursor-pointer rounded-l-md">
-            <Header />
-            <MenuItems />
-            <Footer />
-          </nav>
-
-          <MobileMenu
-            handleNavigation={handleNavigation}
-            navigateList={navigateList}
-            toggleTheme={toggleTheme}
-            theme={theme}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+    <ShadcnSidebar collapsible="icon" className="border-sidebar-border">
+      <SidebarHeader className="p-4">
+        <h1 className="text-2xl font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
+          Seleto Inc
+        </h1>
+        <div className="relative mt-4 group-data-[collapsible=icon]:hidden">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input
+            type="search"
+            placeholder={t('search')}
+            className="pl-9 h-9"
           />
-        </>
-      )}
-    </>
+        </div>
+      </SidebarHeader>
+
+      <Separator />
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigateList.map(item => {
+                const itemIsActive = isActive(item.path);
+                return (
+                  <SidebarMenuItem key={item.path}>
+                    <SidebarMenuButton
+                      onClick={() => handleNavigation(item.path)}
+                      isActive={itemIsActive}
+                      tooltip={item.label}
+                      className="relative"
+                    >
+                      {itemIsActive && (
+                        <motion.div
+                          layoutId="active-indicator"
+                          className="absolute left-0 top-0 w-1 h-full bg-primary rounded-r-sm"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.2 }}
+                        />
+                      )}
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup className="mt-4 group-data-[collapsible=icon]:hidden">
+          <Button
+            className="w-full"
+            onClick={() => handleNavigation(paths.NEW_VACANCY)}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            {t('create_vacancy')}
+          </Button>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter className="p-4">
+        <Separator className="mb-4" />
+        <div className="flex items-center justify-between group-data-[collapsible=icon]:justify-center">
+          <span className="text-sm text-muted-foreground group-data-[collapsible=icon]:hidden">
+            {t('theme')}
+          </span>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="h-9 w-9"
+          >
+            {theme === 'light' ? (
+              <Moon className="w-4 h-4" />
+            ) : (
+              <Sun className="w-4 h-4" />
+            )}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </div>
+      </SidebarFooter>
+    </ShadcnSidebar>
   );
 };
 
-export default Sidebar;
+export default AppSidebar;
