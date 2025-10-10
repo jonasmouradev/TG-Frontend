@@ -82,10 +82,10 @@ const Sidebar = () => {
   const MenuItems = () => (
     <>
       <ul className="h-auto flex flex-col items-center text-primary p-4">
-        {navigateList.map((item, index) => (
+        {navigateList.map(item => (
           <motion.li
             onClick={() => handleNavigation(item.path)}
-            key={index}
+            key={item.path}
             className={`flex w-full text-center items-center px-4 py-3 my-1 dark:hover:bg-gray-700 transition-colors gap-3 rounded-sm dark:text-zinc-200 relative ${
               item.isActive ? 'bg-gray-100 dark:bg-gray-800' : ''
             }`}
