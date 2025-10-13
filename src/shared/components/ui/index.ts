@@ -4,3 +4,8 @@ export * from './Label';
 export * from './Form';
 export * from './Carousel';
 export * from './Sonner';
+export * from './TextArea';
+export * from './Select';
+export * from './Badge';
+export * from './Switch';
+export * from './Card';

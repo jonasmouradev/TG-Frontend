@@ -3,7 +3,6 @@ import { ProfilePage } from '@/features/profile';
 import Layout from '@/shared/components/layout/Layout';
 import { paths } from '@/shared/utils/constants';
 import { lazy } from 'react';
-import { CreateJobProvider } from '@/features/newVacancy/hooks/useCreateVacancyWizard';
 
 const Home = lazy(() => import('@/features/home'));
 const SignIn = lazy(() => import('@/features/auth/pages/SignInPage'));
@@ -71,11 +70,7 @@ export const router = createBrowserRouter([
       },
       {
         path: paths.NEW_VACANCY,
-        element: (
-          <CreateJobProvider>
-            <NewVacancy />
-          </CreateJobProvider>
-        ),
+        element: <NewVacancy />,
       },
       {
         path: '*',
