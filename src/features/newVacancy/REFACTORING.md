@@ -80,11 +80,26 @@ NewVacancy/
 - **Before**: 825 lines (monolithic)
 - **After**: 111 lines (main) + ~1060 lines (distributed across 13 components)
 - **Main component reduction**: 86.5% smaller
+- **Total lines**: ~42% increase (trade-off for better organization)
+
+### Trade-offs
+While the total line count has increased, this is a common and acceptable trade-off when refactoring for better maintainability:
+- **Pros**: Better organization, easier to navigate, single responsibility per component
+- **Cons**: More files to manage, slight increase in total lines due to component boilerplate
+
+The increased maintainability and reduced cognitive load typically outweigh the line count increase in medium to large codebases.
 
 ## Technical Details
 
 ### Props Pattern
 Components receive only the props they need, following the principle of least knowledge.
+
+**Note on Prop Drilling**: The ProcessSection component currently accepts 23 props, which indicates an opportunity for optimization. Consider these approaches:
+- Implement a React Context for process-related state
+- Group related props into configuration objects
+- Use composition patterns to reduce prop passing
+
+This is a known trade-off of the current refactoring and should be addressed in a follow-up iteration.
 
 ### Import Strategy
 All new components are exported from the main components index file for clean imports.
@@ -96,7 +111,15 @@ State remains managed by the `useNewVacancy` hook, maintaining the existing arch
 The refactored components maintain the same interface and behavior as the original component, ensuring backward compatibility. Individual components can now be tested in isolation.
 
 ## Future Improvements
+### High Priority
+- **Reduce prop drilling**: Implement a React Context for ProcessSection to manage its 23 props more elegantly
+- **Group related props**: Create configuration objects for related state (e.g., templateConfig, stageConfig)
+
+### Medium Priority
 - Add prop-types or TypeScript interfaces for better type safety
 - Implement React.memo for performance optimization
 - Extract form validation logic into separate utilities
-- Consider implementing a form context to reduce prop drilling
+
+### Low Priority  
+- Consider implementing lazy loading for ProcessSection sub-components
+- Explore further component extraction opportunities
