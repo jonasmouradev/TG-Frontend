@@ -1,0 +1,47 @@
+{
+  "newVacancy": {
+    "title": "Nova Vaga",
+    "subtitle": "Preencha as informações abaixo para publicar uma nova oportunidade",
+    "sections": {
+      "basic": {
+        "title": "Informações Básicas",
+        "fields": {
+          "jobTitle": "Título da Vaga",
+          "department": "Departamento",
+          "contractType": "Tipo de Contrato",
+          "location": "Localização",
+          "workMode": "Modelo de Trabalho"
+        }
+      },
+      "description": {
+        "title": "Descrição da Vaga",
+        "fields": {
+          "description": "Descrição Completa",
+          "responsibilities": "Principais Responsabilidades"
+        }
+      },
+      "requirements": {
+        "title": "Requisitos e Qualificações",
+        "fields": {
+          "skills": "Habilidades Técnicas",
+          "experience": "Experiência Necessária",
+          "education": "Escolaridade"
+        }
+      },
+      "benefits": {
+        "title": "Remuneração e Benefícios",
+        "fields": {
+          "salary": "Faixa Salarial"
+        }
+      },
+      "process": {
+        "title": "Processo Seletivo"
+      }
+    },
+    "buttons": {
+      "save": "Salvar Rascunho",
+      "publish": "Publicar Vaga",
+      "addStage": "Adicionar Etapa"
+    }
+  }
+}

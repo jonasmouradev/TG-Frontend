@@ -38,9 +38,9 @@ import {
   Clock,
   CheckCircle2,
 } from 'lucide-react';
-import Section from '../components/Section';
-import processTemplates from '../consts/processTemplates';
-import useNewVacancy from '../hooks/useNewVacancy';
+import { Section } from '../components';
+import { processTemplates } from '../consts';
+import { useNewVacancy } from '../hooks';
 
 export default function NewVacancy() {
   const {

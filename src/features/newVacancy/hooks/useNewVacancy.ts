@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ProcessTemplate, Stage } from '../types/vacancy';
+import { ProcessTemplate, Stage } from '../types';
 import { Sparkles } from 'lucide-react';
 
 const useNewVacancy = () => {

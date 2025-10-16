@@ -1,5 +1,5 @@
 import { Code, Palette, TrendingUp } from 'lucide-react';
-import { ProcessTemplate } from '../types/vacancy';
+import { ProcessTemplate } from '../types';
 
 const processTemplates: ProcessTemplate[] = [
   {
