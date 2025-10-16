@@ -1,94 +1,55 @@
 import { Button, Label } from '@/shared';
 import { BarChart3, Download, GitBranch, Sparkles } from 'lucide-react';
 import Section from '../Section';
-import { ProcessTemplate, Stage } from '../../types';
 import ProcessTemplates from './ProcessTemplates';
 import ProcessStats from './ProcessStats';
 import StageList from './StageList';
 import StageForm from './StageForm';
 import ExportTemplateModal from './ExportTemplateModal';
+import { useNewVacancy } from '../../hooks';
+import { ProcessTemplate } from '../../types';
 
-interface ProcessSectionProps {
-  stages: Stage[];
-  newStage: {
-    name: string;
-    type: 'screening' | 'interview' | 'test' | 'custom';
-    description: string;
-    duration: string;
-    responsible: string;
-    autoNotify: boolean;
-  };
-  setNewStage: (stage: any) => void;
-  addStage: () => void;
-  duplicateStage: (stage: Stage) => void;
-  editingStage: string | null;
-  setEditingStage: (id: string | null) => void;
-  updateStage: (id: string, updates: Partial<Stage>) => void;
-  removeStage: (id: string) => void;
-  handleDragStart: (e: React.DragEvent, id: string) => void;
-  handleDragOver: (e: React.DragEvent) => void;
-  handleDrop: (e: React.DragEvent, targetId: string) => void;
-  handleDragEnd: () => void;
-  draggedItem: string | null;
-  getStageTypeColor: (type: string) => string;
-  getStageTypeLabel: (type: string) => string;
-  showTemplates: boolean;
-  setShowTemplates: (show: boolean) => void;
-  showStats: boolean;
-  setShowStats: (show: boolean) => void;
-  showExportModal: boolean;
-  setShowExportModal: (show: boolean) => void;
-  templateName: string;
-  setTemplateName: (name: string) => void;
-  templateDescription: string;
-  setTemplateDescription: (desc: string) => void;
-  processTemplates: ProcessTemplate[];
-  savedTemplates: ProcessTemplate[];
-  applyTemplate: (template: ProcessTemplate) => void;
-  exportAsTemplate: () => void;
-  stageStats: any[];
-}
+export default function ProcessSection({ processTemplates }: { readonly processTemplates: ProcessTemplate[] }) {
+  const {
+    stages,
+    newStage,
+    setNewStage,
+    addStage,
+    duplicateStage,
+    editingStage,
+    setEditingStage,
+    updateStage,
+    removeStage,
+    handleDragStart,
+    handleDragOver,
+    handleDrop,
+    handleDragEnd,
+    draggedItem,
+    getStageTypeColor,
+    getStageTypeLabel,
+    showTemplates,
+    setShowTemplates,
+    showStats,
+    setShowStats,
+    showExportModal,
+    setShowExportModal,
+    templateName,
+    setTemplateName,
+    templateDescription,
+    setTemplateDescription,
+    savedTemplates,
+    applyTemplate,
+    exportAsTemplate,
+    stageStats,
+  } = useNewVacancy();
 
-export default function ProcessSection({
-  stages,
-  newStage,
-  setNewStage,
-  addStage,
-  duplicateStage,
-  editingStage,
-  setEditingStage,
-  updateStage,
-  removeStage,
-  handleDragStart,
-  handleDragOver,
-  handleDrop,
-  handleDragEnd,
-  draggedItem,
-  getStageTypeColor,
-  getStageTypeLabel,
-  showTemplates,
-  setShowTemplates,
-  showStats,
-  setShowStats,
-  showExportModal,
-  setShowExportModal,
-  templateName,
-  setTemplateName,
-  templateDescription,
-  setTemplateDescription,
-  processTemplates,
-  savedTemplates,
-  applyTemplate,
-  exportAsTemplate,
-  stageStats,
-}: ProcessSectionProps) {
   return (
     <Section id="process" title="Processo Seletivo" icon={GitBranch}>
       <div className="space-y-4">
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-800">
-            <strong>Configure as etapas do processo seletivo.</strong> Os candidatos poderão acompanhar seu progresso
-            em cada fase.
+            <strong>Configure as etapas do processo seletivo.</strong> Os candidatos poderão acompanhar seu progresso em
+            cada fase.
           </p>
         </div>
 
