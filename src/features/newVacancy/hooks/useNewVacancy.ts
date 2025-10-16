@@ -175,6 +175,7 @@ const useNewVacancy = () => {
     };
     return colors[type] || 'bg-gray-100 text-gray-700';
   };
+
   return {
     showTemplates,
     setShowTemplates,
