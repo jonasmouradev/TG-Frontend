@@ -20,12 +20,12 @@ This is a recruitment and selection system frontend built with React, TypeScript
 
 ## Development Commands
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production (runs TypeScript check first)
-- `npm run lint` - Run ESLint
-- `npm run test` - Run tests with Vitest
-- `npm run coverage` - Run tests with coverage
-- `npm run commit` - Create conventional commits with Commitizen
+- `yarn dev` - Start development server
+- `yarn build` - Build for production (runs TypeScript check first)
+- `yarn lint` - Run ESLint
+- `yarn test` - Run tests with Vitest
+- `yarn coverage` - Run tests with coverage
+- `yarn commit` - Create conventional commits with Commitizen
 
 ## Code Style and Conventions
 
@@ -70,7 +70,7 @@ src/
 
 - Use conventional commits format: `type(scope): message`
 - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-- Run `npm run commit` to use Commitizen for guided commits
+- Run `yarn commit` to use Commitizen for guided commits
 - Commits are validated with Commitizen and Husky pre-commit hooks
 
 ### Testing
