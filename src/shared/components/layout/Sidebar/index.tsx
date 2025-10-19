@@ -3,11 +3,12 @@ import useTheme from '@/shared/hooks/useTheme';
 import { House, Activity, Search, NotebookText, Settings, Inbox, ChartColumn, Plus, Moon, Sun } from 'lucide-react';
 import { ElementType } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { Button } from '@/components/ui/button';
 import { paths } from '@/shared/utils/constants';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
+  Button,
+  Input,
   Sidebar as ShadcnSidebar,
   SidebarContent,
   SidebarFooter,
@@ -18,9 +19,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
+} from '@/shared';
+import { Separator } from '@/shared/components/ui/Separator';
 
 const AppSidebar = () => {
   const user = useUserContext();
@@ -78,16 +78,10 @@ const AppSidebar = () => {
   return (
     <ShadcnSidebar collapsible="icon" className="border-sidebar-border">
       <SidebarHeader className="p-4">
-        <h1 className="text-2xl font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-          Seleto Inc
-        </h1>
+        <h1 className="text-2xl font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">Seleto Inc</h1>
         <div className="relative mt-4 group-data-[collapsible=icon]:hidden">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-          <Input
-            type="search"
-            placeholder={t('search')}
-            className="pl-9 h-9"
-          />
+          <Input type="search" placeholder={t('search')} className="pl-9 h-9" />
         </div>
       </SidebarHeader>
 
@@ -127,10 +121,7 @@ const AppSidebar = () => {
         </SidebarGroup>
 
         <SidebarGroup className="mt-4 group-data-[collapsible=icon]:hidden">
-          <Button
-            className="w-full"
-            onClick={() => handleNavigation(paths.NEW_VACANCY)}
-          >
+          <Button className="w-full" onClick={() => handleNavigation(paths.NEW_VACANCY)}>
             <Plus className="w-4 h-4 mr-2" />
             {t('create_vacancy')}
           </Button>
@@ -140,20 +131,9 @@ const AppSidebar = () => {
       <SidebarFooter className="p-4">
         <Separator className="mb-4" />
         <div className="flex items-center justify-between group-data-[collapsible=icon]:justify-center">
-          <span className="text-sm text-muted-foreground group-data-[collapsible=icon]:hidden">
-            {t('theme')}
-          </span>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="h-9 w-9"
-          >
-            {theme === 'light' ? (
-              <Moon className="w-4 h-4" />
-            ) : (
-              <Sun className="w-4 h-4" />
-            )}
+          <span className="text-sm text-muted-foreground group-data-[collapsible=icon]:hidden">{t('theme')}</span>
+          <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-9 w-9">
+            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             <span className="sr-only">Toggle theme</span>
           </Button>
         </div>
