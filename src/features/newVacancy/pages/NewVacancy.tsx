@@ -1,20 +1,37 @@
-import Step1VacancyInfo from '../components/Steps/Step1VacancyInfo';
-import Step2Requirements from '../components/Steps/Step2Requirements';
-import { StepSummary } from '../components/Steps/StepSummary';
-import { useCreateJobWizard } from '../hooks/useCreateVacancyWizard';
-import Stepper from '@/features/newVacancy/components/Stepper';
+import {
+  BasicInfoSection,
+  DescriptionSection,
+  RequirementsSection,
+  BenefitsSection,
+  ProcessSection,
+  ActionButtons,
+} from '../components';
+import { processTemplates } from '../consts';
+import { useNewVacancy } from '../hooks';
 
-const NewVacancy = () => {
-  const { step } = useCreateJobWizard();
+export default function NewVacancy() {
+  const { addSkill, removeSkill, skills, newSkill, setNewSkill } = useNewVacancy();
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 p-4 border rounded shadow">
-      <Stepper current={step} total={4} />
-      {step === 1 && <Step1VacancyInfo />}
-      {step === 2 && <Step2Requirements />}
-      {step === 4 && <StepSummary />}
+    <div className="max-w-3xl mx-auto p-6 min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          Nova Vaga
+        </h1>
+        <p className="text-gray-600">Preencha as informações abaixo para publicar uma nova oportunidade</p>
+      </div>
+      <BasicInfoSection />
+      <DescriptionSection />
+      <RequirementsSection
+        skills={skills}
+        newSkill={newSkill}
+        setNewSkill={setNewSkill}
+        addSkill={addSkill}
+        removeSkill={removeSkill}
+      />
+      <BenefitsSection />
+      <ProcessSection processTemplates={processTemplates} />
+      <ActionButtons />
     </div>
   );
-};
-
-export default NewVacancy;
+}

@@ -20,7 +20,7 @@ export type Paths = keyof typeof paths;
 
 export const MINUTE_IN_MILLISECONDS = 60 * 1000;
 
-export const emptyPaginatedList: PaginatedList<any> = {
+export const emptyPaginatedList: PaginatedList<unknown> = {
   data: [],
   meta: {
     total: 0,
