@@ -1,19 +1,28 @@
 import { Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared';
 import { Briefcase } from 'lucide-react';
 import Section from '../Section';
+import { useVacancyForm } from '../../hooks';
 
 export default function BasicInfoSection() {
+  const { formData, updateFormData } = useVacancyForm();
+
   return (
     <Section id="basic" title="Informações Básicas" icon={Briefcase}>
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="title">Título da Vaga *</Label>
-          <Input id="title" placeholder="Ex: Desenvolvedor Front-end Sênior" className="text-lg font-medium" />
+          <Input
+            id="title"
+            placeholder="Ex: Desenvolvedor Front-end Sênior"
+            className="text-lg font-medium"
+            value={formData.title}
+            onChange={e => updateFormData({ title: e.target.value })}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="department">Departamento</Label>
-            <Select>
+            <Select value={formData.department} onValueChange={value => updateFormData({ department: value })}>
               <SelectTrigger id="department">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
@@ -29,7 +38,7 @@ export default function BasicInfoSection() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="contract">Tipo de Contrato</Label>
-            <Select>
+            <Select value={formData.contractType} onValueChange={value => updateFormData({ contractType: value })}>
               <SelectTrigger id="contract">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
@@ -45,11 +54,16 @@ export default function BasicInfoSection() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="location">Localização</Label>
-            <Input id="location" placeholder="Ex: São Paulo, SP" />
+            <Input
+              id="location"
+              placeholder="Ex: São Paulo, SP"
+              value={formData.location}
+              onChange={e => updateFormData({ location: e.target.value })}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="workmode">Modelo de Trabalho</Label>
-            <Select>
+            <Select value={formData.workMode} onValueChange={value => updateFormData({ workMode: value })}>
               <SelectTrigger id="workmode">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>

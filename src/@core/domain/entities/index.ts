@@ -4,3 +4,4 @@ export * from './application';
 export * from './competence';
 export * from './vacancy';
 export * from './user';
+export * from './company';

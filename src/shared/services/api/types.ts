@@ -7,5 +7,7 @@ export interface ApiResponse<T = any> {
 export interface ApiError {
   message: string;
   status: number;
+  code?: number;
+  icTrace?: string;
   details?: any;
 }

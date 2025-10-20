@@ -30,112 +30,54 @@ import {
   Building2,
   Bell,
   Settings,
+  Loader2,
+  RefreshCw,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
-
-interface Job {
-  id: string;
-  title: string;
-  department: string;
-  location: string;
-  type: string;
-  status: 'active' | 'draft' | 'closed';
-  candidates: number;
-  newCandidates: number;
-  daysOpen: number;
-  createdAt: string;
-}
+import { useDashboard } from './hooks';
 
 export default function CompanyDashboard() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const { stats, recentJobs, recentCandidates, isLoading, error, refreshData } = useDashboard();
 
-  // Dados simulados
-  const stats = {
-    activeJobs: 12,
-    totalCandidates: 248,
-    newApplications: 34,
-    scheduledInterviews: 8,
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="flex items-center gap-2">
+          <Loader2 className="w-6 h-6 animate-spin" />
+          <span>Carregando dashboard...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Erro ao carregar dashboard: {error}</p>
+          <Button onClick={refreshData}>
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Tentar Novamente
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Use fallback data if stats is null
+  const dashboardStats = stats || {
+    activeJobs: 0,
+    totalCandidates: 0,
+    newApplications: 0,
+    scheduledInterviews: 0,
+    conversionRate: 0,
+    avgProcessTime: 0,
+    satisfaction: 0,
   };
-
-  const recentJobs: Job[] = [
-    {
-      id: '1',
-      title: 'Desenvolvedor Front-end Sênior',
-      department: 'Tecnologia',
-      location: 'São Paulo, SP',
-      type: 'CLT',
-      status: 'active',
-      candidates: 45,
-      newCandidates: 12,
-      daysOpen: 5,
-      createdAt: '2024-01-15',
-    },
-    {
-      id: '2',
-      title: 'Designer UX/UI Pleno',
-      department: 'Design',
-      location: 'Remoto',
-      type: 'PJ',
-      status: 'active',
-      candidates: 32,
-      newCandidates: 8,
-      daysOpen: 12,
-      createdAt: '2024-01-10',
-    },
-    {
-      id: '3',
-      title: 'Gerente de Produto',
-      department: 'Produto',
-      location: 'São Paulo, SP',
-      type: 'CLT',
-      status: 'active',
-      candidates: 28,
-      newCandidates: 5,
-      daysOpen: 8,
-      createdAt: '2024-01-12',
-    },
-    {
-      id: '4',
-      title: 'Analista de Marketing Digital',
-      department: 'Marketing',
-      location: 'Híbrido',
-      type: 'CLT',
-      status: 'draft',
-      candidates: 0,
-      newCandidates: 0,
-      daysOpen: 1,
-      createdAt: '2024-01-18',
-    },
-  ];
-
-  const recentCandidates = [
-    {
-      id: '1',
-      name: 'Ana Silva',
-      job: 'Desenvolvedor Front-end Sênior',
-      stage: 'Entrevista Técnica',
-      time: '2h atrás',
-      avatar: 'AS',
-    },
-    {
-      id: '2',
-      name: 'Carlos Santos',
-      job: 'Designer UX/UI Pleno',
-      stage: 'Análise de Portfólio',
-      time: '5h atrás',
-      avatar: 'CS',
-    },
-    { id: '3', name: 'Mariana Costa', job: 'Gerente de Produto', stage: 'Triagem', time: '1d atrás', avatar: 'MC' },
-    {
-      id: '4',
-      name: 'Pedro Oliveira',
-      job: 'Desenvolvedor Front-end Sênior',
-      stage: 'Proposta Enviada',
-      time: '2d atrás',
-      avatar: 'PO',
-    },
-  ];
 
   const getStatusColor = (status: string) => {
     const colors = {
@@ -203,7 +145,7 @@ export default function CompanyDashboard() {
                 </div>
                 <TrendingUp className="w-5 h-5 text-green-600" />
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stats.activeJobs}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{dashboardStats.activeJobs}</div>
               <div className="text-sm text-gray-600">Vagas Ativas</div>
               <div className="text-xs text-green-600 mt-2">+3 esta semana</div>
             </CardContent>
@@ -216,12 +158,12 @@ export default function CompanyDashboard() {
                   <Users className="w-6 h-6 text-purple-600" />
                 </div>
                 <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                  {stats.newApplications} novos
+                  {dashboardStats.newApplications} novos
                 </Badge>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stats.totalCandidates}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{dashboardStats.totalCandidates}</div>
               <div className="text-sm text-gray-600">Total de Candidatos</div>
-              <div className="text-xs text-purple-600 mt-2">+{stats.newApplications} hoje</div>
+              <div className="text-xs text-purple-600 mt-2">+{dashboardStats.newApplications} hoje</div>
             </CardContent>
           </Card>
 
@@ -247,7 +189,7 @@ export default function CompanyDashboard() {
                 </div>
                 <Clock className="w-5 h-5 text-orange-600" />
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stats.scheduledInterviews}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{dashboardStats.scheduledInterviews}</div>
               <div className="text-sm text-gray-600">Entrevistas Agendadas</div>
               <div className="text-xs text-orange-600 mt-2">3 para hoje</div>
             </CardContent>
@@ -261,7 +203,7 @@ export default function CompanyDashboard() {
               <div>
                 <h3 className="text-xl font-bold mb-1">Vagas Abertas</h3>
                 <p className="text-sm text-gray-600">
-                  {recentJobs.filter(j => j.status === 'active').length} vagas publicadas
+                  {(recentJobs || []).filter(j => j.status === 'active').length} vagas publicadas
                 </p>
               </div>
               <Button
@@ -292,7 +234,7 @@ export default function CompanyDashboard() {
 
             {/* Jobs List */}
             <div className="space-y-3">
-              {recentJobs.map(job => (
+              {(recentJobs || []).map(job => (
                 <Card key={job.id} className="hover:shadow-lg transition-all border-2">
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex items-start justify-between gap-3 mb-3">
@@ -375,21 +317,21 @@ export default function CompanyDashboard() {
                 <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                   <div>
                     <div className="text-sm text-gray-600">Taxa de Conversão</div>
-                    <div className="text-xl font-bold text-blue-600">24%</div>
+                    <div className="text-xl font-bold text-blue-600">{dashboardStats.conversionRate}%</div>
                   </div>
                   <TrendingUp className="w-8 h-8 text-blue-600" />
                 </div>
                 <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                   <div>
                     <div className="text-sm text-gray-600">Tempo Médio</div>
-                    <div className="text-xl font-bold text-green-600">12 dias</div>
+                    <div className="text-xl font-bold text-green-600">{dashboardStats.avgProcessTime} dias</div>
                   </div>
                   <Clock className="w-8 h-8 text-green-600" />
                 </div>
                 <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
                   <div>
                     <div className="text-sm text-gray-600">Satisfação</div>
-                    <div className="text-xl font-bold text-purple-600">4.8/5</div>
+                    <div className="text-xl font-bold text-purple-600">{dashboardStats.satisfaction}/5</div>
                   </div>
                   <CheckCircle2 className="w-8 h-8 text-purple-600" />
                 </div>
@@ -403,7 +345,7 @@ export default function CompanyDashboard() {
                 <CardDescription>Últimas candidaturas recebidas</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                {recentCandidates.map(candidate => (
+                {(recentCandidates || []).map(candidate => (
                   <div
                     key={candidate.id}
                     className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"

@@ -11,6 +11,6 @@ export class SignOutUseCase implements IUseCase<void, void> {
     this.storage.remove('companyId', { domain: domainName });
     this.storage.remove('expiresIn', { domain: domainName });
 
-    window.location.href = `${links.web}?signout=true`;
+    globalThis.location.href = `${links.web}?signout=true`;
   }
 }

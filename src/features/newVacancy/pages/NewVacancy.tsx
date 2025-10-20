@@ -7,10 +7,17 @@ import {
   ActionButtons,
 } from '../components';
 import { processTemplates } from '../consts';
-import { useNewVacancy } from '../hooks';
+import { useNewVacancy, useVacancyForm } from '../hooks';
+import { useEffect } from 'react';
 
 export default function NewVacancy() {
   const { addSkill, removeSkill, skills, newSkill, setNewSkill } = useNewVacancy();
+  const { updateFormData } = useVacancyForm();
+
+  // Sync skills with form data
+  useEffect(() => {
+    updateFormData({ requirements: skills });
+  }, [skills, updateFormData]);
 
   return (
     <div className="max-w-3xl mx-auto p-6 min-h-screen bg-gradient-to-b from-gray-50 to-white">

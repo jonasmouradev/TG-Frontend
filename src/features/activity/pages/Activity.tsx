@@ -1,12 +1,25 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared';
+import { useActivities } from '../hooks/useActivities';
 
 const Activity = () => {
+  const { openProcesses, closedProcesses, isLoading, error } = useActivities();
   const even = (index: number) => index % 2 === 0;
-  const processItems = [
-    { title: 'Processo 1', stage: 'Análise', recruiter: 'Recrutador A', start: '01/01/2023', end: '10/01/2023' },
-    { title: 'Processo 2', stage: 'Entrevista', recruiter: 'Recrutador B', start: '05/01/2023', end: '15/01/2023' },
-    { title: 'Processo 3', stage: 'Seleção', recruiter: 'Recrutador C', start: '10/01/2023', end: '20/01/2023' },
-  ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-full p-4">
+        <div className="text-lg">Carregando processos...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center w-full h-full p-4">
+        <div className="text-lg text-red-500">Erro: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-full h-full p-4 lg:border border-white/20 lg:rounded-r-md">
@@ -22,16 +35,16 @@ const Activity = () => {
               <li className="w-[25%]">Fim</li>
             </ul>
             <ul className="flex flex-col gap-2">
-              {processItems.map((item, index) => (
+              {openProcesses.map((process, index) => (
                 <li
-                  key={index}
+                  key={process.id}
                   className={`flex p-4 rounded-md ${even(index) ? 'dark:bg-zinc-900' : 'dark:bg-transparent'}`}
                 >
-                  <span className="w-[25%]">{item.title}</span>
-                  <span className="w-[25%]">{item.stage}</span>
-                  <span className="w-[25%]">{item.recruiter}</span>
-                  <span className="w-[25%]">{item.start}</span>
-                  <span className="w-[25%]">{item.end}</span>
+                  <span className="w-[25%]">{process.title}</span>
+                  <span className="w-[25%]">{process.stage}</span>
+                  <span className="w-[25%]">{process.recruiter}</span>
+                  <span className="w-[25%]">{process.startDate}</span>
+                  <span className="w-[25%]">{process.endDate || '-'}</span>
                 </li>
               ))}
             </ul>
@@ -50,16 +63,16 @@ const Activity = () => {
               <li className="w-[25%]">Fim</li>
             </ul>
             <ul className="flex flex-col gap-2">
-              {processItems.map((item, index) => (
+              {closedProcesses.map((process, index) => (
                 <li
-                  key={index}
+                  key={process.id}
                   className={`flex p-4 rounded-md ${even(index) ? 'dark:bg-zinc-900' : 'dark:bg-transparent'}`}
                 >
-                  <span className="w-[25%]">{item.title}</span>
-                  <span className="w-[25%]">{item.stage}</span>
-                  <span className="w-[25%]">{item.recruiter}</span>
-                  <span className="w-[25%]">{item.start}</span>
-                  <span className="w-[25%]">{item.end}</span>
+                  <span className="w-[25%]">{process.title}</span>
+                  <span className="w-[25%]">{process.stage}</span>
+                  <span className="w-[25%]">{process.recruiter}</span>
+                  <span className="w-[25%]">{process.startDate}</span>
+                  <span className="w-[25%]">{process.endDate || '-'}</span>
                 </li>
               ))}
             </ul>

@@ -55,6 +55,11 @@ type PeriodFilter = 'week' | 'month' | 'quarter' | 'year';
 export interface DashboardGateway {
   findGeneralStats(params?: DashboardFilters): PromiseResponse<DashboardStats | null>;
   findStatsByVacancy(vacancyId: string): PromiseResponse<VacancyStats | null>;
+  getCompanyStats(companyId: string, params?: DashboardFilters): PromiseResponse<DashboardStats | null>;
+  getRecentApplications(limit?: number, companyId?: string): PromiseResponse<any | null>;
+  getTopVacancies(limit?: number, companyId?: string): PromiseResponse<any | null>;
+  getApplicationsByStatus(companyId?: string): PromiseResponse<any | null>;
+  getMonthlyApplications(months?: number, companyId?: string): PromiseResponse<any | null>;
 }
 
 export type { DashboardStats, VacancyStats, DashboardFilters, PeriodFilter };

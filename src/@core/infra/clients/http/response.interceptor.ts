@@ -2,20 +2,20 @@ import { ICookieStorage, ICrypto, IResponse } from '@core/domain';
 import { GetAuthTokenUseCase, SignOutUseCase } from '@core/application';
 
 export class ResponseInterceptor {
-  private readonly getTokenUseCase: GetAuthTokenUseCase;
-  private readonly signoutUseCase: SignOutUseCase;
+  private readonly getToken: GetAuthTokenUseCase;
+  private readonly signout: SignOutUseCase;
 
   constructor(crypto: ICrypto, storage: ICookieStorage) {
-    this.getTokenUseCase = new GetAuthTokenUseCase(crypto, storage);
-    this.signoutUseCase = new SignOutUseCase(storage);
+    this.getToken = new GetAuthTokenUseCase(crypto, storage);
+    this.signout = new SignOutUseCase(storage);
   }
 
   handleResponse<T>(response: IResponse): T {
-    const tokenFounded = Boolean(this.getTokenUseCase.execute());
+    const tokenFounded = Boolean(this.getToken.execute());
     const notAuthenticated = response?.status === 401;
 
     if (tokenFounded && notAuthenticated) {
-      this.signoutUseCase.execute();
+      this.signout.execute();
     }
 
     return response as T;

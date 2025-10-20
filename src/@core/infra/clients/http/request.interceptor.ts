@@ -14,18 +14,18 @@ interface TokenResponse {
 }
 
 export class RequestInterceptor {
-  private readonly getTokenUseCase: GetAuthTokenUseCase;
-  private readonly getCompanyIdUseCase: GetCompanyIdUseCase;
-  private readonly validateTokenUseCase: ValidateTokenUseCase;
-  private readonly signOutUseCase: SignOutUseCase;
-  private readonly setTokenUseCase: SetAuthTokenUseCase;
+  private readonly getToken: GetAuthTokenUseCase;
+  private readonly getCompanyId: GetCompanyIdUseCase;
+  private readonly validateToken: ValidateTokenUseCase;
+  private readonly signOut: SignOutUseCase;
+  private readonly setToken: SetAuthTokenUseCase;
 
   constructor(crypto: ICrypto, storage: ICookieStorage) {
-    this.signOutUseCase = new SignOutUseCase(storage);
-    this.validateTokenUseCase = new ValidateTokenUseCase();
-    this.setTokenUseCase = new SetAuthTokenUseCase(crypto, storage);
-    this.getTokenUseCase = new GetAuthTokenUseCase(crypto, storage);
-    this.getCompanyIdUseCase = new GetCompanyIdUseCase(crypto, storage);
+    this.signOut = new SignOutUseCase(storage);
+    this.validateToken = new ValidateTokenUseCase();
+    this.setToken = new SetAuthTokenUseCase(crypto, storage);
+    this.getToken = new GetAuthTokenUseCase(crypto, storage);
+    this.getCompanyId = new GetCompanyIdUseCase(crypto, storage);
   }
 
   async handleRequest<T>(request: IRequest, get: IHttpClient['get']): Promise<T> {
@@ -33,17 +33,17 @@ export class RequestInterceptor {
 
     if (hasRefreshToken) return request as T;
 
-    let token = this.getTokenUseCase.execute();
+    let token = this.getToken.execute();
 
-    const companyId = this.getCompanyIdUseCase.execute();
+    const companyId = this.getCompanyId.execute();
 
     let isTokenValid = true;
 
     if (token) {
       try {
-        isTokenValid = this.validateTokenUseCase.execute(token);
+        isTokenValid = this.validateToken.execute(token);
       } catch {
-        this.signOutUseCase.execute();
+        this.signOut.execute();
         return request as T;
       }
     }
@@ -55,10 +55,10 @@ export class RequestInterceptor {
         });
         if (refreshedToken?.data) {
           token = refreshedToken?.data.access_token;
-          this.setTokenUseCase.execute(refreshedToken?.data.access_token);
+          this.setToken.execute(refreshedToken?.data.access_token);
         }
       } catch {
-        this.signOutUseCase.execute();
+        this.signOut.execute();
         return request as T;
       }
     }

@@ -3,7 +3,7 @@ import { domainName } from '@/shared';
 import { User, UserProps } from '@core/domain';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export class UpdateUserUseCase implements IUseCase<User, void> {
+export class UpdateUserSessionUseCase implements IUseCase<User, void> {
   constructor(
     private crypto: ICrypto,
     private storage: ICookieStorage,

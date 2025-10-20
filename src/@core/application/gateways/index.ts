@@ -3,3 +3,8 @@ export * from './step-http.gateway';
 export * from './vacancy-http.gateway';
 export * from './competence-http.gateway';
 export * from './dashboard-http.gateway';
+export * from './company-http.gateway';
+export * from './auth-http.gateway';
+export * from './user-http.gateway';
+export * from './activity-http.gateway';
+export * from './template-http.gateway';

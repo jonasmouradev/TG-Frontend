@@ -1,8 +1,8 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { links } from './links';
 
 const secretKey = links.secret;
-const algorithm = 'aes-256-cbc';
+const algorithm = 'aes-256-cbc' as const;
 const ivLength = 16;
 
 export function encode(value: string): string {
