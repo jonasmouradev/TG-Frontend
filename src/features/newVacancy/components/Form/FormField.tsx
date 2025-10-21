@@ -1,4 +1,4 @@
-import { Input } from '@/shared';
+import { Input } from '@shared/index';
 
 const FormField = ({ title, placeholder }: { title: string; placeholder: string }) => {
   return (

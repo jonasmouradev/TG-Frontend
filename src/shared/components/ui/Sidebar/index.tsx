@@ -19,7 +19,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/shared';
+} from '@shared/index';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -240,7 +240,7 @@ const SidebarTrigger = React.forwardRef<React.ComponentRef<typeof Button>, React
         variant="ghost"
         size="icon"
         className={cn('h-7 w-7', className)}
-        onClick={event => {
+        onClick={(event: any) => {
           onClick?.(event);
           toggleSidebar();
         }}

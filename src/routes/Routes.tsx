@@ -1,16 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { ProfilePage } from '@/features/profile';
-import Layout from '@/shared/components/layout/Layout';
-import { paths } from '@/shared/utils/constants';
+import Layout from '@shared/components/layout/Layout';
+import { paths } from '@shared/utils/constants';
 import { lazy } from 'react';
 
-const Home = lazy(() => import('@/features/home'));
-const SignIn = lazy(() => import('@/features/auth/pages/SignInPage'));
-const SignUp = lazy(() => import('@/features/auth/pages/SignUpPage'));
-const Settings = lazy(() => import('@/features/settings'));
-const NotFound = lazy(() => import('@/features/NotFound'));
-const Activity = lazy(() => import('@/features/activity'));
-const NewVacancy = lazy(() => import('@/features/newVacancy'));
+const Home = lazy(() => import('@features/home'));
+const SignIn = lazy(() => import('@features/auth/pages/SignInPage'));
+const SignUp = lazy(() => import('@features/auth/pages/SignUpPage'));
+const Settings = lazy(() => import('@features/settings'));
+const NotFound = lazy(() => import('@features/NotFound'));
+const Activity = lazy(() => import('@features/activity'));
+const NewVacancy = lazy(() => import('@features/newVacancy'));
+const Profile = lazy(() => import('@features/profile'));
 
 export const router = createBrowserRouter([
   {
@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
       },
       {
         path: paths.PROFILE,
-        element: <ProfilePage />,
+        element: <Profile />,
       },
       {
         path: paths.NEW_VACANCY,

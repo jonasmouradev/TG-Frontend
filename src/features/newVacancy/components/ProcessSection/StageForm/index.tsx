@@ -1,4 +1,15 @@
-import { Button, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch, Textarea } from '@/shared';
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Switch,
+  Textarea,
+} from '@shared/index';
 import { Bell, Plus } from 'lucide-react';
 
 interface StageFormProps {

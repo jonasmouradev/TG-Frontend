@@ -1,5 +1,5 @@
 import { ICookieStorage } from '@core/domain/ports';
-import { domainName, links } from '@/shared';
+import { domainName, links } from '@shared/index';
 import { IUseCase } from '@core/domain/use-case.interface';
 
 export class SignOutUseCase implements IUseCase<void, void> {

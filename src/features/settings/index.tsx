@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/styles/styledComponents/Button';
-import { Input } from '@/shared/components/ui/Input';
+import { Input } from '@shared/components/ui/Input';
 
 export default function SettingsPage() {
   const [inputValue, setInputValue] = useState<string>('');

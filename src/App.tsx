@@ -1,7 +1,7 @@
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes';
-import { UserContext } from '@/shared/contexts/UserContext';
+import { UserContext } from '@shared/contexts/UserContext';
 import { Suspense, useState } from 'react';
 import { User } from './types/user';
 import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';

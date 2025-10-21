@@ -1,4 +1,4 @@
-import { Input, Label, Switch } from '@/shared';
+import { Input, Label, Switch } from '@shared/index';
 import { DollarSign } from 'lucide-react';
 import Section from '../Section';
 

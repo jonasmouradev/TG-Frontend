@@ -2,8 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getDefaultLanguage } from '../utils';
 
-import sharedEn from '@/shared/locale/en.json';
-import sharedPt from '@/shared/locale/pt.json';
+import sharedEn from '@shared/locale/en.json';
+import sharedPt from '@shared/locale/pt.json';
 
 import authEn from '@/features/auth/locale/en.json';
 import authPt from '@/features/auth/locale/pt.json';

@@ -1,13 +1,23 @@
-import { Badge, Button, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared';
+import {
+  Badge,
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@shared/index';
 import { Award, Plus, X } from 'lucide-react';
 import Section from '../Section';
 
 interface RequirementsSectionProps {
-  skills: string[];
-  newSkill: string;
-  setNewSkill: (value: string) => void;
-  addSkill: () => void;
-  removeSkill: (skill: string) => void;
+  readonly skills: string[];
+  readonly newSkill: string;
+  readonly setNewSkill: (value: string) => void;
+  readonly addSkill: () => void;
+  readonly removeSkill: (skill: string) => void;
 }
 
 export default function RequirementsSection({
@@ -26,8 +36,8 @@ export default function RequirementsSection({
             <Input
               placeholder="Digite uma habilidade e pressione Enter"
               value={newSkill}
-              onChange={e => setNewSkill(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewSkill(e.target.value)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && e.preventDefault()}
             />
             <Button type="button" size="icon" onClick={addSkill}>
               <Plus className="w-4 h-4" />

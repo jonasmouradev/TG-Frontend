@@ -1,9 +1,9 @@
-import useUserContext from '@/shared/contexts/UserContext';
-import useTheme from '@/shared/hooks/useTheme';
+import useUserContext from '@shared/contexts/UserContext';
+import useTheme from '@shared/hooks/useTheme';
 import { House, Activity, Search, NotebookText, Settings, Inbox, ChartColumn, Plus, Moon, Sun } from 'lucide-react';
 import { ElementType } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { paths } from '@/shared/utils/constants';
+import { paths } from '@shared/utils/constants';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
@@ -19,8 +19,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/shared';
-import { Separator } from '@/shared/components/ui/Separator';
+} from '@shared/index';
+import { Separator } from '@shared/components/ui/Separator';
 
 const AppSidebar = () => {
   const user = useUserContext();

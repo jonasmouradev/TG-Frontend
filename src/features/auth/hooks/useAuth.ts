@@ -7,35 +7,35 @@ import { SignUpInput } from '../types';
 const authServices = {
   async signIn(email: string, password: string) {
     // TODO: Replace with AuthenticateUserUseCase when DI container is ready
-    const { api } = await import('@/shared/services/api');
+    const { api } = await import('@shared/services/api');
     const response = await api.post('/auth/signin', { email, password });
     return response.data;
   },
 
   async signUp(data: SignUpInput) {
     // TODO: Replace with SignUpUseCase when DI container is ready
-    const { api } = await import('@/shared/services/api');
+    const { api } = await import('@shared/services/api');
     const response = await api.post('/auth/signup', data);
     return response.data;
   },
 
   async resetPassword(secretKey: string, newPassword: string) {
     // TODO: Replace with ResetPasswordUseCase when DI container is ready
-    const { api } = await import('@/shared/services/api');
+    const { api } = await import('@shared/services/api');
     const response = await api.patch('/auth/reset-password', { secretKey, newPassword });
     return response.data;
   },
 
   async refreshToken() {
     // TODO: Replace with RefreshTokenUseCase when DI container is ready
-    const { api } = await import('@/shared/services/api');
+    const { api } = await import('@shared/services/api');
     const response = await api.post('/auth/refresh');
     return response.data;
   },
 
   async forgotPassword(email: string) {
     // TODO: Replace with ForgotPasswordUseCase when DI container is ready
-    const { api } = await import('@/shared/services/api');
+    const { api } = await import('@shared/services/api');
     const response = await api.patch('/auth/forgot-password', { email });
     return response.data;
   },

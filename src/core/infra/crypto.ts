@@ -1,6 +1,6 @@
 import pkg, { lib } from 'crypto-js';
 
-import { links } from '@/shared';
+import { links } from '@shared/index';
 
 import { ICrypto } from '@core/domain';
 

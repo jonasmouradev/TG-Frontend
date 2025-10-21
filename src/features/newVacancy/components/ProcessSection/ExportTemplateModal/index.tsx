@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label, Textarea } from '@/shared';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label, Textarea } from '@shared/index';
 import { Download } from 'lucide-react';
 
 interface ExportTemplateModalProps {

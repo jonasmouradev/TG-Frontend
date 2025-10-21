@@ -1,4 +1,4 @@
-import { Button } from '@/shared';
+import { Button } from '@shared/index';
 import { CheckCircle2, FileText, Loader2 } from 'lucide-react';
 import { useVacancyForm, useNewVacancy } from '../../hooks';
 import { toast } from 'sonner';

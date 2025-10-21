@@ -1,5 +1,5 @@
 import { IHttpClient, ICookieStorage, ICrypto, IRequest } from '@core/domain';
-import { links } from '@/shared';
+import { links } from '@shared/index';
 import {
   GetAuthTokenUseCase,
   GetCompanyIdUseCase,

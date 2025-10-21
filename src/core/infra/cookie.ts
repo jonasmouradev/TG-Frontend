@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-import { domainName } from '@/shared';
+import { domainName } from '@shared/index';
 
 import { ICookieStorage } from '@core/domain';
 

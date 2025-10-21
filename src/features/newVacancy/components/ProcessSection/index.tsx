@@ -1,4 +1,4 @@
-import { Button, Label } from '@/shared';
+import { Button, Label } from '@shared/index';
 import { BarChart3, Download, GitBranch, Sparkles } from 'lucide-react';
 import Section from '../Section';
 import ProcessTemplates from './ProcessTemplates';

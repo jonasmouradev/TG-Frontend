@@ -1,4 +1,4 @@
-import { Badge, Card, CardContent, CardHeader, CardTitle, Label } from '@/shared';
+import { Badge, Card, CardContent, CardHeader, CardTitle, Label } from '@shared/index';
 import { BarChart3, Clock, TrendingDown } from 'lucide-react';
 
 interface StageStats {
@@ -85,11 +85,7 @@ export default function ProcessStats({ stageStats, totalStages }: ProcessStatsPr
               <div className="mt-2 bg-gray-100 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-full transition-all ${
-                    stat.approvalRate >= 70
-                      ? 'bg-green-500'
-                      : stat.approvalRate >= 50
-                        ? 'bg-yellow-500'
-                        : 'bg-red-500'
+                    stat.approvalRate >= 70 ? 'bg-green-500' : stat.approvalRate >= 50 ? 'bg-yellow-500' : 'bg-red-500'
                   }`}
                   style={{ width: `${stat.approvalRate}%` }}
                 />

@@ -1,4 +1,4 @@
-import { Badge, Button } from '@/shared';
+import { Badge, Button } from '@shared/index';
 import { ProcessTemplate } from '../../../types';
 
 interface ProcessTemplatesProps {

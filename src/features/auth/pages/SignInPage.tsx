@@ -1,5 +1,5 @@
 import { Button } from '@/styles/styledComponents/Button';
-import { Input } from '@/shared/components/ui//Input';
+import { Input } from '@shared/components/ui//Input';
 import login_bg from '@/assets/login_bg.svg';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';

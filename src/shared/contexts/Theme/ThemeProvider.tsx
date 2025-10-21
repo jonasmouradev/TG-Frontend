@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
-import { ThemeContext } from '@/shared/contexts/Theme/ThemeContext';
+import { ThemeContext } from '@shared/contexts/Theme/ThemeContext';
 
 interface ThemeProviderProps {
   children: ReactNode;

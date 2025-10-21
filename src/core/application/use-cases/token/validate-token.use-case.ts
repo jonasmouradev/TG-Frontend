@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import { IToken } from '@/shared';
+import { IToken } from '@shared/index';
 
 export class ValidateTokenUseCase {
   execute(token: string): boolean {

@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { paths } from '@/shared/utils/constants';
-import { SidebarProvider, SidebarInset } from '@/shared/components/ui/Sidebar';
+import { paths } from '@shared/utils/constants';
+import { SidebarProvider, SidebarInset } from '@shared/components/ui/Sidebar';
 
 const Layout = () => {
   const location = useLocation();

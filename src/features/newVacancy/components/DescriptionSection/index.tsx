@@ -1,4 +1,4 @@
-import { Label, Textarea } from '@/shared';
+import { Label, Textarea } from '@shared/index';
 import { FileText } from 'lucide-react';
 import Section from '../Section';
 import { useVacancyForm } from '../../hooks';

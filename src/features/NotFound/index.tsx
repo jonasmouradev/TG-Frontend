@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { CircleX } from 'lucide-react';
-import { paths } from '@/shared/utils/constants';
+import { paths } from '@shared/utils/constants';
 
 const NotFound = () => {
   const { t } = useTranslation();

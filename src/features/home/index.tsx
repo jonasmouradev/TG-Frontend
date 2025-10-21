@@ -10,7 +10,7 @@ import {
   Button,
   Avatar,
   AvatarFallback,
-} from '@/shared';
+} from '@shared/index';
 import {
   Briefcase,
   Users,

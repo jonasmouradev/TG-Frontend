@@ -1,4 +1,4 @@
-import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/components/ui';
+import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/components/ui';
 import { useTemplates } from '../hooks/useTemplates';
 
 export default function Template() {

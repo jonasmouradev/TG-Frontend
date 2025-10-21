@@ -1,4 +1,4 @@
-import { Badge, Button, Input, Label, Switch, Textarea } from '@/shared';
+import { Badge, Button, Input, Label, Switch, Textarea } from '@shared/index';
 import { Bell, BellOff, Copy, Edit2, GripVertical, Trash2, User } from 'lucide-react';
 import { Stage } from '../../../types';
 

@@ -1,5 +1,5 @@
 import { ICrypto, ICookieStorage } from '@core/domain/ports';
-import { domainName } from '@/shared';
+import { domainName } from '@shared/index';
 import { User, UserProps } from '@core/domain';
 import { IUseCase } from '@core/domain/use-case.interface';
 

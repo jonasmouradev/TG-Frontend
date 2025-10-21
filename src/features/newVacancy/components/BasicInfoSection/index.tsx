@@ -1,4 +1,4 @@
-import { Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared';
+import { Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/index';
 import { Briefcase } from 'lucide-react';
 import Section from '../Section';
 import { useVacancyForm } from '../../hooks';

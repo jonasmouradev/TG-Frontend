@@ -1,4 +1,4 @@
-import { Button } from '@/shared';
+import { Button } from '@shared/index';
 
 const FormButton = ({ text, onClick }: { text: string; onClick: () => void }) => {
   return <Button onClick={onClick}>{text}</Button>;

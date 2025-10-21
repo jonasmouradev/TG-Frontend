@@ -3,7 +3,7 @@ import { t } from 'i18next';
 import { X, Plus, Moon, Sun, Menu } from 'lucide-react';
 import { ElementType } from 'react';
 import { Button } from '../../ui';
-import { useSidebar } from '@/shared/contexts/SidebarContext';
+import { useSidebar } from '@shared/contexts/SidebarContext';
 
 interface MobileMenuProps {
   handleNavigation: (path: string) => void;

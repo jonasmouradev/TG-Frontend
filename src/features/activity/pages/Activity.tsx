@@ -1,4 +1,4 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@shared/index';
 import { useActivities } from '../hooks/useActivities';
 
 const Activity = () => {

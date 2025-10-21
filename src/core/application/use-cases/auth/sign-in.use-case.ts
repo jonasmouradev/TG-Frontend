@@ -1,4 +1,4 @@
-import { IUser, domainName } from '@/shared';
+import { IUser, domainName } from '@shared/index';
 import { ICrypto, ICookieStorage } from '@core/domain/ports';
 import { IUseCase } from '@core/domain/use-case.interface';
 

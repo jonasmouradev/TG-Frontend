@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/components/ui';
 import { useState } from 'react';
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react';
 
