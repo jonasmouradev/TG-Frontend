@@ -8,3 +8,7 @@ export * from './auth-http.gateway';
 export * from './user-http.gateway';
 export * from './activity-http.gateway';
 export * from './template-http.gateway';
+export * from './address-http.gateway';
+export * from './person-http.gateway';
+export * from './phone-http.gateway';
+export * from './role-http.gateway';

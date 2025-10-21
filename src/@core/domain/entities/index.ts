@@ -5,3 +5,7 @@ export * from './competence';
 export * from './vacancy';
 export * from './user';
 export * from './company';
+export * from './address';
+export * from './phone';
+export * from './person';
+export * from './role';

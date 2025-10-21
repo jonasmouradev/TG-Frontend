@@ -27,6 +27,10 @@
     "paths": {
       "@core/*": ["./@core/*"],
       "@components/*": ["./components/*"],
+      "@features/*": ["./features/*"],
+      "@lib/*": ["./lib/*"],
+      "@shared/*": ["./shared/*"],
+      "@assets/*": ["./assets/*"],
       "@/*": ["./*"]
     }
   },
