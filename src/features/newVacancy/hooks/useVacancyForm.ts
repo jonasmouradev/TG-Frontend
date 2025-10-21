@@ -1,55 +1,17 @@
 import { useState } from 'react';
-import { VacancyFormData, Stage } from '../types';
+import { VacancyFormData } from '../types';
+import { container } from '@core/infra/container';
+import { CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput, PublishVacancyUseCaseOutput } from '@core/application';
 
-interface CreateVacancyData extends VacancyFormData {
-  department?: string;
-  contractType?: string;
-  location?: string;
-  workMode?: string;
-  benefits?: string[];
-  salaryRange?: { min: number; max: number };
-  stages?: Stage[];
-}
-
-interface VacancyResult {
-  id: string;
-  status: 'draft' | 'published';
-  [key: string]: unknown;
-}
-
-// Vacancy form services using the existing API structure but prepared for use case integration
 const vacancyFormServices = {
-  async createVacancy(data: CreateVacancyData): Promise<VacancyResult> {
-    // TODO: Replace with CreateVacancyUseCase
-    console.log('Creating vacancy with data:', data);
-    // Simulate API call
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({ id: Date.now().toString(), ...data, status: 'draft' });
-      }, 1000);
-    });
+  async createVacancy(data: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
+    const createVacancyUseCase = container.createCreateVacancyUseCase();
+    return createVacancyUseCase.execute(data);
   },
 
-  async publishVacancy(vacancyId: string): Promise<VacancyResult> {
-    // TODO: Replace with PublishVacancyUseCase
-    console.log('Publishing vacancy:', vacancyId);
-    // Simulate API call
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({ id: vacancyId, status: 'published' });
-      }, 1000);
-    });
-  },
-
-  async saveDraft(data: CreateVacancyData): Promise<VacancyResult> {
-    // TODO: Replace with SaveVacancyDraftUseCase (if needed)
-    console.log('Saving draft:', data);
-    // Simulate API call
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({ id: Date.now().toString(), ...data, status: 'draft' });
-      }, 1000);
-    });
+  async publishVacancy(vacancyId: string): Promise<PublishVacancyUseCaseOutput> {
+    const publishVacancyUseCase = container.createPublishVacancyUseCase();
+    return publishVacancyUseCase.execute({ id: vacancyId });
   },
 };
 
@@ -57,12 +19,11 @@ export const useVacancyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Basic vacancy form data
   const [formData, setFormData] = useState<
     VacancyFormData & {
       department?: string;
       contractType?: string;
-      location?: string;
+      location: string;
       workMode?: string;
       benefits?: string[];
       salaryRange?: { min: number; max: number };
@@ -84,14 +45,19 @@ export const useVacancyForm = () => {
     setFormData(prev => ({ ...prev, ...updates }));
   };
 
-  const createVacancy = async (stages: Stage[]) => {
+  const createVacancy = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const vacancyData: CreateVacancyData = {
+      const vacancyData: CreateVacancyUseCaseInput = {
         ...formData,
-        stages,
+        companyId: 'company-123',
+        requirements: formData.requirements || [],
+        responsibilities: [],
+        type: formData.contractType || 'full-time',
+        level: 'mid',
+        remote: formData.workMode === 'remote',
       };
 
       const result = await vacancyFormServices.createVacancy(vacancyData);
@@ -121,37 +87,6 @@ export const useVacancyForm = () => {
     }
   };
 
-  const saveDraft = async (stages: Stage[]) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const draftData: CreateVacancyData = {
-        ...formData,
-        stages,
-      };
-
-      const result = await vacancyFormServices.saveDraft(draftData);
-      return result;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro ao salvar rascunho';
-      setError(errorMessage);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const createAndPublish = async (stages: Stage[]) => {
-    // First create the vacancy as draft
-    const createdVacancy = await createVacancy(stages);
-
-    // Then publish it
-    const publishedVacancy = await publishVacancy(createdVacancy.id);
-
-    return publishedVacancy;
-  };
-
   const resetForm = () => {
     setFormData({
       title: '',
@@ -175,8 +110,6 @@ export const useVacancyForm = () => {
     error,
     createVacancy,
     publishVacancy,
-    saveDraft,
-    createAndPublish,
     resetForm,
   };
 };

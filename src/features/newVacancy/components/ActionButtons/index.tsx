@@ -4,7 +4,7 @@ import { useVacancyForm, useNewVacancy } from '../../hooks';
 import { toast } from 'sonner';
 
 export default function ActionButtons() {
-  const { saveDraft, createAndPublish, isLoading, formData } = useVacancyForm();
+  const { createVacancy, publishVacancy, isLoading, formData } = useVacancyForm();
   const { stages } = useNewVacancy();
 
   const validateForm = () => {
@@ -25,7 +25,7 @@ export default function ActionButtons() {
 
   const handleSaveDraft = async () => {
     try {
-      await saveDraft(stages);
+      await createVacancy();
       toast.success('Rascunho salvo com sucesso!');
     } catch (err) {
       console.error('Error saving draft:', err);
@@ -39,7 +39,7 @@ export default function ActionButtons() {
     }
 
     try {
-      await createAndPublish(stages);
+      await publishVacancy('123');
       toast.success('Vaga publicada com sucesso!');
     } catch (err) {
       console.error('Error publishing vacancy:', err);

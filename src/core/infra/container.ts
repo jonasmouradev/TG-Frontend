@@ -31,6 +31,7 @@ import {
   UpdateVacancyUseCase,
   DeleteVacancyUseCase,
   PublishVacancyUseCase,
+  CreateVacancyUseCase,
 
   // Application use cases
   GetApplicationsUseCase,
@@ -182,6 +183,10 @@ export class DIContainer {
 
   createPublishVacancyUseCase(): PublishVacancyUseCase {
     return new PublishVacancyUseCase(this.vacancyGateway);
+  }
+
+  createCreateVacancyUseCase(): CreateVacancyUseCase {
+    return new CreateVacancyUseCase(this.vacancyGateway);
   }
 
   // Application use case factories
