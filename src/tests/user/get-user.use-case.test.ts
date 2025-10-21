@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { GetUserUseCase } from '@core/application/use-cases/user/get-user.use-case';
-import { UserGateway } from '@core/domain/gateways/user.gateway';
-import { User } from '@core/domain';
+import { GetUserUseCase } from '@/core/application/use-cases/user/get-user.use-case';
+import { UserGateway } from '@/core/domain/gateways/user.gateway';
+import { User } from '@/core/domain';
 
 describe('GetUserUseCase', () => {
   it('should get user successfully', async () => {
