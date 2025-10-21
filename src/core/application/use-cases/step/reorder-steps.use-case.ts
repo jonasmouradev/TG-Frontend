@@ -1,5 +1,5 @@
-import { IUseCase } from '@/core/domain/use-case.interface';
-import { StepGateway, StepList } from '@/core/domain/gateways/step.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
+import { StepGateway, StepList } from '@core/domain/gateways/step.gateway';
 
 export interface ReorderStepsUseCaseInput {
   templateId: string;

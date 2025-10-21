@@ -1,6 +1,6 @@
-import { VacancyGateway, CreateVacancyDto } from '@/core/domain/gateways/vacancy.gateway';
-import { Vacancy } from '@/core/domain/entities';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { VacancyGateway, CreateVacancyDto } from '@core/domain/gateways/vacancy.gateway';
+import { Vacancy } from '@core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface CreateVacancyUseCaseInput {
   title: string;

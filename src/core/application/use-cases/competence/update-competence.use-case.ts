@@ -1,6 +1,6 @@
-import { IUseCase } from '@/core/domain/use-case.interface';
-import { CompetenceGateway, UpdateCompetenceDto } from '@/core/domain/gateways/competence.gateway';
-import { Competence } from '@/core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
+import { CompetenceGateway, UpdateCompetenceDto } from '@core/domain/gateways/competence.gateway';
+import { Competence } from '@core/domain/entities';
 
 export interface UpdateCompetenceUseCaseInput {
   id: string;

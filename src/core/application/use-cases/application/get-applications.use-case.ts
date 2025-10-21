@@ -1,6 +1,6 @@
-import { ApplicationGateway, ApplicationFilters } from '@/core/domain/gateways/application.gateway';
-import { Application, ApplicationStatus } from '@/core/domain/entities';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ApplicationGateway, ApplicationFilters } from '@core/domain/gateways/application.gateway';
+import { Application, ApplicationStatus } from '@core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetApplicationsUseCaseInput {
   applicantId?: string;

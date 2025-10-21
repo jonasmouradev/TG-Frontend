@@ -1,12 +1,12 @@
-import { Competence, PaginatedList } from '@/core/domain/entities';
+import { Competence, PaginatedList } from '@core/domain/entities';
 import {
   CompetenceList,
   CompetenceFilters,
   CompetenceGateway,
   CreateCompetenceDto,
   UpdateCompetenceDto,
-} from '@/core/domain/gateways/competence.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/competence.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class CompetenceHttpGateway implements CompetenceGateway {
   constructor(private readonly httpClient: IHttpClient) {}

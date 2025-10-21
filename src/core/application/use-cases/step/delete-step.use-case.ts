@@ -1,5 +1,5 @@
-import { IUseCase } from '@/core/domain/use-case.interface';
-import { StepGateway } from '@/core/domain/gateways/step.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
+import { StepGateway } from '@core/domain/gateways/step.gateway';
 
 export interface DeleteStepUseCaseInput {
   id: string;

@@ -2,7 +2,7 @@ import pkg, { lib } from 'crypto-js';
 
 import { links } from '@/shared';
 
-import { ICrypto } from '@/core/domain';
+import { ICrypto } from '@core/domain';
 
 const { AES, enc } = pkg;
 const SECRET: string = links.secret;

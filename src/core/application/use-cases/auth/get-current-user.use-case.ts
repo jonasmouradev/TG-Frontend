@@ -1,5 +1,5 @@
-import { User, ICrypto, ICookieStorage } from '@/core/domain';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { User, ICrypto, ICookieStorage } from '@core/domain';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export class GetCurrentUserUseCase implements IUseCase<null, User | null> {
   constructor(

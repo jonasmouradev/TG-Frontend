@@ -7,8 +7,8 @@ import {
   Role,
   Permission,
   AssignPermissionDto,
-} from '@/core/domain';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class RoleHttpGateway implements RoleGateway {
   constructor(private readonly httpClient: IHttpClient) {}

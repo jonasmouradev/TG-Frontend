@@ -5,8 +5,8 @@ import {
   ProcessTemplateDto,
   CreateTemplateDto,
   UpdateTemplateDto,
-} from '@/core/domain/gateways/template.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/template.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class TemplateHttpGateway implements TemplateGateway {
   constructor(private readonly httpClient: IHttpClient) {}

@@ -1,5 +1,5 @@
-import { AuthGateway, ResetPasswordDto } from '@/core/domain/gateways/auth.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { AuthGateway, ResetPasswordDto } from '@core/domain/gateways/auth.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface ResetPasswordUseCaseInput {
   secretKey: string;

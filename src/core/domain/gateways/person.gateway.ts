@@ -1,4 +1,4 @@
-import { PromiseResponse } from '@/core/domain/ports/http-client.port';
+import { PromiseResponse } from '@core/domain/ports/http-client.port';
 import { CreatePersonDto, Person, PersonCompetenceLevel, PersonFilters, UpdatePersonDto } from '../entities';
 
 export interface PersonListResponse {

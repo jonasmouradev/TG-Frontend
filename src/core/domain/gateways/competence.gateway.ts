@@ -1,4 +1,4 @@
-import { Competence, CompetenceCategory, CompetenceLevel, PaginatedList } from '@/core/domain/entities';
+import { Competence, CompetenceCategory, CompetenceLevel, PaginatedList } from '@core/domain/entities';
 import { PromiseResponse } from '../ports/http-client.port';
 
 type Filters = {

@@ -1,5 +1,5 @@
-import { AuthGateway, ForgotPasswordDto } from '@/core/domain/gateways/auth.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { AuthGateway, ForgotPasswordDto } from '@core/domain/gateways/auth.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface ForgotPasswordUseCaseInput {
   email: string;

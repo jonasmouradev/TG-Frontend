@@ -1,4 +1,4 @@
-import { PaginatedList } from '@/core/domain/entities';
+import { PaginatedList } from '@core/domain/entities';
 
 export const paths = {
   HOME: '/home',

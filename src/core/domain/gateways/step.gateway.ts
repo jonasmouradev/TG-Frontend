@@ -1,4 +1,4 @@
-import { PaginatedList, Step, StepType } from '@/core/domain/entities';
+import { PaginatedList, Step, StepType } from '@core/domain/entities';
 import { PromiseResponse } from '../ports/http-client.port';
 
 type Filters = {

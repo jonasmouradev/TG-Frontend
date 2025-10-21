@@ -1,12 +1,12 @@
-import { Application, ApplicationStatus } from '@/core/domain/entities';
+import { Application, ApplicationStatus } from '@core/domain/entities';
 import {
   ApplicationList,
   ApplicationFilters,
   ApplicationGateway,
   CreateApplicationDto,
   UpdateApplicationDto,
-} from '@/core/domain/gateways/application.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/application.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class ApplicationHttpGateway implements ApplicationGateway {
   constructor(private readonly httpClient: IHttpClient) {}

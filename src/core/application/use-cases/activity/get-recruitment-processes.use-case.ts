@@ -1,5 +1,5 @@
-import { ActivityGateway, ProcessFilters } from '@/core/domain/gateways/activity.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ActivityGateway, ProcessFilters } from '@core/domain/gateways/activity.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetRecruitmentProcessesUseCaseInput {
   status?: 'open' | 'closed' | 'all';

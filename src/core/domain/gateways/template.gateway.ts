@@ -1,4 +1,4 @@
-import { PromiseResponse } from '@/core/domain/ports/http-client.port';
+import { PromiseResponse } from '@core/domain/ports/http-client.port';
 
 // Domain DTOs for Templates
 export interface ProcessStageDto {

@@ -1,6 +1,6 @@
 import { IUser, domainName } from '@/shared';
-import { ICrypto, ICookieStorage } from '@/core/domain/ports';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ICrypto, ICookieStorage } from '@core/domain/ports';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface SignInUseCaseInput {
   token: string;

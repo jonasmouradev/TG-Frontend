@@ -1,6 +1,6 @@
-import { User } from '@/core/domain';
-import { UserGateway, UpdateUserEmailDto } from '@/core/domain/gateways/user.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { User } from '@core/domain';
+import { UserGateway, UpdateUserEmailDto } from '@core/domain/gateways/user.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface UpdateUserEmailUseCaseInput {
   id: string;

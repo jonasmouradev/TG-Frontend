@@ -1,6 +1,6 @@
-import { Address, AddressFilters, CreateAddressDto, UpdateAddressDto } from '@/core/domain';
-import { AddressGateway, AddressListResponse, SetPrimaryAddressDto } from '@/core/domain/gateways/address.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+import { Address, AddressFilters, CreateAddressDto, UpdateAddressDto } from '@core/domain';
+import { AddressGateway, AddressListResponse, SetPrimaryAddressDto } from '@core/domain/gateways/address.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class AddressHttpGateway implements AddressGateway {
   constructor(private readonly httpClient: IHttpClient) {}

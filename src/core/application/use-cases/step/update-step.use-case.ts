@@ -1,6 +1,6 @@
-import { IUseCase } from '@/core/domain/use-case.interface';
-import { StepGateway, UpdateStepDto } from '@/core/domain/gateways/step.gateway';
-import { Step } from '@/core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
+import { StepGateway, UpdateStepDto } from '@core/domain/gateways/step.gateway';
+import { Step } from '@core/domain/entities';
 
 export interface UpdateStepUseCaseInput {
   id: string;

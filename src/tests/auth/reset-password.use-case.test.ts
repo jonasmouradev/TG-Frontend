@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ResetPasswordUseCase } from '@/core/application/use-cases/auth/reset-password.use-case';
-import { AuthGateway } from '@/core/domain/gateways/auth.gateway';
+import { ResetPasswordUseCase } from '@core/application/use-cases/auth/reset-password.use-case';
+import { AuthGateway } from '@core/domain/gateways/auth.gateway';
 
 describe('ResetPasswordUseCase', () => {
   it('should reset password successfully', async () => {

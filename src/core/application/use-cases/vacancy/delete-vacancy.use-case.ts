@@ -1,5 +1,5 @@
-import { VacancyGateway } from '@/core/domain/gateways/vacancy.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { VacancyGateway } from '@core/domain/gateways/vacancy.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface DeleteVacancyUseCaseInput {
   id: string;

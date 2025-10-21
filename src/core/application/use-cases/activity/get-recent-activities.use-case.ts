@@ -1,5 +1,5 @@
-import { ActivityGateway } from '@/core/domain/gateways/activity.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ActivityGateway } from '@core/domain/gateways/activity.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetRecentActivitiesUseCaseInput {
   limit?: number;

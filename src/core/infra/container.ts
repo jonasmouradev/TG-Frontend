@@ -10,7 +10,7 @@ import {
   TemplateHttpGateway,
   CompetenceHttpGateway,
   StepHttpGateway,
-} from '@/core/application/gateways';
+} from '@core/application/gateways';
 
 import {
   // Auth use cases
@@ -69,7 +69,7 @@ import {
   UpdateStepUseCase,
   DeleteStepUseCase,
   ReorderStepsUseCase,
-} from '@/core/application/use-cases';
+} from '@core/application/use-cases';
 import {
   ApplicationGateway,
   AuthGateway,
@@ -80,13 +80,13 @@ import {
   IHttpClient,
   UserGateway,
   VacancyGateway,
-} from '@/core/domain';
+} from '@core/domain';
 import { CookieStorage } from './cookie';
 import { Crypto } from './crypto';
-import { ActivityGateway } from '@/core/domain/gateways/activity.gateway';
-import { TemplateGateway } from '@/core/domain/gateways/template.gateway';
-import { CompetenceGateway } from '@/core/domain/gateways/competence.gateway';
-import { StepGateway } from '@/core/domain/gateways/step.gateway';
+import { ActivityGateway } from '@core/domain/gateways/activity.gateway';
+import { TemplateGateway } from '@core/domain/gateways/template.gateway';
+import { CompetenceGateway } from '@core/domain/gateways/competence.gateway';
+import { StepGateway } from '@core/domain/gateways/step.gateway';
 
 /**
  * Simple Dependency Injection Container

@@ -1,4 +1,4 @@
-import { Application, ApplicationStatus, PaginatedList } from '@/core/domain/entities';
+import { Application, ApplicationStatus, PaginatedList } from '@core/domain/entities';
 import { PromiseResponse } from '../ports/http-client.port';
 
 type Filters = {

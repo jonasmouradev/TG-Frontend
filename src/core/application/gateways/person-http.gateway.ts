@@ -8,8 +8,8 @@ import {
   AddWorkExperienceDto,
   AddEducationDto,
   Person,
-} from '@/core/domain';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class PersonHttpGateway implements PersonGateway {
   constructor(private readonly httpClient: IHttpClient) {}

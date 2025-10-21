@@ -1,5 +1,5 @@
-import { IUseCase } from '@/core/domain/use-case.interface';
-import { StepGateway, StepFilters, StepList } from '@/core/domain/gateways/step.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
+import { StepGateway, StepFilters, StepList } from '@core/domain/gateways/step.gateway';
 
 export interface GetStepsUseCaseInput {
   filters?: StepFilters;

@@ -1,4 +1,4 @@
-import { ISocketClient } from '@/core/domain';
+import { ISocketClient } from '@core/domain';
 
 export class SocketClientAdapter implements ISocketClient {
   private socket: WebSocket | null = null;

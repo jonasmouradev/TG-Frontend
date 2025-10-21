@@ -1,4 +1,4 @@
-import { PromiseResponse } from '@/core/domain/ports/http-client.port';
+import { PromiseResponse } from '@core/domain/ports/http-client.port';
 import { CreateRoleDto, Permission, Role, RoleFilters, UpdateRoleDto } from '../entities';
 
 export interface RoleListResponse {

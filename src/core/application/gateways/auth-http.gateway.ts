@@ -6,8 +6,8 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
   CheckSecretKeyDto,
-} from '@/core/domain/gateways/auth.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/auth.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class AuthHttpGateway implements AuthGateway {
   constructor(private readonly httpClient: IHttpClient) {}

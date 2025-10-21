@@ -1,6 +1,6 @@
-import { CompanyGateway, CreateCompanyDto } from '@/core/domain/gateways/company.gateway';
-import { Company } from '@/core/domain/entities';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { CompanyGateway, CreateCompanyDto } from '@core/domain/gateways/company.gateway';
+import { Company } from '@core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface CreateCompanyUseCaseInput {
   name: string;

@@ -1,6 +1,6 @@
-import { GetRecentActivitiesUseCase } from '@/core/application/use-cases/activity/get-recent-activities.use-case';
-import { HttpStatusCode } from '@/core/domain';
-import { ActivityGateway } from '@/core/domain/gateways/activity.gateway';
+import { GetRecentActivitiesUseCase } from '@core/application/use-cases/activity/get-recent-activities.use-case';
+import { HttpStatusCode } from '@core/domain';
+import { ActivityGateway } from '@core/domain/gateways/activity.gateway';
 import { beforeEach, describe, expect, it, Mocked, vi } from 'vitest';
 
 describe('GetRecentActivitiesUseCase', () => {

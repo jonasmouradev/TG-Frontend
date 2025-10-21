@@ -1,5 +1,5 @@
-import { DashboardGateway } from '@/core/domain/gateways/dashboard.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { DashboardGateway } from '@core/domain/gateways/dashboard.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetRecentApplicationsUseCaseInput {
   limit?: number;

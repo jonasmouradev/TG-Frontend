@@ -6,8 +6,8 @@ import {
   CreatePhoneDto,
   UpdatePhoneDto,
   Phone,
-} from '@/core/domain';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class PhoneHttpGateway implements PhoneGateway {
   constructor(private readonly httpClient: IHttpClient) {}

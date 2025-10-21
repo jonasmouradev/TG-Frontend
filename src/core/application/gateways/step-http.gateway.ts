@@ -1,6 +1,6 @@
-import { PaginatedList, Step } from '@/core/domain/entities';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
-import { CreateStepDto, StepFilters, StepGateway, UpdateStepDto } from '@/core/domain/gateways/step.gateway';
+import { PaginatedList, Step } from '@core/domain/entities';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
+import { CreateStepDto, StepFilters, StepGateway, UpdateStepDto } from '@core/domain/gateways/step.gateway';
 
 export class StepHttpGateway implements StepGateway {
   constructor(private readonly httpClient: IHttpClient) {}

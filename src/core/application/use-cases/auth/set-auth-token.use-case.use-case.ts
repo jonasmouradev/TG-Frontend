@@ -1,6 +1,6 @@
-import { ICookieStorage, ICrypto } from '@/core/domain';
+import { ICookieStorage, ICrypto } from '@core/domain';
 import { domainName } from '@/shared';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export class SetAuthTokenUseCase implements IUseCase<string, void> {
   constructor(

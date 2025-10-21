@@ -1,7 +1,7 @@
-import { ICrypto, ICookieStorage } from '@/core/domain/ports';
+import { ICrypto, ICookieStorage } from '@core/domain/ports';
 import { domainName } from '@/shared';
-import { User, UserProps } from '@/core/domain';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { User, UserProps } from '@core/domain';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export class UpdateUserSessionUseCase implements IUseCase<User, void> {
   constructor(

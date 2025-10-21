@@ -1,5 +1,5 @@
-import { ICookieStorage, ICrypto, IResponse } from '@/core/domain';
-import { GetAuthTokenUseCase, SignOutUseCase } from '@/core/application';
+import { ICookieStorage, ICrypto, IResponse } from '@core/domain';
+import { GetAuthTokenUseCase, SignOutUseCase } from '@core/application';
 
 export class ResponseInterceptor {
   private readonly getToken: GetAuthTokenUseCase;

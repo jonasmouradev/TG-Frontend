@@ -1,5 +1,5 @@
-import { CompanyGateway, CompanyStatistics } from '@/core/domain/gateways/company.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { CompanyGateway, CompanyStatistics } from '@core/domain/gateways/company.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetCompanyStatisticsUseCaseInput {
   companyId: string;

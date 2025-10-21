@@ -1,5 +1,5 @@
-import { ICookieStorage } from '@/core/domain/ports';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ICookieStorage } from '@core/domain/ports';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export class SetCompanyIdUseCase implements IUseCase<string, void> {
   constructor(private storage: ICookieStorage) {}

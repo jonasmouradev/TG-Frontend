@@ -1,5 +1,5 @@
-import { ICrypto, ICookieStorage } from '@/core/domain/ports';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ICrypto, ICookieStorage } from '@core/domain/ports';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export class GetAuthTokenUseCase implements IUseCase<null, string | null> {
   constructor(

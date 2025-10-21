@@ -1,12 +1,12 @@
-import { Vacancy } from '@/core/domain/entities';
+import { Vacancy } from '@core/domain/entities';
 import {
   CreateVacancyDto,
   UpdateVacancyDto,
   VacancyFilters,
   VacancyGateway,
   VacancyList,
-} from '@/core/domain/gateways/vacancy.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/vacancy.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class VacancyHttpGateway implements VacancyGateway {
   constructor(private readonly httpClient: IHttpClient) {}

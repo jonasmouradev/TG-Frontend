@@ -1,5 +1,5 @@
-import { AuthGateway } from '@/core/domain/gateways/auth.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { AuthGateway } from '@core/domain/gateways/auth.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface RefreshTokenUseCaseInput {}

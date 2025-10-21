@@ -1,4 +1,4 @@
-import { ExperienceLevel, Vacancy, VacancyStatus, VacancyType, PaginatedList } from '@/core/domain/entities';
+import { ExperienceLevel, Vacancy, VacancyStatus, VacancyType, PaginatedList } from '@core/domain/entities';
 import { PromiseResponse } from '../ports/http-client.port';
 
 type Filters = {

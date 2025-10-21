@@ -1,6 +1,6 @@
-import { VacancyGateway, UpdateVacancyDto } from '@/core/domain/gateways/vacancy.gateway';
-import { Vacancy, VacancyStatus, VacancyType, ExperienceLevel } from '@/core/domain/entities';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { VacancyGateway, UpdateVacancyDto } from '@core/domain/gateways/vacancy.gateway';
+import { Vacancy, VacancyStatus, VacancyType, ExperienceLevel } from '@core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface UpdateVacancyUseCaseInput {
   id: string;

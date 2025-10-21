@@ -1,5 +1,5 @@
-import { IUseCase } from '@/core/domain/use-case.interface';
-import { CompetenceGateway, CompetenceFilters, CompetenceList } from '@/core/domain/gateways/competence.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
+import { CompetenceGateway, CompetenceFilters, CompetenceList } from '@core/domain/gateways/competence.gateway';
 
 export interface GetCompetencesUseCaseInput {
   filters?: CompetenceFilters;

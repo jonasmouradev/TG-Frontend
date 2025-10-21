@@ -1,5 +1,5 @@
-import { AuthGateway, SignInDto } from '@/core/domain/gateways/auth.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { AuthGateway, SignInDto } from '@core/domain/gateways/auth.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface AuthenticateUserUseCaseInput {
   email: string;

@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 
 import { domainName } from '@/shared';
 
-import { ICookieStorage } from '@/core/domain';
+import { ICookieStorage } from '@core/domain';
 
 interface ICookieStorageOptions extends IRemoveOptions {
   expires?: number;

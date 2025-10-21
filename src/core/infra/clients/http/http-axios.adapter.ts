@@ -10,7 +10,7 @@ import {
   IHttpClient,
   HttpStatusCode,
   IApiClientConfig,
-} from '@/core/domain/ports/http-client.port';
+} from '@core/domain/ports/http-client.port';
 import { MINUTE_IN_MILLISECONDS } from '@/shared/utils/constants';
 import { RequestInterceptor } from './request.interceptor';
 import { ResponseInterceptor } from './response.interceptor';

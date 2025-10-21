@@ -1,6 +1,6 @@
-import { ApplicationGateway, CreateApplicationDto } from '@/core/domain/gateways/application.gateway';
-import { Application } from '@/core/domain/entities';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { ApplicationGateway, CreateApplicationDto } from '@core/domain/gateways/application.gateway';
+import { Application } from '@core/domain/entities';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface CreateApplicationUseCaseInput {
   vacancyId: string;

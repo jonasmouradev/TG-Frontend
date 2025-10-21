@@ -1,4 +1,4 @@
-import { Company } from '@/core/domain/entities';
+import { Company } from '@core/domain/entities';
 import {
   CompanyList,
   CompanyFilters,
@@ -6,8 +6,8 @@ import {
   CreateCompanyDto,
   UpdateCompanyDto,
   CompanyStatistics,
-} from '@/core/domain/gateways/company.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/company.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class CompanyHttpGateway implements CompanyGateway {
   constructor(private readonly httpClient: IHttpClient) {}

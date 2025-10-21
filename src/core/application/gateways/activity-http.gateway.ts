@@ -4,8 +4,8 @@ import {
   GetProcessesResponse,
   GetActivitiesResponse,
   RecruitmentProcessDto,
-} from '@/core/domain/gateways/activity.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/activity.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class ActivityHttpGateway implements ActivityGateway {
   constructor(private readonly httpClient: IHttpClient) {}

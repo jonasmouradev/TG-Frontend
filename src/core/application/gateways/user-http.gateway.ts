@@ -1,12 +1,12 @@
-import { User } from '@/core/domain';
+import { User } from '@core/domain';
 import {
   UserGateway,
   UpdateUserDto,
   UpdateUserEmailDto,
   UserFilters,
   UserList,
-} from '@/core/domain/gateways/user.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/user.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 export class UserHttpGateway implements UserGateway {
   constructor(private readonly httpClient: IHttpClient) {}

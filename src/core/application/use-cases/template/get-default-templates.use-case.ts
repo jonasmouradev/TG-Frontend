@@ -1,5 +1,5 @@
-import { TemplateGateway } from '@/core/domain/gateways/template.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+import { TemplateGateway } from '@core/domain/gateways/template.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetDefaultTemplatesUseCaseOutput {
   templates: Array<{

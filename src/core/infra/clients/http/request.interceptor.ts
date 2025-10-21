@@ -1,4 +1,4 @@
-import { IHttpClient, ICookieStorage, ICrypto, IRequest } from '@/core/domain';
+import { IHttpClient, ICookieStorage, ICrypto, IRequest } from '@core/domain';
 import { links } from '@/shared';
 import {
   GetAuthTokenUseCase,
@@ -6,7 +6,7 @@ import {
   SetAuthTokenUseCase,
   SignOutUseCase,
   ValidateTokenUseCase,
-} from '@/core/application';
+} from '@core/application';
 
 interface TokenResponse {
   access_token: string;

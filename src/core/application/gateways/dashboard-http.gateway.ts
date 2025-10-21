@@ -3,8 +3,8 @@ import {
   DashboardGateway,
   DashboardStats,
   VacancyStats,
-} from '@/core/domain/gateways/dashboard.gateway';
-import { IHttpClient, PromiseResponse } from '@/core/domain/ports/http-client.port';
+} from '@core/domain/gateways/dashboard.gateway';
+import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
 // TODO: refine this gateway in swagger docs and with front requirements
 export class DashboardHttpGateway implements DashboardGateway {

@@ -3,8 +3,8 @@ import {
   DashboardStats,
   DashboardFilters,
   PeriodFilter,
-} from '@/core/domain/gateways/dashboard.gateway';
-import { IUseCase } from '@/core/domain/use-case.interface';
+} from '@core/domain/gateways/dashboard.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetCompanyStatsUseCaseInput {
   companyId: string;
