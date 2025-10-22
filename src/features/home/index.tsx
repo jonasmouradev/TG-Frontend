@@ -30,7 +30,6 @@ import {
   Building2,
   Bell,
   Settings,
-  Loader2,
   RefreshCw,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -39,19 +38,7 @@ import { useDashboard } from './hooks';
 export default function CompanyDashboard() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const { stats, recentJobs, recentCandidates, isLoading, error, refreshData } = useDashboard();
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
-        <div className="flex items-center gap-2">
-          <Loader2 className="w-6 h-6 animate-spin" />
-          <span>Carregando dashboard...</span>
-        </div>
-      </div>
-    );
-  }
+  const { stats, recentJobs, recentCandidates, error, refreshData } = useDashboard();
 
   // Show error state
   if (error) {
@@ -98,9 +85,9 @@ export default function CompanyDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10 shadow-sm">
+      <header className="bg-white sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">

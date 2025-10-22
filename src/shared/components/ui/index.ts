@@ -18,3 +18,4 @@ export * from './Sheet';
 export * from './Separator';
 export * from './Select';
 export * from './Sidebar';
+export * from './Checkbox';

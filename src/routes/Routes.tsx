@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from '@shared/components/layout/Layout';
 import { paths } from '@shared/utils/constants';
 import { lazy } from 'react';
@@ -13,6 +13,10 @@ const NewVacancy = lazy(() => import('@features/newVacancy'));
 const Profile = lazy(() => import('@features/profile'));
 
 export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to={paths.SIGN_IN} replace />,
+  },
   {
     path: paths.SIGN_IN,
     element: <SignIn />,

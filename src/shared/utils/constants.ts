@@ -9,7 +9,7 @@ export const paths = {
   SETTINGS: '/settings',
   PROFILE: '/profile',
   SIGN_UP: '/signUp',
-  SIGN_IN: '/',
+  SIGN_IN: '/signIn',
   CHANGE_EMAIL: '/change-email/:secret',
   ACTIVATE: '/activate/:id',
   RESET_PASSWORD: '/:secret/reset-password/:email',

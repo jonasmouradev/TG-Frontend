@@ -20,7 +20,7 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center h-screen w-screen bg-white">Loading...</div>}>
       <ThemeProvider>
         <UserContext.Provider value={user}>
           <RouterProvider router={router} />
