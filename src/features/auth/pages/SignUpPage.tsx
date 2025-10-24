@@ -14,8 +14,10 @@ import {
 } from '@/shared';
 
 import { Building2, Eye, EyeOff, ArrowRight, CheckCircle2, Users, Zap, Crown, Check, X } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 export default function SignupScreen() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [accountType, setAccountType] = useState('company');
   const [showPassword, setShowPassword] = useState(false);
@@ -98,11 +100,10 @@ export default function SignupScreen() {
   ];
 
   const benefits = [
+    'Templates adaptados para sua vaga',
     'Processo de recrutamento 3x mais rápido',
-    'Triagem inteligente com IA',
     'Dashboard completo de métricas',
     'Comunicação automatizada com candidatos',
-    'Integração com principais job boards',
     'Suporte dedicado para empresas',
   ];
 
@@ -115,7 +116,7 @@ export default function SignupScreen() {
               <Building2 className="w-7 h-7 text-white" />
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              RecrutaPro
+              Seleto
             </h1>
           </div>
           <p className="text-gray-600 text-sm sm:text-base">Comece sua jornada de recrutamento inteligente</p>
@@ -475,7 +476,7 @@ export default function SignupScreen() {
           <div className="space-y-6">
             <Card className="border-2">
               <CardHeader>
-                <CardTitle className="text-lg">Por que RecrutaPro?</CardTitle>
+                <CardTitle className="text-lg">Por que Seleto?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {benefits.slice(0, 4).map((benefit, index) => (
@@ -491,16 +492,26 @@ export default function SignupScreen() {
               <CardContent className="p-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-3xl font-bold text-green-600">10k+</div>
+                    <div className="text-3xl font-bold text-green-600">1</div>
                     <div className="text-xs">Empresas</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-green-600">500k+</div>
+                    <div className="text-3xl font-bold text-green-600">0</div>
                     <div className="text-xs">Candidatos</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
+            <div className="text-sm text-center text-gray-600">
+              Já possui uma conta?{' '}
+              <Button
+                variant="link"
+                className="p-0 h-auto font-semibold text-blue-600"
+                onClick={() => navigate('/signin')}
+              >
+                Entre novamente
+              </Button>
+            </div>
           </div>
         </div>
       </div>

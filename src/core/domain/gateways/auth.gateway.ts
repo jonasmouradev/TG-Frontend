@@ -6,6 +6,7 @@ type SignInDto = {
 };
 
 type SignUpDto = {
+  username: string;
   name: string;
   email: string;
   password: string;
