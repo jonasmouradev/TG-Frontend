@@ -26,7 +26,7 @@ interface ErrorWithResponse {
 }
 
 export class AxiosHttpClientAdapter implements IHttpClient {
-  private instance: AxiosInstance;
+  private readonly instance: AxiosInstance;
 
   constructor(
     requestInterceptor: RequestInterceptor,

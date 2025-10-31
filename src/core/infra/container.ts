@@ -70,6 +70,7 @@ import {
   UpdateStepUseCase,
   DeleteStepUseCase,
   ReorderStepsUseCase,
+  SetAuthTokenUseCase,
 } from '@core/application/use-cases';
 import {
   ApplicationGateway,
@@ -94,20 +95,20 @@ import { StepGateway } from '@core/domain/gateways/step.gateway';
  * Manages instances of gateways and use cases following Clean Architecture principles
  */
 export class DIContainer {
-  private readonly crypto: ICrypto;
-  private readonly httpClient: IHttpClient;
-  private readonly cookieStorage: ICookieStorage;
+  public readonly crypto: ICrypto;
+  public readonly httpClient: IHttpClient;
+  public readonly cookieStorage: ICookieStorage;
 
-  private readonly authGateway: AuthGateway;
-  private readonly userGateway: UserGateway;
-  private readonly vacancyGateway: VacancyGateway;
-  private readonly applicationGateway: ApplicationGateway;
-  private readonly companyGateway: CompanyGateway;
-  private readonly dashboardGateway: DashboardGateway;
-  private readonly activityGateway: ActivityGateway;
-  private readonly templateGateway: TemplateGateway;
-  private readonly competenceGateway: CompetenceGateway;
-  private readonly stepGateway: StepGateway;
+  public readonly authGateway: AuthGateway;
+  public readonly userGateway: UserGateway;
+  public readonly vacancyGateway: VacancyGateway;
+  public readonly applicationGateway: ApplicationGateway;
+  public readonly companyGateway: CompanyGateway;
+  public readonly dashboardGateway: DashboardGateway;
+  public readonly activityGateway: ActivityGateway;
+  public readonly templateGateway: TemplateGateway;
+  public readonly competenceGateway: CompetenceGateway;
+  public readonly stepGateway: StepGateway;
 
   constructor() {
     this.crypto = new Crypto();
@@ -116,6 +117,12 @@ export class DIContainer {
     const requestInterceptor = new RequestInterceptor(this.crypto, this.cookieStorage);
     const responseInterceptor = new ResponseInterceptor(this.crypto, this.cookieStorage);
     this.httpClient = new AxiosHttpClientAdapter(requestInterceptor, responseInterceptor);
+
+    const setToken = new SetAuthTokenUseCase(this.crypto, this.cookieStorage);
+
+    setToken.execute(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2Q4ODNjOS1mMGZlLTQyYTgtYTg0ZC01MWMyNzUzYWVhN2YiLCJ1c2VybmFtZSI6ImpvbmFzbW91cmFkZXYiLCJpYXQiOjE3NjE5MTM1MTh9.zspTzNeD5zMkIMflPDQvNNPKpQkDEkxTwvGFdWQQWkM',
+    );
 
     // Gateway instances
     this.authGateway = new AuthHttpGateway(this.httpClient);

@@ -11,15 +11,18 @@ import {
   Label,
   Checkbox,
   Badge,
+  paths,
 } from '@/shared';
 
 import { Building2, Eye, EyeOff, ArrowRight, CheckCircle2, Users, Zap, Crown, Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { container } from '@/core/infra/container';
+import { SignUpUseCase } from '@/core/application/use-cases/auth/sign-up.use-case';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  const [accountType, setAccountType] = useState('company');
+  const [accountType, setAccountType] = useState<'COMPANY' | 'PERSON'>('COMPANY');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -107,6 +110,26 @@ export default function SignupScreen() {
     'Suporte dedicado para empresas',
   ];
 
+  async function handleSubmit() {
+    const useCase = new SignUpUseCase(container.authGateway);
+    const response = await useCase.execute({
+      email: formData.email,
+      password: formData.password,
+      type: accountType,
+      name: formData.companyName,
+      username: formData.companyName,
+      // cnpj: formData.cnpj,
+      // phone: formData.phone,
+      // fullName: formData.fullName,
+      // cpf: formData.cpf,
+      // phoneCandidate: formData.phoneCandidate,
+    });
+    console.log(response);
+    if (response.status === 201) {
+      navigate(paths.SIGN_IN);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br bg-white py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -164,51 +187,49 @@ export default function SignupScreen() {
                   <CardContent className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <button
-                        onClick={() => setAccountType('company')}
+                        onClick={() => setAccountType('COMPANY')}
                         className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
-                          accountType === 'company'
+                          accountType === 'COMPANY'
                             ? 'border-blue-600 bg-blue-50 shadow-lg'
                             : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
                         }`}
                       >
                         <div
                           className={`w-12 h-12 rounded-lg ${
-                            accountType === 'company' ? 'bg-blue-600' : 'bg-gray-200'
+                            accountType === 'COMPANY' ? 'bg-blue-600' : 'bg-gray-200'
                           } flex items-center justify-center mb-4`}
                         >
                           <Building2
-                            className={`w-6 h-6 ${accountType === 'company' ? 'text-white' : 'text-gray-600'}`}
+                            className={`w-6 h-6 ${accountType === 'COMPANY' ? 'text-white' : 'text-gray-600'}`}
                           />
                         </div>
                         <h3 className="font-bold text-lg mb-2">Empresa</h3>
                         <p className="text-sm text-gray-600">
                           Publique vagas e encontre os melhores talentos para sua equipe
                         </p>
-                        {accountType === 'company' && <Badge className="mt-3 bg-blue-600">Selecionado</Badge>}
+                        {accountType === 'COMPANY' && <Badge className="mt-3 bg-blue-600">Selecionado</Badge>}
                       </button>
 
                       <button
-                        onClick={() => setAccountType('candidate')}
+                        onClick={() => setAccountType('PERSON')}
                         className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
-                          accountType === 'candidate'
+                          accountType === 'PERSON'
                             ? 'border-purple-600 bg-purple-50 shadow-lg'
                             : 'border-gray-200 hover:border-purple-300 hover:shadow-md'
                         }`}
                       >
                         <div
                           className={`w-12 h-12 rounded-lg ${
-                            accountType === 'candidate' ? 'bg-purple-600' : 'bg-gray-200'
+                            accountType === 'PERSON' ? 'bg-purple-600' : 'bg-gray-200'
                           } flex items-center justify-center mb-4`}
                         >
-                          <Users
-                            className={`w-6 h-6 ${accountType === 'candidate' ? 'text-white' : 'text-gray-600'}`}
-                          />
+                          <Users className={`w-6 h-6 ${accountType === 'PERSON' ? 'text-white' : 'text-gray-600'}`} />
                         </div>
                         <h3 className="font-bold text-lg mb-2">Candidato</h3>
                         <p className="text-sm text-gray-600">
                           Encontre oportunidades e candidate-se às melhores vagas do mercado
                         </p>
-                        {accountType === 'candidate' && <Badge className="mt-3 bg-purple-600">Selecionado</Badge>}
+                        {accountType === 'PERSON' && <Badge className="mt-3 bg-purple-600">Selecionado</Badge>}
                       </button>
                     </div>
 
@@ -236,16 +257,16 @@ export default function SignupScreen() {
                 <>
                   <CardHeader>
                     <CardTitle className="text-xl sm:text-2xl">
-                      {accountType === 'company' ? 'Dados da Empresa' : 'Dados Pessoais'}
+                      {accountType === 'COMPANY' ? 'Dados da Empresa' : 'Dados Pessoais'}
                     </CardTitle>
                     <CardDescription>
-                      {accountType === 'company'
+                      {accountType === 'COMPANY'
                         ? 'Preencha as informações da sua empresa'
                         : 'Preencha suas informações pessoais'}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {accountType === 'company' ? (
+                    {accountType === 'COMPANY' ? (
                       <>
                         <div className="space-y-2">
                           <Label htmlFor="companyName">Nome da Empresa</Label>
@@ -380,11 +401,11 @@ export default function SignupScreen() {
                 <>
                   <CardHeader>
                     <CardTitle className="text-xl sm:text-2xl">
-                      {accountType === 'company' ? 'Escolha seu plano' : 'Finalize seu cadastro'}
+                      {accountType === 'COMPANY' ? 'Escolha seu plano' : 'Finalize seu cadastro'}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {accountType === 'company' ? (
+                    {accountType === 'COMPANY' ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {plans.map(plan => {
                           const Icon = plan.icon;
@@ -463,7 +484,11 @@ export default function SignupScreen() {
                     <Button variant="outline" onClick={() => setStep(2)}>
                       Voltar
                     </Button>
-                    <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600" disabled={!formData.terms}>
+                    <Button
+                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600"
+                      disabled={!formData.terms}
+                      onClick={handleSubmit}
+                    >
                       Criar Conta
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -507,7 +532,7 @@ export default function SignupScreen() {
               <Button
                 variant="link"
                 className="p-0 h-auto font-semibold text-blue-600"
-                onClick={() => navigate('/signin')}
+                onClick={() => navigate(paths.SIGN_IN)}
               >
                 Entre novamente
               </Button>

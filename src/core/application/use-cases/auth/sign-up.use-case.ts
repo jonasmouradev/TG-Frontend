@@ -10,18 +10,11 @@ export interface SignUpUseCaseInput {
 }
 
 export interface SignUpUseCaseOutput {
-  token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    type: string;
-  };
-  expiresIn: string;
+  status: number;
 }
 
 export class SignUpUseCase implements IUseCase<SignUpUseCaseInput, SignUpUseCaseOutput> {
-  constructor(private authGateway: AuthGateway) {}
+  constructor(private readonly authGateway: AuthGateway) {}
 
   async execute(input: SignUpUseCaseInput): Promise<SignUpUseCaseOutput> {
     const signUpDto: SignUpDto = {
@@ -34,14 +27,8 @@ export class SignUpUseCase implements IUseCase<SignUpUseCaseInput, SignUpUseCase
 
     const response = await this.authGateway.signUp(signUpDto);
 
-    if (!response.data) {
-      throw new Error('Sign up failed');
-    }
-
     return {
-      token: response.data.token,
-      user: response.data.user,
-      expiresIn: response.data.expiresIn,
+      status: response.status,
     };
   }
 }

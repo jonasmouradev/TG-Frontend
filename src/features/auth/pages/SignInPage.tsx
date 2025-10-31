@@ -10,6 +10,7 @@ import {
   Input,
   Label,
   Checkbox,
+  paths,
 } from '@/shared';
 import {
   Building2,
@@ -25,6 +26,9 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { container } from '@/core/infra/container';
+import { toast } from 'sonner';
+import { SetAuthTokenUseCase } from '@/core/application/use-cases/auth/set-auth-token.use-case';
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -45,6 +49,21 @@ export default function LoginScreen() {
     { value: '0', label: 'Candidatos' },
     { value: '100%', label: 'Satisfação' },
   ];
+
+  async function handleLogin() {
+    const response = await container.createAuthenticateUserUseCase().execute({
+      email,
+      password,
+    });
+    if (response) {
+      const setToken = new SetAuthTokenUseCase(container.crypto, container.cookieStorage);
+      setToken.execute(response.accessToken);
+      toast.success('Login realizado com sucesso!');
+      navigate(paths.HOME);
+      return;
+    }
+    toast.error('Falha ao realizar login. Verifique suas credenciais.');
+  }
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -207,6 +226,7 @@ export default function LoginScreen() {
               <Button
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all"
                 size="lg"
+                onClick={handleLogin}
               >
                 Entrar
                 <ArrowRight className="w-4 h-4 ml-2" />

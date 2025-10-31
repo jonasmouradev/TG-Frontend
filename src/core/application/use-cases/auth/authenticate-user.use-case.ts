@@ -7,7 +7,7 @@ export interface AuthenticateUserUseCaseInput {
 }
 
 export interface AuthenticateUserUseCaseOutput {
-  token: string;
+  accessToken: string;
   user: {
     id: string;
     name: string;
@@ -18,7 +18,7 @@ export interface AuthenticateUserUseCaseOutput {
 }
 
 export class AuthenticateUserUseCase implements IUseCase<AuthenticateUserUseCaseInput, AuthenticateUserUseCaseOutput> {
-  constructor(private authGateway: AuthGateway) {}
+  constructor(private readonly authGateway: AuthGateway) {}
 
   async execute(input: AuthenticateUserUseCaseInput): Promise<AuthenticateUserUseCaseOutput> {
     const signInDto: SignInDto = {
@@ -33,7 +33,7 @@ export class AuthenticateUserUseCase implements IUseCase<AuthenticateUserUseCase
     }
 
     return {
-      token: response.data.token,
+      accessToken: response.data.token,
       user: response.data.user,
       expiresIn: response.data.expiresIn,
     };
