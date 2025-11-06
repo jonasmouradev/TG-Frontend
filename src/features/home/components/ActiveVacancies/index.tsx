@@ -1,0 +1,149 @@
+import { Button, Card, CardContent, Input, Badge } from '@/shared';
+import { Job } from '@features/home/hooks/useDashboard';
+import {
+  Plus,
+  Search,
+  Filter,
+  Building2,
+  MapPin,
+  Clock,
+  MoreVertical,
+  Users,
+  CheckCircle2,
+  Eye,
+  Edit,
+} from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+
+const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const getStatusColor = (status: string) => {
+    const colors = {
+      active: 'bg-green-100 text-green-700 border-green-200',
+      draft: 'bg-gray-100 text-gray-700 border-gray-200',
+      closed: 'bg-red-100 text-red-700 border-red-200',
+    };
+    return colors[status as keyof typeof colors];
+  };
+
+  const getStatusLabel = (status: string) => {
+    const labels = {
+      active: 'Ativa',
+      draft: 'Rascunho',
+      closed: 'Fechada',
+    };
+    return labels[status as keyof typeof labels];
+  };
+
+  return (
+    <div className="lg:col-span-2 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h3 className="text-xl font-bold mb-1">Vagas Abertas</h3>
+          <p className="text-sm text-gray-600">
+            {(recentJobs || []).filter(j => j.status === 'active').length} vagas publicadas
+          </p>
+        </div>
+        <Button
+          onClick={() => navigate('/vacancies/new')}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Nova Vaga
+        </Button>
+      </div>
+
+      {/* Search and Filter */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Buscar vagas..."
+            className="pl-10"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <Button variant="outline" className="sm:w-auto">
+          <Filter className="w-4 h-4 mr-2" />
+          Filtros
+        </Button>
+      </div>
+
+      {/* Jobs List */}
+      <div className="space-y-3">
+        {(recentJobs || []).map(job => (
+          <Card key={job.id} className="hover:shadow-lg transition-all border-2">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{job.title}</h4>
+                    <Badge variant="outline" className={getStatusColor(job.status)}>
+                      {getStatusLabel(job.status)}
+                    </Badge>
+                    {job.newCandidates > 0 && (
+                      <Badge className="bg-red-500 text-white">{job.newCandidates} novos</Badge>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <Building2 className="w-4 h-4" />
+                      {job.department}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-4 h-4" />
+                      {job.location}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      {job.daysOpen} dias aberta
+                    </span>
+                  </div>
+                </div>
+                <Button variant="ghost" size="icon" className="flex-shrink-0">
+                  <MoreVertical className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="flex items-center justify-between pt-3 border-t">
+                <div className="flex items-center gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-gray-400" />
+                    <span className="font-semibold text-gray-900">{job.candidates}</span>
+                    <span className="text-gray-600">candidatos</span>
+                  </div>
+                  {job.status === 'active' && (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span className="font-semibold">Recebendo</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Eye className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Ver</span>
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Edit className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Editar</span>
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Button variant="outline" className="w-full">
+        Ver Todas as Vagas
+      </Button>
+    </div>
+  );
+};
+
+export default ActiveVacancies;

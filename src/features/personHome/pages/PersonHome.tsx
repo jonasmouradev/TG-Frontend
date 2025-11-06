@@ -1,0 +1,551 @@
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  Button,
+  Avatar,
+  AvatarFallback,
+  Input,
+  Badge,
+} from '@/shared';
+import {
+  Briefcase,
+  Search,
+  Filter,
+  MapPin,
+  Bell,
+  Settings,
+  FileText,
+  Clock,
+  Heart,
+  Send,
+  CheckCircle2,
+  XCircle,
+  Calendar,
+  DollarSign,
+  Eye,
+  Bookmark,
+  Target,
+  Award,
+  MessageSquare,
+  ArrowRight,
+  Star,
+  BarChart3,
+} from 'lucide-react';
+
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  salary: string;
+  postedDate: string;
+  applicants: number;
+  saved: boolean;
+  match: number;
+  logo: string;
+}
+
+interface Application {
+  id: string;
+  jobTitle: string;
+  company: string;
+  appliedDate: string;
+  stage: string;
+  status: 'pending' | 'interview' | 'rejected' | 'offer';
+}
+
+export default function CandidateDashboard() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [savedJobs, setSavedJobs] = useState<string[]>(['1', '3']);
+
+  const stats = {
+    profileViews: 89,
+    applications: 12,
+    interviews: 3,
+    savedJobs: 8,
+  };
+
+  const recommendedJobs: Job[] = [
+    {
+      id: '1',
+      title: 'Desenvolvedor Front-end Sênior',
+      company: 'TechCorp',
+      location: 'São Paulo, SP',
+      type: 'CLT',
+      salary: 'R$ 10.000 - R$ 14.000',
+      postedDate: '2 dias atrás',
+      applicants: 45,
+      saved: true,
+      match: 95,
+      logo: 'TC',
+    },
+    {
+      id: '2',
+      title: 'Designer UX/UI Pleno',
+      company: 'Creative Studio',
+      location: 'Remoto',
+      type: 'PJ',
+      salary: 'R$ 8.000 - R$ 12.000',
+      postedDate: '1 dia atrás',
+      applicants: 32,
+      saved: false,
+      match: 88,
+      logo: 'CS',
+    },
+    {
+      id: '3',
+      title: 'Product Manager',
+      company: 'StartupXYZ',
+      location: 'Híbrido - SP',
+      type: 'CLT',
+      salary: 'R$ 12.000 - R$ 18.000',
+      postedDate: '3 dias atrás',
+      applicants: 28,
+      saved: true,
+      match: 82,
+      logo: 'SX',
+    },
+  ];
+
+  const myApplications: Application[] = [
+    {
+      id: '1',
+      jobTitle: 'Full Stack Developer',
+      company: 'Tech Solutions',
+      appliedDate: '15/01/2024',
+      stage: 'Entrevista Técnica',
+      status: 'interview',
+    },
+    {
+      id: '2',
+      jobTitle: 'React Developer',
+      company: 'Digital Agency',
+      appliedDate: '12/01/2024',
+      stage: 'Análise de Currículo',
+      status: 'pending',
+    },
+    {
+      id: '3',
+      jobTitle: 'Frontend Engineer',
+      company: 'E-commerce Inc',
+      appliedDate: '10/01/2024',
+      stage: 'Proposta Enviada',
+      status: 'offer',
+    },
+    {
+      id: '4',
+      jobTitle: 'UI Developer',
+      company: 'Design Studio',
+      appliedDate: '08/01/2024',
+      stage: 'Não Selecionado',
+      status: 'rejected',
+    },
+  ];
+
+  const upcomingInterviews = [
+    {
+      id: '1',
+      company: 'Tech Solutions',
+      position: 'Full Stack Developer',
+      date: '20/01/2024',
+      time: '14:00',
+      type: 'Técnica',
+      interviewer: 'Carlos Mendes',
+    },
+    {
+      id: '2',
+      company: 'StartupXYZ',
+      position: 'Product Manager',
+      date: '22/01/2024',
+      time: '10:00',
+      type: 'RH',
+      interviewer: 'Ana Silva',
+    },
+  ];
+
+  const getStatusColor = (status: string) => {
+    const colors = {
+      pending: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+      interview: 'bg-blue-100 text-blue-700 border-blue-200',
+      rejected: 'bg-red-100 text-red-700 border-red-200',
+      offer: 'bg-green-100 text-green-700 border-green-200',
+    };
+    return colors[status as keyof typeof colors];
+  };
+
+  const getStatusIcon = (status: string) => {
+    const icons = {
+      pending: Clock,
+      interview: MessageSquare,
+      rejected: XCircle,
+      offer: CheckCircle2,
+    };
+    const Icon = icons[status as keyof typeof icons];
+    return Icon ? <Icon className="w-4 h-4" /> : null;
+  };
+
+  const toggleSaveJob = (jobId: string) => {
+    setSavedJobs(prev => (prev.includes(jobId) ? prev.filter(id => id !== jobId) : [...prev, jobId]));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header */}
+      <header className="bg-white border-b sticky top-0 z-10 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                <Briefcase className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-900">RecrutaPro</h1>
+                <p className="text-xs text-gray-500">Painel do Candidato</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="icon" className="relative">
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </Button>
+              <Button variant="ghost" size="icon">
+                <Settings className="w-5 h-5" />
+              </Button>
+              <Avatar className="w-9 h-9 border-2 border-purple-200">
+                <AvatarFallback className="bg-purple-100 text-purple-700 font-semibold">JS</AvatarFallback>
+              </Avatar>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Welcome Section */}
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Olá, João! 👋</h2>
+          <p className="text-sm sm:text-base text-gray-600">Encontre sua próxima oportunidade profissional</p>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+          <Card className="border-2 hover:shadow-lg transition-all">
+            <CardContent className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                  <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                </div>
+              </div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.profileViews}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Visualizações</div>
+              <div className="text-xs text-blue-600 mt-1 sm:mt-2">+12 esta semana</div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-all">
+            <CardContent className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                  <Send className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+                </div>
+              </div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.applications}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Candidaturas</div>
+              <div className="text-xs text-purple-600 mt-1 sm:mt-2">3 pendentes</div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-all">
+            <CardContent className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                </div>
+              </div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.interviews}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Entrevistas</div>
+              <div className="text-xs text-green-600 mt-1 sm:mt-2">2 agendadas</div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-all">
+            <CardContent className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                  <Bookmark className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
+                </div>
+              </div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.savedJobs}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Vagas Salvas</div>
+              <div className="text-xs text-orange-600 mt-1 sm:mt-2">Ver todas</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Profile Completion Alert */}
+            <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
+                    <Target className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 w-full">
+                    <h3 className="font-bold text-lg mb-1">Complete seu perfil</h3>
+                    <p className="text-sm text-gray-700 mb-4">
+                      Perfis completos recebem 70% mais visualizações de recrutadores
+                    </p>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="flex-1 h-2 bg-white rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all"
+                          style={{ width: '65%' }}
+                        />
+                      </div>
+                      <span className="text-sm font-semibold text-gray-700 flex-shrink-0">65%</span>
+                    </div>
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      Completar Perfil
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recommended Jobs */}
+            <div>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+                <div>
+                  <h3 className="text-xl font-bold mb-1">Vagas Recomendadas</h3>
+                  <p className="text-sm text-gray-600">Baseadas no seu perfil</p>
+                </div>
+                <Button variant="outline" size="sm" className="sm:w-auto">
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filtros
+                </Button>
+              </div>
+
+              {/* Search Bar */}
+              <div className="relative mb-5">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Input
+                  placeholder="Buscar vagas por cargo, empresa ou palavra-chave..."
+                  className="pl-12 h-12 text-sm sm:text-base"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-4">
+                {recommendedJobs.map(job => (
+                  <Card key={job.id} className="border-2 hover:shadow-lg transition-all">
+                    <CardContent className="p-4 sm:p-5 lg:p-6">
+                      <div className="flex flex-col sm:flex-row items-start gap-4">
+                        <Avatar className="w-12 h-12 border-2 border-gray-200 flex-shrink-0">
+                          <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-blue-700 font-bold text-sm">
+                            {job.logo}
+                          </AvatarFallback>
+                        </Avatar>
+
+                        <div className="flex-1 w-full min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">{job.title}</h4>
+                              <p className="text-sm text-gray-600 mb-2">{job.company}</p>
+                            </div>
+                            <Badge
+                              className={`${
+                                job.match >= 90
+                                  ? 'bg-green-100 text-green-700'
+                                  : job.match >= 80
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : 'bg-gray-100 text-gray-700'
+                              } flex items-center gap-1 flex-shrink-0 self-start`}
+                            >
+                              <Star className="w-3 h-3" />
+                              {job.match}% match
+                            </Badge>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-600 mb-4">
+                            <span className="flex items-center gap-1">
+                              <MapPin className="w-4 h-4 flex-shrink-0" />
+                              {job.location}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Briefcase className="w-4 h-4 flex-shrink-0" />
+                              {job.type}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <DollarSign className="w-4 h-4 flex-shrink-0" />
+                              {job.salary}
+                            </span>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t">
+                            <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-500">
+                              <span>{job.postedDate}</span>
+                              <span>{job.applicants} candidatos</span>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => toggleSaveJob(job.id)}
+                                className={savedJobs.includes(job.id) ? 'text-orange-600' : ''}
+                              >
+                                <Heart className={`w-4 h-4 ${savedJobs.includes(job.id) ? 'fill-orange-600' : ''}`} />
+                              </Button>
+                              <Button
+                                size="sm"
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                              >
+                                Candidatar-se
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <Button variant="outline" className="w-full mt-5">
+                Ver Mais Vagas
+              </Button>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Upcoming Interviews */}
+            <Card className="border-2">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Próximas Entrevistas
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0">
+                {upcomingInterviews.map(interview => (
+                  <div
+                    key={interview.id}
+                    className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <Badge className="bg-blue-600 text-white text-xs">{interview.type}</Badge>
+                      <span className="text-xs text-gray-600">{interview.date}</span>
+                    </div>
+                    <h4 className="font-semibold text-sm mb-1">{interview.position}</h4>
+                    <p className="text-xs text-gray-600 mb-3">{interview.company}</p>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-600">⏰ {interview.time}</span>
+                      <span className="text-gray-600">👤 {interview.interviewer}</span>
+                    </div>
+                  </div>
+                ))}
+                <Button variant="outline" size="sm" className="w-full mt-2">
+                  Ver Todas
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* My Applications */}
+            <Card className="border-2">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Minhas Candidaturas</CardTitle>
+                <CardDescription className="text-xs">Status das suas aplicações</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0">
+                {myApplications.slice(0, 4).map(app => (
+                  <div key={app.id} className="p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer border">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-sm truncate">{app.jobTitle}</h4>
+                        <p className="text-xs text-gray-600 mt-0.5">{app.company}</p>
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className={`text-xs ${getStatusColor(app.status)} flex items-center gap-1 flex-shrink-0`}
+                      >
+                        {getStatusIcon(app.status)}
+                        <span className="hidden sm:inline">{app.stage}</span>
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-gray-500">Aplicado em {app.appliedDate}</p>
+                  </div>
+                ))}
+                <Button variant="outline" size="sm" className="w-full mt-2">
+                  Ver Todas as Candidaturas
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Profile Score */}
+            <Card className="border-2 bg-gradient-to-br from-green-50 to-teal-50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5" />
+                  Score do Perfil
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="text-center mb-5">
+                  <div className="text-4xl font-bold text-green-600 mb-1">8.5/10</div>
+                  <p className="text-sm text-gray-600">Muito bom!</p>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700">Completude</span>
+                    <span className="font-semibold text-gray-900">65%</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700">Experiências</span>
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700">Habilidades</span>
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700">Certificados</span>
+                    <XCircle className="w-4 h-4 text-gray-400" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Actions */}
+            <Card className="border-2">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Ações Rápidas</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 pt-0">
+                <Button variant="outline" className="w-full justify-start text-sm">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Atualizar Currículo
+                </Button>
+                <Button variant="outline" className="w-full justify-start text-sm">
+                  <Award className="w-4 h-4 mr-2" />
+                  Adicionar Certificado
+                </Button>
+                <Button variant="outline" className="w-full justify-start text-sm">
+                  <Bell className="w-4 h-4 mr-2" />
+                  Alertas de Vagas
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

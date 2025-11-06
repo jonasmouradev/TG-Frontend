@@ -10,7 +10,7 @@ interface DashboardStats {
   satisfaction: number;
 }
 
-interface Job {
+export interface Job {
   id: string;
   title: string;
   department: string;
@@ -23,7 +23,7 @@ interface Job {
   createdAt: string;
 }
 
-interface Candidate {
+export interface Candidate {
   id: string;
   name: string;
   job: string;
