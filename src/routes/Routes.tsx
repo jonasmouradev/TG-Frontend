@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from '@shared/components/layout/Layout';
 import { paths } from '@shared/utils/constants';
 import { lazy } from 'react';
+import ActiveVacancies from '@features/activeVacancies';
 
 const Home = lazy(() => import('@features/home'));
 const SignIn = lazy(() => import('@features/auth/pages/SignInPage'));
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
       {
         path: paths.NEW_VACANCY,
         element: <NewVacancy />,
+      },
+      {
+        path: paths.ACTIVE_VACANCIES,
+        element: <ActiveVacancies />,
       },
       {
         path: '*',

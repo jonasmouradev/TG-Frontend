@@ -8,7 +8,7 @@ import ActiveVacancies from '../components/ActiveVacancies';
 import HomeSidebar from '../components/HomeSidebar';
 
 export default function CompanyDashboard() {
-  const { stats, recentJobs, recentCandidates, error, refreshData } = useDashboard();
+  const { stats, recentJobs, error, refreshData } = useDashboard();
 
   // Show error state
   if (error) {
@@ -44,7 +44,7 @@ export default function CompanyDashboard() {
         <StatsCards dashboardStats={dashboardStats} />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           <ActiveVacancies recentJobs={recentJobs} />
-          <HomeSidebar dashboardStats={dashboardStats} recentCandidates={recentCandidates} />
+          <HomeSidebar dashboardStats={dashboardStats} />
         </div>
       </div>
     </div>

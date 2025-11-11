@@ -1,13 +1,11 @@
 import QuickStats from './QuickStats';
-import { Candidate } from '@features/home/hooks/useDashboard';
-import RecentCandidates from './RecentCandidates';
 import QuickActions from './QuickActions';
 
-const HomeSidebar = ({ dashboardStats, recentCandidates }: { dashboardStats: any; recentCandidates: Candidate[] }) => {
+const HomeSidebar = ({ dashboardStats }: { dashboardStats: any }) => {
   return (
     <div className="space-y-6">
       <QuickStats dashboardStats={dashboardStats} />
-      <RecentCandidates recentCandidates={recentCandidates} />
+      {/* <RecentCandidates recentCandidates={recentCandidates} /> */}
       <QuickActions />
     </div>
   );
