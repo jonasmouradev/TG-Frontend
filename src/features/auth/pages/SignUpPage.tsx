@@ -74,7 +74,7 @@ export default function SignupScreen() {
       price: 'Grátis',
       description: 'Perfeito para começar',
       features: [
-        { text: '3 vagas ativas', included: true },
+        { text: '3 vagas ativas simultaneamente', included: true },
         { text: '50 candidatos/mês', included: true },
         { text: 'Suporte por email', included: true },
         { text: 'Análises básicas', included: true },
@@ -86,7 +86,7 @@ export default function SignupScreen() {
     },
     {
       name: 'Professional',
-      price: 'R$ 297',
+      price: 'R$ xx',
       period: '/mês',
       description: 'Para empresas em crescimento',
       features: [
@@ -413,18 +413,18 @@ export default function SignupScreen() {
                             <div
                               key={plan.name}
                               className={`relative p-6 border-2 rounded-xl ${
-                                plan.popular ? 'border-purple-600 bg-purple-50' : 'border-gray-200'
+                                plan.popular ? 'border-gray-600 bg-purple-50' : 'border-gray-200'
                               }`}
                             >
                               {plan.popular && (
-                                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-600">
-                                  Mais Popular
+                                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-600">
+                                  Em breve
                                 </Badge>
                               )}
                               <div className="flex items-center gap-3 mb-4">
                                 <div
                                   className={`w-10 h-10 rounded-lg ${
-                                    plan.popular ? 'bg-purple-600' : 'bg-blue-600'
+                                    plan.popular ? 'bg-gray-600' : 'bg-blue-600'
                                   } flex items-center justify-center`}
                                 >
                                   <Icon className="w-5 h-5 text-white" />
@@ -453,8 +453,12 @@ export default function SignupScreen() {
                                 ))}
                               </div>
 
-                              <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>
-                                Selecionar
+                              <Button
+                                disabled={plan.popular}
+                                className="w-full hover:bg-transparent"
+                                variant={plan.popular ? 'default' : 'outline'}
+                              >
+                                {plan.popular ? 'Em breve' : 'Selecionado'}
                               </Button>
                             </div>
                           );

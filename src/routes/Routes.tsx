@@ -4,7 +4,8 @@ import { paths } from '@shared/utils/constants';
 import { lazy } from 'react';
 import ActiveVacancies from '@features/activeVacancies';
 
-const Home = lazy(() => import('@features/home'));
+const HomePage = lazy(() => import('@features/home'));
+const CompleteProfilePage = lazy(() => import('@features/home/pages/CompleteProfilePage'));
 const SignIn = lazy(() => import('@features/auth/pages/SignInPage'));
 const SignUp = lazy(() => import('@features/auth/pages/SignUpPage'));
 const Settings = lazy(() => import('@features/settings'));
@@ -49,7 +50,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: paths.HOME,
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: paths.ACTIVITY,
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
       {
         path: paths.PROFILE,
         element: <Profile />,
+      },
+      {
+        path: '/profile/complete',
+        element: <CompleteProfilePage />,
       },
       {
         path: paths.NEW_VACANCY,

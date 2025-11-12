@@ -1,13 +1,13 @@
 import { Button } from '@/shared';
 import { RefreshCw } from 'lucide-react';
-import { useDashboard } from '../hooks';
-import HomeHeader from '../components/HomeHeader';
-import WelcomeSection from '../components/WelcomeSection';
-import StatsCards from '../components/StatsCards';
-import ActiveVacancies from '../components/ActiveVacancies';
-import HomeSidebar from '../components/HomeSidebar';
+import { useDashboard } from '../../hooks';
+import HomeHeader from '../../components/HomeHeader';
+import WelcomeSection from '../../components/WelcomeSection';
+import StatsCards from '../../components/StatsCards';
+import ActiveVacancies from '../../components/ActiveVacancies';
+import HomeSidebar from '../../components/HomeSidebar';
 
-export default function CompanyDashboard() {
+export default function CompanyHome() {
   const { stats, recentJobs, error, refreshData } = useDashboard();
 
   // Show error state

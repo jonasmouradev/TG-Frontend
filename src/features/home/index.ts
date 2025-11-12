@@ -1,2 +1,3 @@
-export { default } from './pages/Home';
+export { default } from './pages';
+export * from './entities';
 export * from './components';

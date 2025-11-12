@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
   Card,
   CardContent,
@@ -20,13 +21,11 @@ import {
   Settings,
   FileText,
   Clock,
-  Heart,
   Send,
   CheckCircle2,
   XCircle,
   Calendar,
   DollarSign,
-  Eye,
   Bookmark,
   Target,
   Award,
@@ -59,12 +58,13 @@ interface Application {
   status: 'pending' | 'interview' | 'rejected' | 'offer';
 }
 
-export default function CandidateDashboard() {
+export default function PersonHome() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [savedJobs, setSavedJobs] = useState<string[]>(['1', '3']);
 
   const stats = {
-    profileViews: 89,
+    profileCompletionRate: 65,
     applications: 12,
     interviews: 3,
     savedJobs: 8,
@@ -152,7 +152,7 @@ export default function CandidateDashboard() {
       id: '1',
       company: 'Tech Solutions',
       position: 'Full Stack Developer',
-      date: '20/01/2024',
+      date: '30/11/2025',
       time: '14:00',
       type: 'Técnica',
       interviewer: 'Carlos Mendes',
@@ -161,7 +161,7 @@ export default function CandidateDashboard() {
       id: '2',
       company: 'StartupXYZ',
       position: 'Product Manager',
-      date: '22/01/2024',
+      date: '05/12/2025',
       time: '10:00',
       type: 'RH',
       interviewer: 'Ana Silva',
@@ -193,14 +193,20 @@ export default function CandidateDashboard() {
     setSavedJobs(prev => (prev.includes(jobId) ? prev.filter(id => id !== jobId) : [...prev, jobId]));
   };
 
+  const getMatchBadgeColor = (match: number) => {
+    if (match >= 90) return 'bg-green-100 text-green-700';
+    if (match >= 80) return 'bg-blue-100 text-blue-700';
+    return 'bg-gray-100 text-gray-700';
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10 shadow-sm">
+      <header className="bg-white border-b sticky top-0 z-10 shadow-sm w-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
                 <Briefcase className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -216,8 +222,8 @@ export default function CandidateDashboard() {
               <Button variant="ghost" size="icon">
                 <Settings className="w-5 h-5" />
               </Button>
-              <Avatar className="w-9 h-9 border-2 border-purple-200">
-                <AvatarFallback className="bg-purple-100 text-purple-700 font-semibold">JS</AvatarFallback>
+              <Avatar className="w-9 h-9 border-2 border-indigo-200">
+                <AvatarFallback className="bg-indigo-100 text-indigo-700 font-semibold">JS</AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -227,7 +233,7 @@ export default function CandidateDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section */}
         <div className="mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Olá, João! 👋</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Bem-vindo de volta! </h2>
           <p className="text-sm sm:text-base text-gray-600">Encontre sua próxima oportunidade profissional</p>
         </div>
 
@@ -236,26 +242,13 @@ export default function CandidateDashboard() {
           <Card className="border-2 hover:shadow-lg transition-all">
             <CardContent className="p-4 sm:p-5 lg:p-6">
               <div className="flex items-center justify-between mb-2 sm:mb-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                  <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
-                </div>
-              </div>
-              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.profileViews}</div>
-              <div className="text-xs sm:text-sm text-gray-600">Visualizações</div>
-              <div className="text-xs text-blue-600 mt-1 sm:mt-2">+12 esta semana</div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 hover:shadow-lg transition-all">
-            <CardContent className="p-4 sm:p-5 lg:p-6">
-              <div className="flex items-center justify-between mb-2 sm:mb-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                  <Send className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+                  <Send className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
                 </div>
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.applications}</div>
               <div className="text-xs sm:text-sm text-gray-600">Candidaturas</div>
-              <div className="text-xs text-purple-600 mt-1 sm:mt-2">3 pendentes</div>
+              <div className="text-xs text-indigo-600 mt-1 sm:mt-2">3 pendentes</div>
             </CardContent>
           </Card>
 
@@ -284,13 +277,25 @@ export default function CandidateDashboard() {
               <div className="text-xs text-orange-600 mt-1 sm:mt-2">Ver todas</div>
             </CardContent>
           </Card>
+          <Card className="border-2 hover:shadow-lg transition-all">
+            <CardContent className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                  <Target className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                </div>
+              </div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stats.profileCompletionRate}%</div>
+              <div className="text-xs sm:text-sm text-gray-600">Taxa de Conclusão do Perfil</div>
+              <div className="text-xs text-blue-600 mt-1 sm:mt-2">+12 esta semana</div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Profile Completion Alert */}
-            <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
+            <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
               <CardContent className="p-5 sm:p-6">
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
@@ -299,18 +304,22 @@ export default function CandidateDashboard() {
                   <div className="flex-1 w-full">
                     <h3 className="font-bold text-lg mb-1">Complete seu perfil</h3>
                     <p className="text-sm text-gray-700 mb-4">
-                      Perfis completos recebem 70% mais visualizações de recrutadores
+                      Perfis completos possuem maior chance de serem vistos por recrutadores.
                     </p>
                     <div className="flex items-center gap-3 mb-4">
                       <div className="flex-1 h-2 bg-white rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all"
+                          className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all"
                           style={{ width: '65%' }}
                         />
                       </div>
                       <span className="text-sm font-semibold text-gray-700 flex-shrink-0">65%</span>
                     </div>
-                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                    <Button
+                      size="sm"
+                      className="bg-blue-600 hover:bg-blue-700"
+                      onClick={() => navigate('/profile/complete')}
+                    >
                       Completar Perfil
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -349,7 +358,7 @@ export default function CandidateDashboard() {
                     <CardContent className="p-4 sm:p-5 lg:p-6">
                       <div className="flex flex-col sm:flex-row items-start gap-4">
                         <Avatar className="w-12 h-12 border-2 border-gray-200 flex-shrink-0">
-                          <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-blue-700 font-bold text-sm">
+                          <AvatarFallback className="bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-700 font-bold text-sm">
                             {job.logo}
                           </AvatarFallback>
                         </Avatar>
@@ -361,13 +370,7 @@ export default function CandidateDashboard() {
                               <p className="text-sm text-gray-600 mb-2">{job.company}</p>
                             </div>
                             <Badge
-                              className={`${
-                                job.match >= 90
-                                  ? 'bg-green-100 text-green-700'
-                                  : job.match >= 80
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'bg-gray-100 text-gray-700'
-                              } flex items-center gap-1 flex-shrink-0 self-start`}
+                              className={`${getMatchBadgeColor(job.match)} flex items-center gap-1 flex-shrink-0 self-start`}
                             >
                               <Star className="w-3 h-3" />
                               {job.match}% match
@@ -401,12 +404,11 @@ export default function CandidateDashboard() {
                                 onClick={() => toggleSaveJob(job.id)}
                                 className={savedJobs.includes(job.id) ? 'text-orange-600' : ''}
                               >
-                                <Heart className={`w-4 h-4 ${savedJobs.includes(job.id) ? 'fill-orange-600' : ''}`} />
+                                <Bookmark
+                                  className={`w-4 h-4 ${savedJobs.includes(job.id) ? 'fill-orange-600' : ''}`}
+                                />
                               </Button>
-                              <Button
-                                size="sm"
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                              >
+                              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
                                 Candidatar-se
                               </Button>
                             </div>
@@ -438,10 +440,10 @@ export default function CandidateDashboard() {
                 {upcomingInterviews.map(interview => (
                   <div
                     key={interview.id}
-                    className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200"
+                    className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200"
                   >
                     <div className="flex items-center gap-2 mb-3">
-                      <Badge className="bg-blue-600 text-white text-xs">{interview.type}</Badge>
+                      <Badge className="bg-blue-600 hover:bg-blue-600 text-white text-xs">{interview.type}</Badge>
                       <span className="text-xs text-gray-600">{interview.date}</span>
                     </div>
                     <h4 className="font-semibold text-sm mb-1">{interview.position}</h4>
@@ -454,37 +456,6 @@ export default function CandidateDashboard() {
                 ))}
                 <Button variant="outline" size="sm" className="w-full mt-2">
                   Ver Todas
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* My Applications */}
-            <Card className="border-2">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg">Minhas Candidaturas</CardTitle>
-                <CardDescription className="text-xs">Status das suas aplicações</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 pt-0">
-                {myApplications.slice(0, 4).map(app => (
-                  <div key={app.id} className="p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer border">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm truncate">{app.jobTitle}</h4>
-                        <p className="text-xs text-gray-600 mt-0.5">{app.company}</p>
-                      </div>
-                      <Badge
-                        variant="outline"
-                        className={`text-xs ${getStatusColor(app.status)} flex items-center gap-1 flex-shrink-0`}
-                      >
-                        {getStatusIcon(app.status)}
-                        <span className="hidden sm:inline">{app.stage}</span>
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-gray-500">Aplicado em {app.appliedDate}</p>
-                  </div>
-                ))}
-                <Button variant="outline" size="sm" className="w-full mt-2">
-                  Ver Todas as Candidaturas
                 </Button>
               </CardContent>
             </Card>
@@ -520,6 +491,37 @@ export default function CandidateDashboard() {
                     <XCircle className="w-4 h-4 text-gray-400" />
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* My Applications */}
+            <Card className="border-2">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Minhas Candidaturas</CardTitle>
+                <CardDescription className="text-xs">Status das suas aplicações</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0">
+                {myApplications.slice(0, 4).map(app => (
+                  <div key={app.id} className="p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer border">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-sm truncate">{app.jobTitle}</h4>
+                        <p className="text-xs text-gray-600 mt-0.5">{app.company}</p>
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className={`text-xs ${getStatusColor(app.status)} flex items-center gap-1 flex-shrink-0`}
+                      >
+                        {getStatusIcon(app.status)}
+                        <span className="hidden sm:inline">{app.stage}</span>
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-gray-500">Aplicado em {app.appliedDate}</p>
+                  </div>
+                ))}
+                <Button variant="outline" size="sm" className="w-full mt-2">
+                  Ver Todas as Candidaturas
+                </Button>
               </CardContent>
             </Card>
 

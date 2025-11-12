@@ -12,19 +12,7 @@ import {
   Checkbox,
   paths,
 } from '@/shared';
-import {
-  Building2,
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  ArrowRight,
-  CheckCircle2,
-  Users,
-  Briefcase,
-  TrendingUp,
-  Sparkles,
-} from 'lucide-react';
+import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, Users, Briefcase, TrendingUp, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { container } from '@/core/infra/container';
 import { toast } from 'sonner';
@@ -243,11 +231,6 @@ export default function LoginScreen() {
                 >
                   Cadastre-se gratuitamente
                 </Button>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                <CheckCircle2 className="w-4 h-4 text-green-600" />
-                <span>Plataforma segura e confiável</span>
               </div>
             </CardFooter>
           </Card>
