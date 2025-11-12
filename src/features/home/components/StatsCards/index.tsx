@@ -54,7 +54,10 @@ const StatsCards = ({ dashboardStats }: { dashboardStats: any }) => {
         </CardContent>
       </Card>
 
-      <Card className="border-2 hover:shadow-lg transition-all cursor-pointer">
+      <Card
+        className="border-2 hover:shadow-lg transition-all cursor-pointer"
+        onClick={() => navigate('/vacancies/scheduling')}
+      >
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">

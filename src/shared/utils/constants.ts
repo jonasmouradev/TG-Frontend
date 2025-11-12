@@ -15,6 +15,7 @@ export const paths = {
   RESET_PASSWORD: '/:secret/reset-password/:email',
   NEW_VACANCY: '/vacancies/new',
   ACTIVE_VACANCIES: '/vacancies/active',
+  SCHEDULING: '/vacancies/scheduling',
 } as const;
 
 export type Paths = keyof typeof paths;

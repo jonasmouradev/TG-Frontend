@@ -12,6 +12,7 @@ const NotFound = lazy(() => import('@features/NotFound'));
 const Activity = lazy(() => import('@features/activity'));
 const NewVacancy = lazy(() => import('@features/newVacancy'));
 const Profile = lazy(() => import('@features/profile'));
+const Scheduling = lazy(() => import('@features/scheduling'));
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
       {
         path: paths.ACTIVE_VACANCIES,
         element: <ActiveVacancies />,
+      },
+      {
+        path: paths.SCHEDULING,
+        element: <Scheduling />,
       },
       {
         path: '*',
