@@ -13,6 +13,7 @@ const Activity = lazy(() => import('@features/activity'));
 const NewVacancy = lazy(() => import('@features/newVacancy'));
 const Profile = lazy(() => import('@features/profile'));
 const Scheduling = lazy(() => import('@features/scheduling'));
+const CandidateRegistration = lazy(() => import('@features/candidateRegistration'));
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: paths.SCHEDULING,
         element: <Scheduling />,
+      },
+      {
+        path: paths.CANDIDATE_REGISTRATION,
+        element: <CandidateRegistration />,
       },
       {
         path: '*',

@@ -180,7 +180,7 @@ export default function Scheduling() {
     })[type] || type;
 
   return (
-    <div className="min-h-screen w-screen bg-white mx-auto px-4 py-6">
+    <div className="min-h-screen bg-white mx-auto px-4 py-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
