@@ -47,7 +47,7 @@ export default function RequirementsSection({
         {skills.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {skills.map(skill => (
-              <Badge key={skill} variant="secondary" className="px-3 py-1.5 text-sm">
+              <Badge key={skill} variant="outline" className="text-whit px-3 py-1.5 text-sm">
                 {skill}
                 <X className="w-3 h-3 ml-2 cursor-pointer hover:text-red-600" onClick={() => removeSkill(skill)} />
               </Badge>

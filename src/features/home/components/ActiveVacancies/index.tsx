@@ -47,10 +47,7 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
             {(recentJobs || []).filter(j => j.status === 'active').length} vagas publicadas
           </p>
         </div>
-        <Button
-          onClick={() => navigate('/vacancies/new')}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-        >
+        <Button onClick={() => navigate('/vacancies/new')} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="w-4 h-4 mr-2" />
           Nova Vaga
         </Button>

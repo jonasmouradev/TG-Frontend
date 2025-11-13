@@ -1,5 +1,5 @@
 import { Badge, Card, CardContent } from '@/shared';
-import { Briefcase, TrendingUp, Users, UserCheck, CheckCircle2, Calendar, Clock } from 'lucide-react';
+import { Briefcase, TrendingUp, Users, BarChart3, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 const StatsCards = ({ dashboardStats }: { dashboardStats: any }) => {
@@ -43,17 +43,17 @@ const StatsCards = ({ dashboardStats }: { dashboardStats: any }) => {
         </CardContent>
       </Card>
 
-      <Card className="border-2 hover:shadow-lg transition-all cursor-pointer">
+      <Card className="border-2 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/metrics')}>
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-              <UserCheck className="w-6 h-6 text-green-600" />
+              <BarChart3 className="w-6 h-6 text-green-600" />
             </div>
-            <CheckCircle2 className="w-5 h-5 text-green-600" />
+            <TrendingUp className="w-5 h-5 text-green-600" />
           </div>
-          <div className="text-3xl font-bold text-gray-900 mb-1">18</div>
-          <div className="text-sm text-gray-600">Em Processo Final</div>
-          <div className="text-xs text-green-600 mt-2">6 propostas enviadas</div>
+          <div className="text-3xl font-bold text-gray-900 mb-1">32.5%</div>
+          <div className="text-sm text-gray-600">Taxa de Conversão</div>
+          <div className="text-xs text-green-600 mt-2">+5% vs. período anterior</div>
         </CardContent>
       </Card>
 

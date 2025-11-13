@@ -249,11 +249,7 @@ export default function SchedulingV2() {
                     {monthNames[month]} {year}
                   </h2>
                   <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0"
-                    >
+                    <Button variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0">
                       <Plus className="w-4 h-4 mr-1" />
                       Nova
                     </Button>

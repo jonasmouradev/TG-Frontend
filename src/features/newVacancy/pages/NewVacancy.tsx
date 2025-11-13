@@ -20,11 +20,9 @@ export default function NewVacancy() {
   }, []);
 
   return (
-    <div className="max-w-3xl mx-auto p-6 min-h-screen bg-white">
+    <div className="w-screen max-w-7xl mx-auto p-6 min-h-screen bg-white">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Nova Vaga
-        </h1>
+        <h1 className="text-4xl font-bold mb-2 bg-blue-600 bg-clip-text text-transparent">Nova Vaga</h1>
         <p className="text-gray-600">Preencha as informações abaixo para publicar uma nova oportunidade</p>
       </div>
       <BasicInfoSection />

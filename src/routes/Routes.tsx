@@ -6,6 +6,7 @@ import ActiveVacancies from '@features/activeVacancies';
 
 const HomePage = lazy(() => import('@features/home'));
 const CompleteProfilePage = lazy(() => import('@features/home/pages/CompleteProfilePage'));
+const MetricsPage = lazy(() => import('@features/home/pages/MetricsPage'));
 const SignIn = lazy(() => import('@features/auth/pages/SignInPage'));
 const SignUp = lazy(() => import('@features/auth/pages/SignUpPage'));
 const Settings = lazy(() => import('@features/settings'));
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: '/profile/complete',
         element: <CompleteProfilePage />,
+      },
+      {
+        path: '/metrics',
+        element: <MetricsPage />,
       },
       {
         path: paths.NEW_VACANCY,

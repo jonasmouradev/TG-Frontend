@@ -180,14 +180,14 @@ export default function Scheduling() {
     })[type] || type;
 
   return (
-    <div className="min-h-screen bg-white mx-auto px-4 py-6">
+    <div className="min-h-screen w-screen max-w-7xl bg-white mx-auto px-4 py-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h2 className="text-2xl font-bold mb-1">Entrevistas Agendadas</h2>
           <p className="text-sm text-gray-600">Gerencie sua agenda de entrevistas</p>
         </div>
-        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+        <Button className="bg-blue-600 hover:bg-blue-700">
           <Plus className="w-4 h-4 mr-2" />
           Agendar Entrevista
         </Button>

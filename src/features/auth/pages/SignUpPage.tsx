@@ -138,9 +138,7 @@ export default function SignupScreen() {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
               <Building2 className="w-7 h-7 text-white" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Seleto
-            </h1>
+            <h1 className="text-2xl sm:text-3xl font-bold bg-blue-600 bg-clip-text text-transparent">Seleto</h1>
           </div>
           <p className="text-gray-600 text-sm sm:text-base">Comece sua jornada de recrutamento inteligente</p>
         </div>
@@ -166,9 +164,7 @@ export default function SignupScreen() {
                   </span>
                 </div>
                 {s < 3 && (
-                  <div
-                    className={`h-0.5 w-12 sm:w-24 transition-all ${step > s ? 'bg-gradient-to-r from-blue-600 to-purple-600' : 'bg-gray-300'}`}
-                  />
+                  <div className={`h-0.5 w-12 sm:w-24 transition-all ${step > s ? 'bg-blue-600' : 'bg-gray-300'}`} />
                 )}
               </React.Fragment>
             ))}
@@ -242,10 +238,7 @@ export default function SignupScreen() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                      onClick={() => setStep(2)}
-                    >
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={() => setStep(2)}>
                       Continuar
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -389,7 +382,7 @@ export default function SignupScreen() {
                     <Button variant="outline" onClick={() => setStep(1)}>
                       Voltar
                     </Button>
-                    <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600" onClick={() => setStep(3)}>
+                    <Button className="flex-1 bg-blue-600" onClick={() => setStep(3)}>
                       Continuar
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -488,11 +481,7 @@ export default function SignupScreen() {
                     <Button variant="outline" onClick={() => setStep(2)}>
                       Voltar
                     </Button>
-                    <Button
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600"
-                      disabled={!formData.terms}
-                      onClick={handleSubmit}
-                    >
+                    <Button className="flex-1 bg-blue-600" disabled={!formData.terms} onClick={handleSubmit}>
                       Criar Conta
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
