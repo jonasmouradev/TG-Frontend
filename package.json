@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "vitest": "vitest --ui",
+    "vitest": "vitest --ui --coverage.enabled=true",
     "coverage": "vitest run --coverage",
     "test:e2e": "cypress run",
     "cy:open": "cypress open",
