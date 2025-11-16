@@ -118,8 +118,9 @@ export default function SignupScreen() {
       type: accountType,
       name: formData.companyName,
       username: formData.companyName,
-      // cnpj: formData.cnpj,
-      // phone: formData.phone,
+      cnpj: formData.cnpj,
+      cpf: formData.cpf,
+      phone: formData.phone,
       // fullName: formData.fullName,
       // cpf: formData.cpf,
       // phoneCandidate: formData.phoneCandidate,
@@ -160,7 +161,7 @@ export default function SignupScreen() {
                   <span className="hidden sm:inline text-sm font-medium text-gray-700">
                     {s === 1 && 'Tipo de Conta'}
                     {s === 2 && 'Informações'}
-                    {s === 3 && 'Plano'}
+                    {s === 3 && 'Plano' /* //TODO: Mudar para 'Termos' quando pessoa física */}
                   </span>
                 </div>
                 {s < 3 && (

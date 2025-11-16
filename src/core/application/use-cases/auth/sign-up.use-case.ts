@@ -7,6 +7,9 @@ export interface SignUpUseCaseInput {
   email: string;
   password: string;
   type: string;
+  cpf?: string;
+  cnpj?: string;
+  phone: string;
 }
 
 export interface SignUpUseCaseOutput {
@@ -23,6 +26,9 @@ export class SignUpUseCase implements IUseCase<SignUpUseCaseInput, SignUpUseCase
       password: input.password,
       type: input.type,
       username: input.username,
+      cpf: input.cpf,
+      cnpj: input.cnpj,
+      phone: input.phone,
     };
 
     const response = await this.authGateway.signUp(signUpDto);

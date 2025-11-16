@@ -134,7 +134,7 @@ export default function LoginScreen() {
 
             <CardContent className="space-y-4">
               {/* Account Type Selector */}
-              <div className="grid grid-cols-2 gap-3 p-1 bg-gray-100 rounded-lg">
+              {/* <div className="grid grid-cols-2 gap-3 p-1 bg-gray-100 rounded-lg">
                 <Button variant="ghost" className="bg-white shadow-sm hover:bg-white border border-blue-200">
                   <Building2 className="w-4 h-4 mr-2" />
                   Empresa
@@ -143,7 +143,7 @@ export default function LoginScreen() {
                   <Users className="w-4 h-4 mr-2" />
                   Candidato
                 </Button>
-              </div>
+              </div> */}
 
               {/* Email Field */}
               <div className="space-y-2">
