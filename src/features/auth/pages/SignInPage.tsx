@@ -16,7 +16,6 @@ import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, Users, Briefcase, Trend
 import { useNavigate } from 'react-router';
 import { container } from '@/core/infra/container';
 import { toast } from 'sonner';
-import { SetAuthTokenUseCase } from '@/core/application/use-cases/auth/set-auth-token.use-case';
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -44,7 +43,7 @@ export default function LoginScreen() {
       password,
     });
     if (response) {
-      const setToken = new SetAuthTokenUseCase(container.crypto, container.cookieStorage);
+      const setToken = container.createSetAuthTokenUseCase();
       setToken.execute(response.accessToken);
       toast.success('Login realizado com sucesso!');
       navigate(paths.HOME);

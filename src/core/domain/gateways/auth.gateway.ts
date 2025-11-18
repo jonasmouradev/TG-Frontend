@@ -17,7 +17,7 @@ type SignUpDto = {
 };
 
 type AuthResponse = {
-  token: string;
+  accessToken: string;
   user: {
     id: string;
     name: string;

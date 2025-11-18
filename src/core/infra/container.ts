@@ -118,12 +118,6 @@ export class DIContainer {
     const responseInterceptor = new ResponseInterceptor(this.crypto, this.cookieStorage);
     this.httpClient = new AxiosHttpClientAdapter(requestInterceptor, responseInterceptor);
 
-    const setToken = new SetAuthTokenUseCase(this.crypto, this.cookieStorage);
-
-    setToken.execute(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2Q4ODNjOS1mMGZlLTQyYTgtYTg0ZC01MWMyNzUzYWVhN2YiLCJ1c2VybmFtZSI6ImpvbmFzbW91cmFkZXYiLCJpYXQiOjE3NjE5MTM1MTh9.zspTzNeD5zMkIMflPDQvNNPKpQkDEkxTwvGFdWQQWkM',
-    );
-
     // Gateway instances
     this.authGateway = new AuthHttpGateway(this.httpClient);
     this.userGateway = new UserHttpGateway(this.httpClient);
@@ -156,6 +150,10 @@ export class DIContainer {
 
   createForgotPasswordUseCase(): ForgotPasswordUseCase {
     return new ForgotPasswordUseCase(this.authGateway);
+  }
+
+  createSetAuthTokenUseCase(): SetAuthTokenUseCase {
+    return new SetAuthTokenUseCase(this.crypto, this.cookieStorage);
   }
 
   // User use case factories

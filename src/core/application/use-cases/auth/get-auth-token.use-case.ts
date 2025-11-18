@@ -3,8 +3,8 @@ import { IUseCase } from '@core/domain/use-case.interface';
 
 export class GetAuthTokenUseCase implements IUseCase<null, string | null> {
   constructor(
-    private crypto: ICrypto,
-    private storage: ICookieStorage,
+    private readonly crypto: ICrypto,
+    private readonly storage: ICookieStorage,
   ) {}
 
   execute(): string | null {

@@ -18,6 +18,7 @@ import { Building2, Eye, EyeOff, ArrowRight, CheckCircle2, Users, Zap, Crown, Ch
 import { useNavigate } from 'react-router';
 import { container } from '@/core/infra/container';
 import { SignUpUseCase } from '@/core/application/use-cases/auth/sign-up.use-case';
+import { HttpStatusCode } from '@core/domain';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -37,7 +38,6 @@ export default function SignupScreen() {
     fullName: '',
     cpf: '',
     birthDate: '',
-    phoneCandidate: '',
   });
 
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -121,12 +121,8 @@ export default function SignupScreen() {
       cnpj: formData.cnpj,
       cpf: formData.cpf,
       phone: formData.phone,
-      // fullName: formData.fullName,
-      // cpf: formData.cpf,
-      // phoneCandidate: formData.phoneCandidate,
     });
-    console.log(response);
-    if (response.status === 201) {
+    if (response.status === HttpStatusCode.created) {
       navigate(paths.SIGN_IN);
     }
   }
@@ -320,8 +316,8 @@ export default function SignupScreen() {
                             <Input
                               id="phoneCandidate"
                               placeholder="(11) 98765-4321"
-                              value={formData.phoneCandidate}
-                              onChange={e => updateFormData('phoneCandidate', e.target.value)}
+                              value={formData.phone}
+                              onChange={e => updateFormData('phone', e.target.value)}
                             />
                           </div>
                         </div>
