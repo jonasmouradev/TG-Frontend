@@ -33,7 +33,7 @@ export class AuthenticateUserUseCase implements IUseCase<AuthenticateUserUseCase
     }
 
     return {
-      accessToken: response.data.token,
+      accessToken: response.data.accessToken,
       user: response.data.user,
       expiresIn: response.data.expiresIn,
     };

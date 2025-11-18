@@ -23,9 +23,6 @@ export default function ProfilePage() {
             <strong>Email:</strong> {user.email}
           </p>
           <p>
-            <strong>Status:</strong> {user.status}
-          </p>
-          <p>
             <strong>Tipo:</strong> {user.type}
           </p>
         </div>

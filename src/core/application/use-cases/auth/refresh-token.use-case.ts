@@ -16,7 +16,7 @@ export interface RefreshTokenUseCaseOutput {
 }
 
 export class RefreshTokenUseCase implements IUseCase<RefreshTokenUseCaseInput, RefreshTokenUseCaseOutput> {
-  constructor(private authGateway: AuthGateway) {}
+  constructor(private readonly authGateway: AuthGateway) {}
 
   async execute(): Promise<RefreshTokenUseCaseOutput> {
     const response = await this.authGateway.refreshToken();
@@ -26,7 +26,7 @@ export class RefreshTokenUseCase implements IUseCase<RefreshTokenUseCaseInput, R
     }
 
     return {
-      token: response.data.token,
+      token: response.data.accessToken,
       user: response.data.user,
       expiresIn: response.data.expiresIn,
     };
