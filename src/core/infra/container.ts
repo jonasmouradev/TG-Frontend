@@ -133,172 +133,172 @@ export class DIContainer {
   }
 
   // Auth use case factories
-  createAuthenticateUserUseCase(): AuthenticateUserUseCase {
+  authenticateUserUseCase(): AuthenticateUserUseCase {
     return new AuthenticateUserUseCase(this.authGateway);
   }
 
-  createSignInUseCase(): SignInUseCase {
+  signInUseCase(): SignInUseCase {
     return new SignInUseCase(this.crypto, this.cookieStorage);
   }
 
-  createSignUpUseCase(): SignUpUseCase {
+  signUpUseCase(): SignUpUseCase {
     return new SignUpUseCase(this.authGateway);
   }
 
-  createResetPasswordUseCase(): ResetPasswordUseCase {
+  resetPasswordUseCase(): ResetPasswordUseCase {
     return new ResetPasswordUseCase(this.authGateway);
   }
 
-  createRefreshTokenUseCase(): RefreshTokenUseCase {
+  refreshTokenUseCase(): RefreshTokenUseCase {
     return new RefreshTokenUseCase(this.authGateway);
   }
 
-  createForgotPasswordUseCase(): ForgotPasswordUseCase {
+  forgotPasswordUseCase(): ForgotPasswordUseCase {
     return new ForgotPasswordUseCase(this.authGateway);
   }
 
-  createSetAuthTokenUseCase(): SetAuthTokenUseCase {
+  setAuthTokenUseCase(): SetAuthTokenUseCase {
     return new SetAuthTokenUseCase(this.crypto, this.cookieStorage);
   }
 
   // User use case factories
-  createGetCurrentUserUseCase(): GetCurrentUserUseCase {
+  getCurrentUserUseCase(): GetCurrentUserUseCase {
     return new GetCurrentUserUseCase(this.userGateway);
   }
 
-  createGetUserUseCase(): GetUserUseCase {
+  getUserUseCase(): GetUserUseCase {
     return new GetUserUseCase(this.userGateway);
   }
 
-  createUpdateUserUseCase(): UpdateUserUseCase {
+  updateUserUseCase(): UpdateUserUseCase {
     return new UpdateUserUseCase(this.userGateway);
   }
 
-  createUpdateUserEmailUseCase(): UpdateUserEmailUseCase {
+  updateUserEmailUseCase(): UpdateUserEmailUseCase {
     return new UpdateUserEmailUseCase(this.userGateway);
   }
 
   // Vacancy use case factories
-  createGetVacancyUseCase(): GetVacancyUseCase {
+  getVacancyUseCase(): GetVacancyUseCase {
     return new GetVacancyUseCase(this.vacancyGateway);
   }
 
-  createUpdateVacancyUseCase(): UpdateVacancyUseCase {
+  updateVacancyUseCase(): UpdateVacancyUseCase {
     return new UpdateVacancyUseCase(this.vacancyGateway);
   }
 
-  createDeleteVacancyUseCase(): DeleteVacancyUseCase {
+  deleteVacancyUseCase(): DeleteVacancyUseCase {
     return new DeleteVacancyUseCase(this.vacancyGateway);
   }
 
-  createPublishVacancyUseCase(): PublishVacancyUseCase {
+  publishVacancyUseCase(): PublishVacancyUseCase {
     return new PublishVacancyUseCase(this.vacancyGateway);
   }
 
-  createCreateVacancyUseCase(): CreateVacancyUseCase {
+  createVacancyUseCase(): CreateVacancyUseCase {
     return new CreateVacancyUseCase(this.vacancyGateway);
   }
 
   // Application use case factories
-  createGetApplicationsUseCase(): GetApplicationsUseCase {
+  getApplicationsUseCase(): GetApplicationsUseCase {
     return new GetApplicationsUseCase(this.applicationGateway);
   }
 
-  createCreateApplicationUseCase(): CreateApplicationUseCase {
+  createApplicationUseCase(): CreateApplicationUseCase {
     return new CreateApplicationUseCase(this.applicationGateway);
   }
 
-  createUpdateApplicationStatusUseCase(): UpdateApplicationStatusUseCase {
+  updateApplicationStatusUseCase(): UpdateApplicationStatusUseCase {
     return new UpdateApplicationStatusUseCase(this.applicationGateway);
   }
 
   // Company use case factories
-  createGetCompanyUseCase(): GetCompanyUseCase {
+  getCompanyUseCase(): GetCompanyUseCase {
     return new GetCompanyUseCase(this.companyGateway);
   }
 
-  createCreateCompanyUseCase(): CreateCompanyUseCase {
+  createCompanyUseCase(): CreateCompanyUseCase {
     return new CreateCompanyUseCase(this.companyGateway);
   }
 
-  createGetCompanyStatisticsUseCase(): GetCompanyStatisticsUseCase {
+  getCompanyStatisticsUseCase(): GetCompanyStatisticsUseCase {
     return new GetCompanyStatisticsUseCase(this.companyGateway);
   }
 
   // Dashboard use case factories
-  createGetDashboardStatsUseCase(): GetDashboardStatsUseCase {
+  getDashboardStatsUseCase(): GetDashboardStatsUseCase {
     return new GetDashboardStatsUseCase(this.dashboardGateway);
   }
 
-  createGetCompanyStatsUseCase(): GetCompanyStatsUseCase {
+  getCompanyStatsUseCase(): GetCompanyStatsUseCase {
     return new GetCompanyStatsUseCase(this.dashboardGateway);
   }
 
-  createGetRecentApplicationsUseCase(): GetRecentApplicationsUseCase {
+  getRecentApplicationsUseCase(): GetRecentApplicationsUseCase {
     return new GetRecentApplicationsUseCase(this.dashboardGateway);
   }
 
   // Activity use case factories
-  createGetRecentActivitiesUseCase(): GetRecentActivitiesUseCase {
+  getRecentActivitiesUseCase(): GetRecentActivitiesUseCase {
     return new GetRecentActivitiesUseCase(this.activityGateway);
   }
 
-  createGetRecruitmentProcessesUseCase(): GetRecruitmentProcessesUseCase {
+  getRecruitmentProcessesUseCase(): GetRecruitmentProcessesUseCase {
     return new GetRecruitmentProcessesUseCase(this.activityGateway);
   }
 
   // Template use case factories
-  createGetProcessTemplatesUseCase(): GetProcessTemplatesUseCase {
+  getProcessTemplatesUseCase(): GetProcessTemplatesUseCase {
     return new GetProcessTemplatesUseCase(this.templateGateway);
   }
 
-  createCreateProcessTemplateUseCase(): CreateProcessTemplateUseCase {
+  createProcessTemplateUseCase(): CreateProcessTemplateUseCase {
     return new CreateProcessTemplateUseCase(this.templateGateway);
   }
 
-  createGetDefaultTemplatesUseCase(): GetDefaultTemplatesUseCase {
+  getDefaultTemplatesUseCase(): GetDefaultTemplatesUseCase {
     return new GetDefaultTemplatesUseCase(this.templateGateway);
   }
 
   // Competence use case factories
-  createGetCompetencesUseCase(): GetCompetencesUseCase {
+  getCompetencesUseCase(): GetCompetencesUseCase {
     return new GetCompetencesUseCase(this.competenceGateway);
   }
 
-  createGetCompetenceByIdUseCase(): GetCompetenceByIdUseCase {
+  getCompetenceByIdUseCase(): GetCompetenceByIdUseCase {
     return new GetCompetenceByIdUseCase(this.competenceGateway);
   }
 
-  createCreateCompetenceUseCase(): CreateCompetenceUseCase {
+  createCompetenceUseCase(): CreateCompetenceUseCase {
     return new CreateCompetenceUseCase(this.competenceGateway);
   }
 
-  createUpdateCompetenceUseCase(): UpdateCompetenceUseCase {
+  updateCompetenceUseCase(): UpdateCompetenceUseCase {
     return new UpdateCompetenceUseCase(this.competenceGateway);
   }
 
-  createDeleteCompetenceUseCase(): DeleteCompetenceUseCase {
+  deleteCompetenceUseCase(): DeleteCompetenceUseCase {
     return new DeleteCompetenceUseCase(this.competenceGateway);
   }
 
   // Step use case factories
-  createGetStepsUseCase(): GetStepsUseCase {
+  getStepsUseCase(): GetStepsUseCase {
     return new GetStepsUseCase(this.stepGateway);
   }
 
-  createCreateStepUseCase(): CreateStepUseCase {
+  createStepUseCase(): CreateStepUseCase {
     return new CreateStepUseCase(this.stepGateway);
   }
 
-  createUpdateStepUseCase(): UpdateStepUseCase {
+  updateStepUseCase(): UpdateStepUseCase {
     return new UpdateStepUseCase(this.stepGateway);
   }
 
-  createDeleteStepUseCase(): DeleteStepUseCase {
+  deleteStepUseCase(): DeleteStepUseCase {
     return new DeleteStepUseCase(this.stepGateway);
   }
 
-  createReorderStepsUseCase(): ReorderStepsUseCase {
+  reorderStepsUseCase(): ReorderStepsUseCase {
     return new ReorderStepsUseCase(this.stepGateway);
   }
 }

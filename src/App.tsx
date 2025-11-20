@@ -5,6 +5,7 @@ import { UserContext } from '@shared/contexts/UserContext';
 import { Suspense, useState } from 'react';
 import { User } from './types/user';
 import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';
+import { Toaster } from '@shared/components';
 
 function App() {
   const [user] = useState<User>({
@@ -22,9 +23,10 @@ function App() {
   return (
     <Suspense fallback={<div className="flex items-center justify-center h-screen w-screen bg-white">Loading...</div>}>
       <ThemeProvider>
-        <UserContext.Provider value={user}>
+        <UserContext value={user}>
+          <Toaster />
           <RouterProvider router={router} />
-        </UserContext.Provider>
+        </UserContext>
       </ThemeProvider>
     </Suspense>
   );

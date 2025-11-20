@@ -32,8 +32,8 @@ const stats = [
 
 export default function LoginScreen() {
   const navigate = useNavigate();
-  const signInUseCase = container.createSignInUseCase();
-  const authenticateUserUseCase = container.createAuthenticateUserUseCase();
+  const signInUseCase = container.signInUseCase();
+  const authenticateUserUseCase = container.authenticateUserUseCase();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -239,7 +239,7 @@ export default function LoginScreen() {
                 <Button
                   variant="link"
                   className="p-0 h-auto font-semibold text-blue-600"
-                  onClick={() => navigate('/signup')}
+                  onClick={() => navigate(paths.SIGN_UP)}
                 >
                   Cadastre-se gratuitamente
                 </Button>
