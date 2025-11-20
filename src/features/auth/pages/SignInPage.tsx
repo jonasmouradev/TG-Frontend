@@ -145,8 +145,8 @@ export default function LoginScreen() {
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-4">
-              <form onSubmit={handleLogin}>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
                 {/* Account Type Selector */}
                 {/* <div className="grid grid-cols-2 gap-3 p-1 bg-gray-100 rounded-lg">
                   <Button variant="ghost" className="bg-white shadow-sm hover:bg-white border border-blue-200">

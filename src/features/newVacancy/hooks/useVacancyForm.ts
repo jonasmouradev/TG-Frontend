@@ -31,13 +31,12 @@ export const useVacancyForm = () => {
     questions: [],
     contract: ContractType.CLT,
     requirements: [],
-    remote: false,
     publicationDate: DateTime.now(),
     currency: Currency.R$,
   });
 
   const updateFormData = (updates: Partial<typeof formData>) => {
-    setFormData(prev => ({ ...prev, ...updates }));
+    setFormData((prev: VacancyFormData) => ({ ...prev, ...updates }));
   };
 
   const createVacancy = async () => {

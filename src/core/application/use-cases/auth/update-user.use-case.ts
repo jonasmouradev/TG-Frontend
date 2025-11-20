@@ -17,6 +17,7 @@ export class UpdateUserSessionUseCase implements IUseCase<User, void> {
       profile_id: user.profileId,
       type: user.type,
       username: user.username,
+      name: user.name,
     };
     const encodedUser = this.crypto.encode(JSON.stringify(userCookie));
     this.storage.set(COOKIES.USER, encodedUser, { expires: 7, domain: domainName });

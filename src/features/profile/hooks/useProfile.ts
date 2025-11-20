@@ -99,7 +99,7 @@ export const useProfile = () => {
       const result = await profileServices.updateUsername(id, username);
       // Update the user state with new data
       if (result) {
-        setUser(result as UserType);
+        setUser(result);
       }
       return result;
     } catch (error) {

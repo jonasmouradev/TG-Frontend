@@ -19,8 +19,8 @@ export interface CreateVacancyUseCaseInput {
   contract: ContractType;
   workMode: WorkModeType;
   responsibilities: string[];
-  publicationDate: DateTime;
-  expirationDate?: DateTime;
+  publicationDate?: DateTime | null;
+  expirationDate?: DateTime | null;
 }
 
 export interface CreateVacancyUseCaseOutput {
@@ -33,8 +33,8 @@ export class CreateVacancyUseCase implements IUseCase<CreateVacancyUseCaseInput,
   async execute(input: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
     const createVacancyDto: CreateVacancyDto = {
       ...input,
-      publicationDate: input.publicationDate.toSQLDate() ?? '',
-      expirationDate: input.expirationDate?.toSQLDate() ?? undefined,
+      publicationDate: input.publicationDate?.toSQLDate() ?? null,
+      expirationDate: input.expirationDate?.toSQLDate() ?? null,
     };
 
     const response = await this.vacancyGateway.create(createVacancyDto);

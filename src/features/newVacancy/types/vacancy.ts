@@ -7,7 +7,6 @@ export interface VacancyFormData {
   location: string;
   requirements: string[];
   questions: string[];
-  remote?: boolean;
   department?: string;
   type?: VacancyType;
   currency?: Currency;
@@ -16,7 +15,7 @@ export interface VacancyFormData {
   level?: ExperienceLevel;
   benefits?: string[];
   salaryRange?: { min: number; max: number };
-  publicationDate: DateTime;
+  publicationDate?: DateTime;
   expirationDate?: DateTime;
 }
 

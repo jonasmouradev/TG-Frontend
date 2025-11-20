@@ -15,6 +15,7 @@ export type UserProps = {
   id: string;
   type: UserType;
   username: string;
+  name: string;
   config: UserConfig;
 };
 
@@ -43,6 +44,10 @@ export class User {
 
   get username(): string {
     return this.props.username;
+  }
+
+  get name(): string {
+    return this.props.name;
   }
 
   get config() {

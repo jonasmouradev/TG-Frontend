@@ -8,7 +8,8 @@ describe('GetUserUseCase', () => {
     // Arrange
     const mockUser = new User({
       id: 'user-123',
-      username: 'John Doe',
+      username: 'johndoe',
+      name: 'John Doe',
       email: 'john@example.com',
       type: 'COMPANY',
       profile_id: 'profile-123',

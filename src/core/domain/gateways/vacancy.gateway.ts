@@ -27,8 +27,8 @@ type Create = {
   benefits?: string[];
   requirements: string[];
   responsibilities: string[];
-  publicationDate: string;
-  expirationDate?: string;
+  publicationDate: string | null;
+  expirationDate: string | null;
 };
 
 type Update = {
