@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { VacancyFormData } from '../types';
 import { container } from '@core/infra/container';
 import { CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput, PublishVacancyUseCaseOutput } from '@core/application';
+import { DateTime } from 'luxon';
+import { Currency } from '../types/vacancy';
+import { ExperienceLevel, VacancyType } from '@core/domain';
 
 const vacancyFormServices = {
   async createVacancy(data: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
@@ -19,26 +22,17 @@ export const useVacancyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<
-    VacancyFormData & {
-      department?: string;
-      contractType?: string;
-      location: string;
-      workMode?: string;
-      benefits?: string[];
-      salaryRange?: { min: number; max: number };
-    }
-  >({
+  const [formData, setFormData] = useState<VacancyFormData>({
     title: '',
     description: '',
-    requirements: [],
-    questions: [],
     department: '',
-    contractType: '',
     location: '',
     workMode: '',
-    benefits: [],
-    salaryRange: { min: 0, max: 0 },
+    questions: [],
+    requirements: [],
+    remote: false,
+    publicationDate: DateTime.now(),
+    currency: Currency.R$,
   });
 
   const updateFormData = (updates: Partial<typeof formData>) => {
@@ -55,9 +49,13 @@ export const useVacancyForm = () => {
         companyId: 'company-123',
         requirements: formData.requirements || [],
         responsibilities: [],
-        type: formData.contractType || 'full-time',
-        level: 'mid',
+        type: formData.contractType || VacancyType.FULL_TIME,
+        level: formData.level || ExperienceLevel.JUNIOR,
         remote: formData.workMode === 'remote',
+        salaryMax: formData.salaryRange?.max,
+        salaryMin: formData.salaryRange?.min,
+        publicationDate: formData.publicationDate,
+        expirationDate: formData.expirationDate,
       };
 
       const result = await vacancyFormServices.createVacancy(vacancyData);
@@ -94,11 +92,10 @@ export const useVacancyForm = () => {
       requirements: [],
       questions: [],
       department: '',
-      contractType: '',
       location: '',
       workMode: '',
       benefits: [],
-      salaryRange: { min: 0, max: 0 },
+      publicationDate: DateTime.now(),
     });
     setError(null);
   };
