@@ -1,17 +1,13 @@
 import { AuthGateway } from '@core/domain/gateways/auth.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
+import { IUser } from '@shared/types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface RefreshTokenUseCaseInput {}
 
 export interface RefreshTokenUseCaseOutput {
   token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    type: string;
-  };
+  user: IUser;
   expiresIn: string;
 }
 
