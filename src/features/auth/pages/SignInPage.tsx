@@ -56,7 +56,6 @@ export default function LoginScreen() {
           expiresIn: response.expiresIn,
         });
         toast.success('Login realizado com sucesso!');
-        await new Promise(resolve => setTimeout(resolve, 5000));
         navigate(paths.HOME);
       }
     } catch (error) {
