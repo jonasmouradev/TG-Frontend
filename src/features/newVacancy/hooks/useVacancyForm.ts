@@ -4,7 +4,7 @@ import { container } from '@core/infra/container';
 import { CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput, PublishVacancyUseCaseOutput } from '@core/application';
 import { DateTime } from 'luxon';
 import { Currency } from '../types/vacancy';
-import { ExperienceLevel, VacancyType } from '@core/domain';
+import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/domain';
 
 const vacancyFormServices = {
   async createVacancy(data: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
@@ -27,8 +27,9 @@ export const useVacancyForm = () => {
     description: '',
     department: '',
     location: '',
-    workMode: '',
+    workMode: WorkModeType.REMOTE,
     questions: [],
+    contract: ContractType.CLT,
     requirements: [],
     remote: false,
     publicationDate: DateTime.now(),
@@ -49,9 +50,11 @@ export const useVacancyForm = () => {
         companyId: 'company-123',
         requirements: formData.requirements || [],
         responsibilities: [],
-        type: formData.contractType || VacancyType.FULL_TIME,
+        contract: formData.contract || ContractType.CLT,
+        workMode: formData.workMode || WorkModeType.REMOTE,
+        type: formData.type || VacancyType.FULL_TIME,
         level: formData.level || ExperienceLevel.JUNIOR,
-        remote: formData.workMode === 'remote',
+        remote: formData.workMode === WorkModeType.REMOTE,
         salaryMax: formData.salaryRange?.max,
         salaryMin: formData.salaryRange?.min,
         publicationDate: formData.publicationDate,
@@ -93,7 +96,7 @@ export const useVacancyForm = () => {
       questions: [],
       department: '',
       location: '',
-      workMode: '',
+      contract: ContractType.CLT,
       benefits: [],
       publicationDate: DateTime.now(),
     });

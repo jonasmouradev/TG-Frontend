@@ -2,6 +2,7 @@ import { Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectV
 import { Briefcase } from 'lucide-react';
 import Section from '../Section';
 import { useVacancyForm } from '../../hooks';
+import { ContractType, WorkModeType } from '@core/domain';
 
 export default function BasicInfoSection() {
   const { formData, updateFormData } = useVacancyForm();
@@ -38,15 +39,19 @@ export default function BasicInfoSection() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="contract">Tipo de Contrato</Label>
-            <Select value={formData.contractType} onValueChange={value => updateFormData({ contractType: value })}>
+            <Select
+              value={formData.contract}
+              onValueChange={value => updateFormData({ contract: value as ContractType })}
+            >
               <SelectTrigger id="contract">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="clt">CLT</SelectItem>
-                <SelectItem value="pj">PJ</SelectItem>
-                <SelectItem value="intern">Estágio</SelectItem>
-                <SelectItem value="temp">Temporário</SelectItem>
+                <SelectItem value={ContractType.CLT}>CLT</SelectItem>
+                <SelectItem value={ContractType.PJ}>PJ</SelectItem>
+                <SelectItem value={ContractType.INTERN}>Estágio</SelectItem>
+                <SelectItem value={ContractType.TEMPORARY}>Temporário</SelectItem>
+                <SelectItem value={ContractType.FREELANCE}>Freelancer</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -63,14 +68,17 @@ export default function BasicInfoSection() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="workmode">Modelo de Trabalho</Label>
-            <Select value={formData.workMode} onValueChange={value => updateFormData({ workMode: value })}>
+            <Select
+              value={formData.workMode}
+              onValueChange={value => updateFormData({ workMode: value as WorkModeType })}
+            >
               <SelectTrigger id="workmode">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="remote">Remoto</SelectItem>
-                <SelectItem value="hybrid">Híbrido</SelectItem>
-                <SelectItem value="onsite">Presencial</SelectItem>
+                <SelectItem value={WorkModeType.REMOTE}>Remoto</SelectItem>
+                <SelectItem value={WorkModeType.HYBRID}>Híbrido</SelectItem>
+                <SelectItem value={WorkModeType.ONSITE}>Presencial</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -1,20 +1,21 @@
-import { ExperienceLevel, VacancyType } from '@core/domain';
+import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/domain';
 import { DateTime } from 'luxon';
 
 export interface VacancyFormData {
   title: string;
   description: string;
+  location: string;
   requirements: string[];
   questions: string[];
+  remote?: boolean;
   department?: string;
-  contractType?: VacancyType;
-  location: string;
-  workMode?: string;
+  type?: VacancyType;
+  currency?: Currency;
+  contract: ContractType;
+  workMode?: WorkModeType;
+  level?: ExperienceLevel;
   benefits?: string[];
   salaryRange?: { min: number; max: number };
-  currency?: Currency;
-  level?: ExperienceLevel;
-  remote?: boolean;
   publicationDate: DateTime;
   expirationDate?: DateTime;
 }

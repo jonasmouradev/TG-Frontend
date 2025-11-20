@@ -1,5 +1,5 @@
 import { VacancyGateway, CreateVacancyDto } from '@core/domain/gateways/vacancy.gateway';
-import { ExperienceLevel, Vacancy, VacancyType } from '@core/domain/entities';
+import { ContractType, ExperienceLevel, Vacancy, VacancyType, WorkModeType } from '@core/domain/entities';
 import { IUseCase } from '@core/domain/use-case.interface';
 import { DateTime } from 'luxon';
 
@@ -16,6 +16,8 @@ export interface CreateVacancyUseCaseInput {
   remote: boolean;
   benefits?: string[];
   requirements: string[];
+  contract: ContractType;
+  workMode: WorkModeType;
   responsibilities: string[];
   publicationDate: DateTime;
   expirationDate?: DateTime;

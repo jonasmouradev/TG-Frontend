@@ -11,6 +11,7 @@ import {
 } from '@shared/index';
 import { Award, Plus, X } from 'lucide-react';
 import Section from '../Section';
+import { ExperienceLevel } from '@core/domain';
 
 interface RequirementsSectionProps {
   readonly skills: string[];
@@ -61,10 +62,11 @@ export default function RequirementsSection({
               <SelectValue placeholder="Selecione o nível" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="entry">Júnior (0-2 anos)</SelectItem>
-              <SelectItem value="mid">Pleno (2-5 anos)</SelectItem>
-              <SelectItem value="senior">Sênior (5+ anos)</SelectItem>
-              <SelectItem value="lead">Especialista/Lead (8+ anos)</SelectItem>
+              <SelectItem value={ExperienceLevel.ENTRY}>Estagiário (0-1 ano)</SelectItem>
+              <SelectItem value={ExperienceLevel.JUNIOR}>Júnior (1-2 anos)</SelectItem>
+              <SelectItem value={ExperienceLevel.MID}>Pleno (2-5 anos)</SelectItem>
+              <SelectItem value={ExperienceLevel.SENIOR}>Sênior (5+ anos)</SelectItem>
+              <SelectItem value={ExperienceLevel.LEAD}>Especialista/Lead (8+ anos)</SelectItem>
             </SelectContent>
           </Select>
         </div>

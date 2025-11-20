@@ -27,6 +27,22 @@ export const VacancyStatus = {
 } as const;
 export type VacancyStatus = (typeof VacancyStatus)[keyof typeof VacancyStatus];
 
+export const ContractType = {
+  CLT: 'clt',
+  PJ: 'pj',
+  FREELANCE: 'freelance',
+  INTERN: 'intern',
+  TEMPORARY: 'temporary',
+} as const;
+export type ContractType = (typeof ContractType)[keyof typeof ContractType];
+
+export const WorkModeType = {
+  ONSITE: 'onsite',
+  REMOTE: 'remote',
+  HYBRID: 'hybrid',
+} as const;
+export type WorkModeType = (typeof WorkModeType)[keyof typeof WorkModeType];
+
 type VacancyProps = {
   id: string;
   title: string;

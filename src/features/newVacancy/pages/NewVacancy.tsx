@@ -11,12 +11,12 @@ import { useNewVacancy, useVacancyForm } from '../hooks';
 import { useEffect } from 'react';
 
 export default function NewVacancy() {
-  const { addSkill, removeSkill, skills, newSkill, setNewSkill } = useNewVacancy();
+  const newVacancy = useNewVacancy();
   const { updateFormData } = useVacancyForm();
 
   // Sync skills with form data
   useEffect(() => {
-    updateFormData({ requirements: skills });
+    updateFormData({ requirements: newVacancy.skills });
   }, []);
 
   return (
@@ -27,13 +27,7 @@ export default function NewVacancy() {
       </div>
       <BasicInfoSection />
       <DescriptionSection />
-      <RequirementsSection
-        skills={skills}
-        newSkill={newSkill}
-        setNewSkill={setNewSkill}
-        addSkill={addSkill}
-        removeSkill={removeSkill}
-      />
+      <RequirementsSection {...newVacancy} />
       <BenefitsSection />
       <ProcessSection processTemplates={processTemplates} />
       <ActionButtons />
