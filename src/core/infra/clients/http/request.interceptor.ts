@@ -1,5 +1,5 @@
 import { IHttpClient, ICookieStorage, ICrypto, IRequest } from '@core/domain';
-import { links } from '@shared/index';
+import { links, paths } from '@shared/index';
 import {
   GetAuthTokenUseCase,
   GetCompanyIdUseCase,
@@ -14,11 +14,11 @@ interface TokenResponse {
 }
 
 export class RequestInterceptor {
+  private readonly signOut: SignOutUseCase;
   private readonly getToken: GetAuthTokenUseCase;
+  private readonly setToken: SetAuthTokenUseCase;
   private readonly getCompanyId: GetCompanyIdUseCase;
   private readonly validateToken: ValidateTokenUseCase;
-  private readonly signOut: SignOutUseCase;
-  private readonly setToken: SetAuthTokenUseCase;
 
   constructor(crypto: ICrypto, storage: ICookieStorage) {
     this.signOut = new SignOutUseCase(storage);
@@ -32,6 +32,17 @@ export class RequestInterceptor {
     const hasRefreshToken = request?.url?.includes('refresh-token');
 
     if (hasRefreshToken) return request as T;
+
+    const publicPaths = [paths.SIGN_IN, paths.SIGN_UP];
+    const isPublicPage = publicPaths.some(path => globalThis.location.pathname.includes(path));
+
+    console.log('isPublicPage', isPublicPage);
+    console.log('currentPath', globalThis.location.pathname);
+    console.log('requestUrl', request.url);
+
+    if (isPublicPage) {
+      return request as T;
+    }
 
     let token = this.getToken.execute();
 

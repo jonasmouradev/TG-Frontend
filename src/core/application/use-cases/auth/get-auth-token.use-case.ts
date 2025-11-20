@@ -1,5 +1,6 @@
 import { ICrypto, ICookieStorage } from '@core/domain/ports';
 import { IUseCase } from '@core/domain/use-case.interface';
+import { COOKIES } from '@shared/utils';
 
 export class GetAuthTokenUseCase implements IUseCase<null, string | null> {
   constructor(
@@ -8,7 +9,7 @@ export class GetAuthTokenUseCase implements IUseCase<null, string | null> {
   ) {}
 
   execute(): string | null {
-    const encodedToken = this.storage.get('authToken');
+    const encodedToken = this.storage.get(COOKIES.AUTH);
 
     if (!encodedToken) {
       return null;

@@ -1,12 +1,12 @@
 import { ICrypto, ICookieStorage } from '@core/domain/ports';
-import { domainName } from '@shared/index';
+import { COOKIES, domainName } from '@shared/index';
 import { User, UserProps } from '@core/domain';
 import { IUseCase } from '@core/domain/use-case.interface';
 
 export class UpdateUserSessionUseCase implements IUseCase<User, void> {
   constructor(
-    private crypto: ICrypto,
-    private storage: ICookieStorage,
+    private readonly crypto: ICrypto,
+    private readonly storage: ICookieStorage,
   ) {}
 
   execute(user: User): void {
@@ -19,6 +19,6 @@ export class UpdateUserSessionUseCase implements IUseCase<User, void> {
       username: user.username,
     };
     const encodedUser = this.crypto.encode(JSON.stringify(userCookie));
-    this.storage.set('user', encodedUser, { expires: 7, domain: domainName });
+    this.storage.set(COOKIES.USER, encodedUser, { expires: 7, domain: domainName });
   }
 }

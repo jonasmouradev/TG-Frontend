@@ -6,8 +6,8 @@ interface ILinks {
 }
 
 export const links: ILinks = {
-  api: import.meta.env.VITE_APP_API_URL,
   web: import.meta.env.BASE_URL,
+  api: import.meta.env.VITE_API_URL,
   secret: import.meta.env.VITE_SECRET,
-  production: import.meta.env.VITE_APP_ENV === 'production',
-};
+  production: import.meta.env.VITE_ENV === 'production',
+} as const;

@@ -71,6 +71,7 @@ import {
   DeleteStepUseCase,
   ReorderStepsUseCase,
   SetAuthTokenUseCase,
+  SignInUseCase,
 } from '@core/application/use-cases';
 import {
   ApplicationGateway,
@@ -134,6 +135,10 @@ export class DIContainer {
   // Auth use case factories
   createAuthenticateUserUseCase(): AuthenticateUserUseCase {
     return new AuthenticateUserUseCase(this.authGateway);
+  }
+
+  createSignInUseCase(): SignInUseCase {
+    return new SignInUseCase(this.crypto, this.cookieStorage);
   }
 
   createSignUpUseCase(): SignUpUseCase {

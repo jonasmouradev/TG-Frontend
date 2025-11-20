@@ -1,5 +1,6 @@
 import { AuthGateway, SignInDto } from '@core/domain/gateways/auth.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
+import { IUser } from '@shared/types';
 
 export interface AuthenticateUserUseCaseInput {
   email: string;
@@ -8,12 +9,7 @@ export interface AuthenticateUserUseCaseInput {
 
 export interface AuthenticateUserUseCaseOutput {
   accessToken: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    type: string;
-  };
+  user: IUser;
   expiresIn: string;
 }
 

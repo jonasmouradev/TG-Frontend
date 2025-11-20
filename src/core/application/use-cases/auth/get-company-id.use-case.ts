@@ -1,14 +1,15 @@
 import { ICrypto, ICookieStorage } from '@core/domain/ports';
 import { IUseCase } from '@core/domain/use-case.interface';
+import { COOKIES } from '@shared/utils';
 
 export class GetCompanyIdUseCase implements IUseCase<null, string | null> {
   constructor(
-    private crypto: ICrypto,
-    private storage: ICookieStorage,
+    private readonly crypto: ICrypto,
+    private readonly storage: ICookieStorage,
   ) {}
 
   execute(): string | null {
-    const encodedUser = this.storage.get('user');
+    const encodedUser = this.storage.get(COOKIES.USER);
 
     if (!encodedUser) {
       return null;
@@ -18,7 +19,7 @@ export class GetCompanyIdUseCase implements IUseCase<null, string | null> {
       const user = JSON.parse(this.crypto.decode(encodedUser));
 
       if (user?.type === 'PERSON') {
-        return this.storage.get('companyId');
+        return this.storage.get(COOKIES.COMPANY_ID);
       }
 
       return user?.profile_id || null;

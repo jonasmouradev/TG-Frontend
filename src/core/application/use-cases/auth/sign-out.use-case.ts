@@ -1,16 +1,16 @@
 import { ICookieStorage } from '@core/domain/ports';
-import { domainName, links } from '@shared/index';
+import { COOKIES, domainName, paths } from '@shared/index';
 import { IUseCase } from '@core/domain/use-case.interface';
 
 export class SignOutUseCase implements IUseCase<void, void> {
-  constructor(private storage: ICookieStorage) {}
+  constructor(private readonly storage: ICookieStorage) {}
 
   execute(): void {
-    this.storage.remove('user', { domain: domainName });
-    this.storage.remove('authToken', { domain: domainName });
-    this.storage.remove('companyId', { domain: domainName });
-    this.storage.remove('expiresIn', { domain: domainName });
+    this.storage.remove(COOKIES.USER, { domain: domainName });
+    this.storage.remove(COOKIES.AUTH, { domain: domainName });
+    this.storage.remove(COOKIES.COMPANY_ID, { domain: domainName });
+    this.storage.remove(COOKIES.EXPIRES_IN, { domain: domainName });
 
-    globalThis.location.href = `${links.web}?signout=true`;
+    globalThis.location.href = paths.SIGN_IN;
   }
 }

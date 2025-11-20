@@ -17,39 +17,54 @@ import { useNavigate } from 'react-router';
 import { container } from '@/core/infra/container';
 import { toast } from 'sonner';
 
+const features = [
+  { icon: Briefcase, title: 'Gestão de Vagas', description: 'Crie e gerencie vagas facilmente' },
+  { icon: Users, title: 'Candidatos', description: 'Acompanhe todo o processo seletivo' },
+  { icon: TrendingUp, title: 'Análises', description: 'Relatórios e estatísticas em tempo real' },
+  { icon: Sparkles, title: 'Templates', description: 'Modelos pré-definidos para otimizar o processo' },
+];
+
+const stats = [
+  { value: '1', label: 'Empresas' },
+  { value: '0', label: 'Candidatos' },
+  { value: '100%', label: 'Satisfação' },
+];
+
 export default function LoginScreen() {
   const navigate = useNavigate();
+  const signInUseCase = container.createSignInUseCase();
+  const authenticateUserUseCase = container.createAuthenticateUserUseCase();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const features = [
-    { icon: Briefcase, title: 'Gestão de Vagas', description: 'Crie e gerencie vagas facilmente' },
-    { icon: Users, title: 'Candidatos', description: 'Acompanhe todo o processo seletivo' },
-    { icon: TrendingUp, title: 'Análises', description: 'Relatórios e estatísticas em tempo real' },
-    { icon: Sparkles, title: 'Templates', description: 'Modelos pré-definidos para otimizar o processo' },
-  ];
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setIsLoading(true);
 
-  const stats = [
-    { value: '1', label: 'Empresas' },
-    { value: '0', label: 'Candidatos' },
-    { value: '100%', label: 'Satisfação' },
-  ];
-
-  async function handleLogin() {
-    const response = await container.createAuthenticateUserUseCase().execute({
-      email,
-      password,
-    });
-    if (response) {
-      const setToken = container.createSetAuthTokenUseCase();
-      setToken.execute(response.accessToken);
-      toast.success('Login realizado com sucesso!');
-      navigate(paths.HOME);
-      return;
+    try {
+      const response = await authenticateUserUseCase.execute({
+        email,
+        password,
+      });
+      if (response) {
+        signInUseCase.execute({
+          user: response.user,
+          token: response.accessToken,
+          expiresIn: response.expiresIn,
+        });
+        toast.success('Login realizado com sucesso!');
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        navigate(paths.HOME);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Erro ao realizar login. Tente novamente.');
+    } finally {
+      setIsLoading(false);
     }
-    toast.error('Falha ao realizar login. Verifique suas credenciais.');
   }
 
   return (
@@ -132,86 +147,91 @@ export default function LoginScreen() {
             </CardHeader>
 
             <CardContent className="space-y-4">
-              {/* Account Type Selector */}
-              {/* <div className="grid grid-cols-2 gap-3 p-1 bg-gray-100 rounded-lg">
-                <Button variant="ghost" className="bg-white shadow-sm hover:bg-white border border-blue-200">
-                  <Building2 className="w-4 h-4 mr-2" />
-                  Empresa
-                </Button>
-                <Button variant="ghost" className="hover:bg-white/50">
-                  <Users className="w-4 h-4 mr-2" />
-                  Candidato
-                </Button>
-              </div> */}
+              <form onSubmit={handleLogin}>
+                {/* Account Type Selector */}
+                {/* <div className="grid grid-cols-2 gap-3 p-1 bg-gray-100 rounded-lg">
+                  <Button variant="ghost" className="bg-white shadow-sm hover:bg-white border border-blue-200">
+                    <Building2 className="w-4 h-4 mr-2" />
+                    Empresa
+                  </Button>
+                  <Button variant="ghost" className="hover:bg-white/50">
+                    <Users className="w-4 h-4 mr-2" />
+                    Candidato
+                  </Button>
+                </div> */}
 
-              {/* Email Field */}
-              <div className="space-y-2">
-                <Label htmlFor="email">E-mail</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="seu@email.com"
-                    className="pl-10"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                  />
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="email">E-mail</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="seu@email.com"
+                      className="pl-10"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* Password Field */}
-              <div className="space-y-2">
-                <Label htmlFor="password">Senha</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    className="pl-10 pr-10"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+                {/* Password Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="password">Senha</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="••••••••"
+                      className="pl-10 pr-10"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="remember"
-                    checked={rememberMe}
-                    onCheckedChange={checked => setRememberMe(checked as boolean)}
-                  />
-                  <label
-                    htmlFor="remember"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    Lembrar-me
-                  </label>
+                {/* Remember Me & Forgot Password */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="remember"
+                      checked={rememberMe}
+                      onCheckedChange={checked => setRememberMe(checked as boolean)}
+                    />
+                    <label
+                      htmlFor="remember"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      Lembrar-me
+                    </label>
+                  </div>
+                  <Button variant="link" className="text-sm p-0 h-auto" type="button">
+                    Esqueceu a senha?
+                  </Button>
                 </div>
-                <Button variant="link" className="text-sm p-0 h-auto">
-                  Esqueceu a senha?
+
+                {/* Login Button */}
+                <Button
+                  type="submit"
+                  className="w-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all"
+                  size="lg"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Entrando...' : 'Entrar'}
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-              </div>
-
-              {/* Login Button */}
-              <Button
-                className="w-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all"
-                size="lg"
-                onClick={handleLogin}
-              >
-                Entrar
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+              </form>
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">

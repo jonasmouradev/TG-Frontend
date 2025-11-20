@@ -32,3 +32,10 @@ export const emptyPaginatedList: PaginatedList<unknown> = {
     lastPage: 1,
   },
 } as const;
+
+export const COOKIES = {
+  AUTH: 'authToken',
+  COMPANY_ID: 'companyId',
+  EXPIRES_IN: 'expiresIn',
+  USER: 'user',
+} as const;

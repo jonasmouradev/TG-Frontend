@@ -1,3 +1,4 @@
+import { IUser } from '@shared/types';
 import { PromiseResponse } from '../ports/http-client.port';
 
 type SignInDto = {
@@ -18,12 +19,7 @@ type SignUpDto = {
 
 type AuthResponse = {
   accessToken: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    type: string;
-  };
+  user: IUser;
   expiresIn: string;
 };
 
