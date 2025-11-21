@@ -1,10 +1,10 @@
 import { Label, Textarea } from '@shared/index';
 import { FileText } from 'lucide-react';
 import Section from '../Section';
-import { useVacancyForm } from '../../hooks';
+import { useVacancyFormContext } from '../../contexts/VacancyFormContext';
 
 export default function DescriptionSection() {
-  const { formData, updateFormData } = useVacancyForm();
+  const { register, errors } = useVacancyFormContext();
 
   return (
     <Section id="description" title="Descrição da Vaga" icon={FileText}>
@@ -16,9 +16,9 @@ export default function DescriptionSection() {
             rows={8}
             placeholder="Descreva as responsabilidades, desafios e o que torna esta posição especial..."
             className="resize-none"
-            value={formData.description}
-            onChange={e => updateFormData({ description: e.target.value })}
+            {...register('description')}
           />
+          {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
           <p className="text-sm text-gray-500">
             💡 Dica: Seja específico sobre o dia a dia e os projetos que o candidato irá trabalhar
           </p>

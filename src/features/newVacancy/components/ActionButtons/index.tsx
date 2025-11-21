@@ -1,19 +1,16 @@
 import { Button } from '@shared/index';
 import { CheckCircle2, FileText, Loader2 } from 'lucide-react';
-import { useVacancyForm, useNewVacancy } from '../../hooks';
+import { useNewVacancy } from '../../hooks';
+import { useVacancyFormContext } from '../../contexts/VacancyFormContext';
 import { toast } from 'sonner';
 
 export default function ActionButtons() {
-  const { createVacancy, publishVacancy, isLoading, formData } = useVacancyForm();
+  const { createVacancy, publishVacancy, isLoading, handleSubmit, isValid } = useVacancyFormContext();
   const { stages } = useNewVacancy();
 
   const validateForm = () => {
-    if (!formData.title.trim()) {
-      toast.error('Por favor, preencha o título da vaga');
-      return false;
-    }
-    if (!formData.description.trim()) {
-      toast.error('Por favor, preencha a descrição da vaga');
+    if (!isValid) {
+      toast.error('Por favor, preencha todos os campos obrigatórios corretamente');
       return false;
     }
     if (stages.length === 0) {
@@ -33,19 +30,22 @@ export default function ActionButtons() {
     }
   };
 
-  const handlePublishVacancy = async () => {
+  const handlePublishVacancy = handleSubmit(async () => {
     if (!validateForm()) {
       return;
     }
 
     try {
-      await publishVacancy('123');
-      toast.success('Vaga publicada com sucesso!');
+      const result = await createVacancy();
+      if (result?.vacancy?.id) {
+        await publishVacancy(result.vacancy.id);
+        toast.success('Vaga publicada com sucesso!');
+      }
     } catch (err) {
       console.error('Error publishing vacancy:', err);
       toast.error('Erro ao publicar vaga');
     }
-  };
+  });
 
   return (
     <div className="flex gap-3 mt-8 sticky bottom-6 bg-white p-4 rounded-lg shadow-lg border">

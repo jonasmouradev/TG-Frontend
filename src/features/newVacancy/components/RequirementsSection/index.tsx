@@ -12,6 +12,8 @@ import {
 import { Award, Plus, X } from 'lucide-react';
 import Section from '../Section';
 import { ExperienceLevel } from '@core/domain';
+import { useVacancyFormContext } from '../../contexts/VacancyFormContext';
+import { useState } from 'react';
 
 interface RequirementsSectionProps {
   readonly skills: string[];
@@ -21,13 +23,30 @@ interface RequirementsSectionProps {
   readonly removeSkill: (skill: string) => void;
 }
 
-export default function RequirementsSection({
-  skills,
-  newSkill,
-  setNewSkill,
-  addSkill,
-  removeSkill,
-}: RequirementsSectionProps) {
+export default function RequirementsSection({ skills, setNewSkill, addSkill, removeSkill }: RequirementsSectionProps) {
+  const { formData, updateFormData, errors } = useVacancyFormContext();
+  const [localSkill, setLocalSkill] = useState('');
+
+  const handleAddSkill = () => {
+    if (localSkill.trim() && !formData.requirements.includes(localSkill.trim())) {
+      updateFormData({ requirements: [...formData.requirements, localSkill.trim()] });
+      setLocalSkill('');
+    }
+    // Também adiciona ao estado local do useNewVacancy
+    if (localSkill.trim()) {
+      setNewSkill(localSkill);
+      addSkill();
+      setLocalSkill('');
+    }
+  };
+
+  const handleRemoveSkill = (skill: string) => {
+    updateFormData({ requirements: formData.requirements.filter(s => s !== skill) });
+    removeSkill(skill);
+  };
+
+  const displaySkills = [...new Set([...skills, ...formData.requirements])];
+
   return (
     <Section id="requirements" title="Requisitos e Qualificações" icon={Award}>
       <div className="space-y-4">
@@ -36,28 +55,37 @@ export default function RequirementsSection({
           <div className="flex gap-2">
             <Input
               placeholder="Digite uma habilidade e pressione Enter"
-              value={newSkill}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewSkill(e.target.value)}
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && e.preventDefault()}
+              value={localSkill}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocalSkill(e.target.value)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddSkill();
+                }
+              }}
             />
-            <Button type="button" size="icon" onClick={addSkill}>
+            <Button type="button" size="icon" onClick={handleAddSkill}>
               <Plus className="w-4 h-4" />
             </Button>
           </div>
+          {errors.requirements && <p className="text-sm text-red-500">{errors.requirements.message}</p>}
         </div>
-        {skills.length > 0 && (
+        {displaySkills.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {skills.map(skill => (
+            {displaySkills.map(skill => (
               <Badge key={skill} variant="outline" className="text-whit px-3 py-1.5 text-sm">
                 {skill}
-                <X className="w-3 h-3 ml-2 cursor-pointer hover:text-red-600" onClick={() => removeSkill(skill)} />
+                <X
+                  className="w-3 h-3 ml-2 cursor-pointer hover:text-red-600"
+                  onClick={() => handleRemoveSkill(skill)}
+                />
               </Badge>
             ))}
           </div>
         )}
         <div className="space-y-2">
           <Label htmlFor="experience">Experiência Necessária</Label>
-          <Select>
+          <Select value={formData.level} onValueChange={value => updateFormData({ level: value as ExperienceLevel })}>
             <SelectTrigger id="experience">
               <SelectValue placeholder="Selecione o nível" />
             </SelectTrigger>

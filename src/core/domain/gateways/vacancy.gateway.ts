@@ -23,12 +23,11 @@ type Create = {
   currency?: string;
   type: VacancyType;
   level: ExperienceLevel;
-  remote: boolean;
   benefits?: string[];
   requirements: string[];
   responsibilities: string[];
-  publicationDate: string | null;
-  expirationDate: string | null;
+  publicationDate: string | '';
+  expirationDate: string | '';
 };
 
 type Update = {

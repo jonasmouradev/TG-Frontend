@@ -13,14 +13,13 @@ export interface CreateVacancyUseCaseInput {
   currency?: string;
   type: VacancyType;
   level: ExperienceLevel;
-  remote: boolean;
   benefits?: string[];
   requirements: string[];
   contract: ContractType;
   workMode: WorkModeType;
   responsibilities: string[];
-  publicationDate?: DateTime | null;
-  expirationDate?: DateTime | null;
+  publicationDate: DateTime | string;
+  expirationDate: DateTime | string;
 }
 
 export interface CreateVacancyUseCaseOutput {
@@ -33,8 +32,8 @@ export class CreateVacancyUseCase implements IUseCase<CreateVacancyUseCaseInput,
   async execute(input: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
     const createVacancyDto: CreateVacancyDto = {
       ...input,
-      publicationDate: input.publicationDate?.toSQLDate() ?? null,
-      expirationDate: input.expirationDate?.toSQLDate() ?? null,
+      publicationDate: input.publicationDate?.toString() ?? DateTime.now().toISODate(),
+      expirationDate: input.expirationDate?.toString() ?? DateTime.now().plus({ days: 10 }).toISODate(),
     };
 
     const response = await this.vacancyGateway.create(createVacancyDto);

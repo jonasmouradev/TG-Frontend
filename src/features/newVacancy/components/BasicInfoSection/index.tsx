@@ -1,11 +1,11 @@
 import { Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/index';
 import { Briefcase } from 'lucide-react';
 import Section from '../Section';
-import { useVacancyForm } from '../../hooks';
+import { useVacancyFormContext } from '../../contexts/VacancyFormContext';
 import { ContractType, WorkModeType } from '@core/domain';
 
 export default function BasicInfoSection() {
-  const { formData, updateFormData } = useVacancyForm();
+  const { register, formData, updateFormData, errors } = useVacancyFormContext();
 
   return (
     <Section id="basic" title="Informações Básicas" icon={Briefcase}>
@@ -16,9 +16,9 @@ export default function BasicInfoSection() {
             id="title"
             placeholder="Ex: Desenvolvedor Front-end Sênior"
             className="text-lg font-medium"
-            value={formData.title}
-            onChange={e => updateFormData({ title: e.target.value })}
+            {...register('title')}
           />
+          {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -36,6 +36,7 @@ export default function BasicInfoSection() {
                 <SelectItem value="finance">Financeiro</SelectItem>
               </SelectContent>
             </Select>
+            {errors.department && <p className="text-sm text-red-500">{errors.department.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="contract">Tipo de Contrato</Label>
@@ -54,17 +55,14 @@ export default function BasicInfoSection() {
                 <SelectItem value={ContractType.FREELANCE}>Freelancer</SelectItem>
               </SelectContent>
             </Select>
+            {errors.contract && <p className="text-sm text-red-500">{errors.contract.message}</p>}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="location">Localização</Label>
-            <Input
-              id="location"
-              placeholder="Ex: São Paulo, SP"
-              value={formData.location}
-              onChange={e => updateFormData({ location: e.target.value })}
-            />
+            <Input id="location" placeholder="Ex: São Paulo, SP" {...register('location')} />
+            {errors.location && <p className="text-sm text-red-500">{errors.location.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="workmode">Modelo de Trabalho</Label>
@@ -81,6 +79,7 @@ export default function BasicInfoSection() {
                 <SelectItem value={WorkModeType.ONSITE}>Presencial</SelectItem>
               </SelectContent>
             </Select>
+            {errors.workMode && <p className="text-sm text-red-500">{errors.workMode.message}</p>}
           </div>
         </div>
       </div>

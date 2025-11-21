@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { VacancyFormData } from '../types';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { vacancyFormSchema, VacancyFormSchema } from '../schemas';
 import { container } from '@core/infra/container';
 import { CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput, PublishVacancyUseCaseOutput } from '@core/application';
 import { DateTime } from 'luxon';
@@ -19,24 +21,43 @@ const vacancyFormServices = {
 };
 
 export const useVacancyForm = () => {
+  const getCompanyId = container.getCompanyIdUseCase();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<VacancyFormData>({
-    title: '',
-    description: '',
-    department: '',
-    location: '',
-    workMode: WorkModeType.REMOTE,
-    questions: [],
-    contract: ContractType.CLT,
-    requirements: [],
-    publicationDate: DateTime.now(),
-    currency: Currency.R$,
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    getValues,
+    reset,
+    formState: { errors, isValid, isDirty },
+  } = useForm<VacancyFormSchema>({
+    resolver: zodResolver(vacancyFormSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      department: '',
+      location: '',
+      workMode: WorkModeType.REMOTE,
+      questions: [],
+      contract: ContractType.CLT,
+      requirements: [],
+      benefits: [],
+      salaryRange: { min: 0, max: 0 },
+      currency: Currency.R$,
+    },
+    mode: 'onChange',
   });
 
-  const updateFormData = (updates: Partial<typeof formData>) => {
-    setFormData((prev: VacancyFormData) => ({ ...prev, ...updates }));
+  const formData = watch();
+
+  const updateFormData = (updates: Partial<VacancyFormSchema>) => {
+    Object.entries(updates).forEach(([key, value]) => {
+      setValue(key as keyof VacancyFormSchema, value, { shouldValidate: true, shouldDirty: true });
+    });
   };
 
   const createVacancy = async () => {
@@ -44,20 +65,24 @@ export const useVacancyForm = () => {
     setError(null);
 
     try {
+      const values = getValues();
       const vacancyData: CreateVacancyUseCaseInput = {
-        ...formData,
-        companyId: 'company-123',
-        requirements: formData.requirements || [],
+        companyId: getCompanyId.execute() || '',
+        requirements: values.requirements || [],
         responsibilities: [],
-        contract: formData.contract || ContractType.CLT,
-        workMode: formData.workMode || WorkModeType.REMOTE,
-        type: formData.type || VacancyType.FULL_TIME,
-        level: formData.level || ExperienceLevel.JUNIOR,
-        remote: formData.workMode === WorkModeType.REMOTE,
-        salaryMax: formData.salaryRange?.max,
-        salaryMin: formData.salaryRange?.min,
-        publicationDate: formData.publicationDate,
-        expirationDate: formData.expirationDate,
+        contract: values.contract || ContractType.CLT,
+        workMode: values.workMode || WorkModeType.REMOTE,
+        type: values.type || VacancyType.FULL_TIME,
+        level: values.level || ExperienceLevel.JUNIOR,
+        salaryMax: values.salaryRange?.max,
+        salaryMin: values.salaryRange?.min,
+        publicationDate: DateTime.now().toISODate(),
+        expirationDate: DateTime.now().plus({ days: 30 }).toISODate(),
+        currency: values.currency || Currency.R$,
+        title: values.title,
+        description: values.description,
+        location: values.location,
+        benefits: values.benefits || [],
       };
 
       const result = await vacancyFormServices.createVacancy(vacancyData);
@@ -88,7 +113,7 @@ export const useVacancyForm = () => {
   };
 
   const resetForm = () => {
-    setFormData({
+    reset({
       title: '',
       description: '',
       requirements: [],
@@ -97,16 +122,25 @@ export const useVacancyForm = () => {
       location: '',
       contract: ContractType.CLT,
       benefits: [],
-      publicationDate: DateTime.now(),
+      salaryRange: { min: 0, max: 0 },
     });
     setError(null);
   };
 
   return {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    getValues,
     formData,
     updateFormData,
     isLoading,
     error,
+    errors,
+    isValid,
+    isDirty,
     createVacancy,
     publishVacancy,
     resetForm,

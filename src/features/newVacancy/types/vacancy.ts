@@ -14,7 +14,7 @@ export interface VacancyFormData {
   workMode?: WorkModeType;
   level?: ExperienceLevel;
   benefits?: string[];
-  salaryRange?: { min: number; max: number };
+  salaryRange: { min: number; max: number };
   publicationDate?: DateTime;
   expirationDate?: DateTime;
 }

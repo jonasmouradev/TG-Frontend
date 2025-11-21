@@ -1,2 +1,8 @@
-export { Step1Schema, Step2Schema, Step3Schema, FullJobSchema } from './vacancySchemas';
-export type { FullJobType } from './vacancySchemas';
+export {
+  vacancyFormSchema,
+  basicInfoSchema,
+  descriptionSchema,
+  requirementsSchema,
+  benefitsSchema,
+} from './vacancySchemas';
+export type { VacancyFormSchema } from './vacancySchemas';
