@@ -36,10 +36,6 @@ export class RequestInterceptor {
     const publicPaths = [paths.SIGN_IN, paths.SIGN_UP];
     const isPublicPage = publicPaths.some(path => globalThis.location.pathname.includes(path));
 
-    console.log('isPublicPage', isPublicPage);
-    console.log('currentPath', globalThis.location.pathname);
-    console.log('requestUrl', request.url);
-
     if (isPublicPage) {
       return request as T;
     }

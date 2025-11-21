@@ -25,8 +25,8 @@ export class SignInUseCase implements IUseCase<SignInUseCaseInput, void> {
     const encodedExpiresIn = this.crypto.encode(input.expiresIn.toString());
     this.storage.set(COOKIES.EXPIRES_IN, encodedExpiresIn, { expires: 7, domain: domainName });
 
-    if (input.companyId) {
-      this.storage.set(COOKIES.COMPANY_ID, input.companyId, { expires: 7, domain: domainName });
+    if (input.user.type === 'COMPANY') {
+      this.storage.set(COOKIES.COMPANY_ID, input.user.profileId, { expires: 7, domain: domainName });
     }
   }
 }

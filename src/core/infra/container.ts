@@ -72,6 +72,7 @@ import {
   ReorderStepsUseCase,
   SetAuthTokenUseCase,
   SignInUseCase,
+  SetCompanyIdUseCase,
 } from '@core/application/use-cases';
 import {
   ApplicationGateway,
@@ -135,6 +136,10 @@ export class DIContainer {
   // Auth use case factories
   authenticateUserUseCase(): AuthenticateUserUseCase {
     return new AuthenticateUserUseCase(this.authGateway);
+  }
+
+  setCompanyIdUseCase(): SetCompanyIdUseCase {
+    return new SetCompanyIdUseCase(this.cookieStorage);
   }
 
   signInUseCase(): SignInUseCase {

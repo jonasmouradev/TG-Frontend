@@ -22,7 +22,7 @@ export class GetCompanyIdUseCase implements IUseCase<null, string | null> {
         return this.storage.get(COOKIES.COMPANY_ID);
       }
 
-      return user?.profile_id || null;
+      return user?.profileId || null;
     } catch {
       return null;
     }

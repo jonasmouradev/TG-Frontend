@@ -39,7 +39,7 @@ export interface IUser {
     default_timezone: string;
     master: boolean;
   };
-  profile_id: string;
+  profileId: string;
   id: string;
   type: 'COMPANY' | 'PERSON';
   username: string;
