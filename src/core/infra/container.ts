@@ -73,6 +73,7 @@ import {
   SetAuthTokenUseCase,
   SignInUseCase,
   SetCompanyIdUseCase,
+  GetCompanyIdUseCase,
 } from '@core/application/use-cases';
 import {
   ApplicationGateway,
@@ -164,6 +165,10 @@ export class DIContainer {
 
   setAuthTokenUseCase(): SetAuthTokenUseCase {
     return new SetAuthTokenUseCase(this.crypto, this.cookieStorage);
+  }
+
+  getCompanyIdUseCase(): GetCompanyIdUseCase {
+    return new GetCompanyIdUseCase(this.crypto, this.cookieStorage);
   }
 
   // User use case factories
