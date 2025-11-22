@@ -138,192 +138,192 @@ export class DIContainer {
   }
 
   // Auth use case factories
-  authenticateUserUseCase(): AuthenticateUserUseCase {
+  authenticateUser(): AuthenticateUserUseCase {
     return new AuthenticateUserUseCase(this.authGateway);
   }
 
-  setCompanyIdUseCase(): SetCompanyIdUseCase {
+  setCompanyId(): SetCompanyIdUseCase {
     return new SetCompanyIdUseCase(this.cookieStorage);
   }
 
-  signInUseCase(): SignInUseCase {
+  signIn(): SignInUseCase {
     return new SignInUseCase(this.crypto, this.cookieStorage);
   }
 
-  signUpUseCase(): SignUpUseCase {
+  signUp(): SignUpUseCase {
     return new SignUpUseCase(this.authGateway);
   }
 
-  resetPasswordUseCase(): ResetPasswordUseCase {
+  resetPassword(): ResetPasswordUseCase {
     return new ResetPasswordUseCase(this.authGateway);
   }
 
-  refreshTokenUseCase(): RefreshTokenUseCase {
+  refreshToken(): RefreshTokenUseCase {
     return new RefreshTokenUseCase(this.authGateway);
   }
 
-  forgotPasswordUseCase(): ForgotPasswordUseCase {
+  forgotPassword(): ForgotPasswordUseCase {
     return new ForgotPasswordUseCase(this.authGateway);
   }
 
-  setAuthTokenUseCase(): SetAuthTokenUseCase {
+  setAuthToken(): SetAuthTokenUseCase {
     return new SetAuthTokenUseCase(this.crypto, this.cookieStorage);
   }
 
-  getCompanyIdUseCase(): GetCompanyIdUseCase {
+  getCompanyId(): GetCompanyIdUseCase {
     return new GetCompanyIdUseCase(this.crypto, this.cookieStorage);
   }
 
-  getAuthTokenUseCase(): GetAuthTokenUseCase {
+  getAuthToken(): GetAuthTokenUseCase {
     return new GetAuthTokenUseCase(this.crypto, this.cookieStorage);
   }
 
   // User use case factories
-  getCurrentUserUseCase(): GetCurrentUserUseCase {
+  getCurrentUser(): GetCurrentUserUseCase {
     return new GetCurrentUserUseCase(this.crypto, this.cookieStorage);
   }
 
-  getUserUseCase(): GetUserUseCase {
+  getUser(): GetUserUseCase {
     return new GetUserUseCase(this.userGateway);
   }
 
-  getMeUseCase(): GetMeUseCase {
+  getMe(): GetMeUseCase {
     return new GetMeUseCase(this.userGateway);
   }
 
-  updateUserUseCase(): UpdateUserUseCase {
+  updateUser(): UpdateUserUseCase {
     return new UpdateUserUseCase(this.userGateway);
   }
 
-  updateUserEmailUseCase(): UpdateUserEmailUseCase {
+  updateUserEmail(): UpdateUserEmailUseCase {
     return new UpdateUserEmailUseCase(this.userGateway);
   }
 
   // Vacancy use case factories
-  getVacancyUseCase(): GetVacancyUseCase {
+  getVacancy(): GetVacancyUseCase {
     return new GetVacancyUseCase(this.vacancyGateway);
   }
 
-  getVacancyPublishedUseCase(): GetPublishedVacancyUseCase {
+  getVacancyPublished(): GetPublishedVacancyUseCase {
     return new GetPublishedVacancyUseCase(this.vacancyGateway);
   }
 
-  updateVacancyUseCase(): UpdateVacancyUseCase {
+  updateVacancy(): UpdateVacancyUseCase {
     return new UpdateVacancyUseCase(this.vacancyGateway);
   }
 
-  deleteVacancyUseCase(): DeleteVacancyUseCase {
+  deleteVacancy(): DeleteVacancyUseCase {
     return new DeleteVacancyUseCase(this.vacancyGateway);
   }
 
-  publishVacancyUseCase(): PublishVacancyUseCase {
+  publishVacancy(): PublishVacancyUseCase {
     return new PublishVacancyUseCase(this.vacancyGateway);
   }
 
-  createVacancyUseCase(): CreateVacancyUseCase {
+  createVacancy(): CreateVacancyUseCase {
     return new CreateVacancyUseCase(this.vacancyGateway);
   }
 
   // Application use case factories
-  getApplicationsUseCase(): GetApplicationsUseCase {
+  getApplications(): GetApplicationsUseCase {
     return new GetApplicationsUseCase(this.applicationGateway);
   }
 
-  createApplicationUseCase(): CreateApplicationUseCase {
+  createApplication(): CreateApplicationUseCase {
     return new CreateApplicationUseCase(this.applicationGateway);
   }
 
-  updateApplicationStatusUseCase(): UpdateApplicationStatusUseCase {
+  updateApplicationStatus(): UpdateApplicationStatusUseCase {
     return new UpdateApplicationStatusUseCase(this.applicationGateway);
   }
 
   // Company use case factories
-  getCompanyUseCase(): GetCompanyUseCase {
+  getCompany(): GetCompanyUseCase {
     return new GetCompanyUseCase(this.companyGateway);
   }
 
-  createCompanyUseCase(): CreateCompanyUseCase {
+  createCompany(): CreateCompanyUseCase {
     return new CreateCompanyUseCase(this.companyGateway);
   }
 
-  getCompanyStatisticsUseCase(): GetCompanyStatisticsUseCase {
+  getCompanyStatistics(): GetCompanyStatisticsUseCase {
     return new GetCompanyStatisticsUseCase(this.companyGateway);
   }
 
   // Dashboard use case factories
-  getDashboardStatsUseCase(): GetDashboardStatsUseCase {
+  getDashboardStats(): GetDashboardStatsUseCase {
     return new GetDashboardStatsUseCase(this.dashboardGateway);
   }
 
-  getCompanyStatsUseCase(): GetCompanyStatsUseCase {
+  getCompanyStats(): GetCompanyStatsUseCase {
     return new GetCompanyStatsUseCase(this.dashboardGateway);
   }
 
-  getRecentApplicationsUseCase(): GetRecentApplicationsUseCase {
+  getRecentApplications(): GetRecentApplicationsUseCase {
     return new GetRecentApplicationsUseCase(this.dashboardGateway);
   }
 
   // Activity use case factories
-  getRecentActivitiesUseCase(): GetRecentActivitiesUseCase {
+  getRecentActivities(): GetRecentActivitiesUseCase {
     return new GetRecentActivitiesUseCase(this.activityGateway);
   }
 
-  getRecruitmentProcessesUseCase(): GetRecruitmentProcessesUseCase {
+  getRecruitmentProcesses(): GetRecruitmentProcessesUseCase {
     return new GetRecruitmentProcessesUseCase(this.activityGateway);
   }
 
   // Template use case factories
-  getProcessTemplatesUseCase(): GetProcessTemplatesUseCase {
+  getProcessTemplates(): GetProcessTemplatesUseCase {
     return new GetProcessTemplatesUseCase(this.templateGateway);
   }
 
-  createProcessTemplateUseCase(): CreateProcessTemplateUseCase {
+  createProcessTemplate(): CreateProcessTemplateUseCase {
     return new CreateProcessTemplateUseCase(this.templateGateway);
   }
 
-  getDefaultTemplatesUseCase(): GetDefaultTemplatesUseCase {
+  getDefaultTemplates(): GetDefaultTemplatesUseCase {
     return new GetDefaultTemplatesUseCase(this.templateGateway);
   }
 
   // Competence use case factories
-  getCompetencesUseCase(): GetCompetencesUseCase {
+  getCompetences(): GetCompetencesUseCase {
     return new GetCompetencesUseCase(this.competenceGateway);
   }
 
-  getCompetenceByIdUseCase(): GetCompetenceByIdUseCase {
+  getCompetenceById(): GetCompetenceByIdUseCase {
     return new GetCompetenceByIdUseCase(this.competenceGateway);
   }
 
-  createCompetenceUseCase(): CreateCompetenceUseCase {
+  createCompetence(): CreateCompetenceUseCase {
     return new CreateCompetenceUseCase(this.competenceGateway);
   }
 
-  updateCompetenceUseCase(): UpdateCompetenceUseCase {
+  updateCompetence(): UpdateCompetenceUseCase {
     return new UpdateCompetenceUseCase(this.competenceGateway);
   }
 
-  deleteCompetenceUseCase(): DeleteCompetenceUseCase {
+  deleteCompetence(): DeleteCompetenceUseCase {
     return new DeleteCompetenceUseCase(this.competenceGateway);
   }
 
   // Step use case factories
-  getStepsUseCase(): GetStepsUseCase {
+  getSteps(): GetStepsUseCase {
     return new GetStepsUseCase(this.stepGateway);
   }
 
-  createStepUseCase(): CreateStepUseCase {
+  createStep(): CreateStepUseCase {
     return new CreateStepUseCase(this.stepGateway);
   }
 
-  updateStepUseCase(): UpdateStepUseCase {
+  updateStep(): UpdateStepUseCase {
     return new UpdateStepUseCase(this.stepGateway);
   }
 
-  deleteStepUseCase(): DeleteStepUseCase {
+  deleteStep(): DeleteStepUseCase {
     return new DeleteStepUseCase(this.stepGateway);
   }
 
-  reorderStepsUseCase(): ReorderStepsUseCase {
+  reorderSteps(): ReorderStepsUseCase {
     return new ReorderStepsUseCase(this.stepGateway);
   }
 }

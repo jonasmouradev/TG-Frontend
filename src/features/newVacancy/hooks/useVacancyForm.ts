@@ -10,18 +10,18 @@ import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/
 
 const vacancyFormServices = {
   async createVacancy(data: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
-    const createVacancyUseCase = container.createVacancyUseCase();
+    const createVacancyUseCase = container.createVacancy();
     return createVacancyUseCase.execute(data);
   },
 
   async publishVacancy(id: string): Promise<PublishVacancyUseCaseOutput> {
-    const publishVacancyUseCase = container.publishVacancyUseCase();
+    const publishVacancyUseCase = container.publishVacancy();
     return publishVacancyUseCase.execute({ id });
   },
 };
 
 export const useVacancyForm = () => {
-  const getCompanyId = container.getCompanyIdUseCase();
+  const getCompanyId = container.getCompanyId();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -32,8 +32,8 @@ const stats = [
 
 export default function LoginScreen() {
   const navigate = useNavigate();
-  const signInUseCase = container.signInUseCase();
-  const authenticateUserUseCase = container.authenticateUserUseCase();
+  const signIn = container.signIn();
+  const authenticateUser = container.authenticateUser();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,12 +45,12 @@ export default function LoginScreen() {
     setIsLoading(true);
 
     try {
-      const response = await authenticateUserUseCase.execute({
+      const response = await authenticateUser.execute({
         email,
         password,
       });
       if (response) {
-        signInUseCase.execute({
+        signIn.execute({
           user: response.user,
           token: response.accessToken,
           expiresIn: response.expiresIn,
