@@ -4,6 +4,7 @@ export { UpdateVacancyUseCase } from './update-vacancy.use-case';
 export { DeleteVacancyUseCase } from './delete-vacancy.use-case';
 export { PublishVacancyUseCase } from './publish-vacancy.use-case';
 export { GetPublishedVacancyUseCase } from './get-published.use-case';
+export { GetVacanciesUseCase } from './get-vacancies.use-case';
 
 export type { GetPublishedVacancyUseCaseOutput } from './get-published.use-case';
 export type { CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput } from './create-vacancy.use-case';
@@ -11,3 +12,4 @@ export type { GetVacancyUseCaseInput, GetVacancyUseCaseOutput } from './get-vaca
 export type { UpdateVacancyUseCaseInput, UpdateVacancyUseCaseOutput } from './update-vacancy.use-case';
 export type { DeleteVacancyUseCaseInput, DeleteVacancyUseCaseOutput } from './delete-vacancy.use-case';
 export type { PublishVacancyUseCaseInput, PublishVacancyUseCaseOutput } from './publish-vacancy.use-case';
+export type { GetVacanciesUseCaseInput, GetVacanciesUseCaseOutput } from './get-vacancies.use-case';
