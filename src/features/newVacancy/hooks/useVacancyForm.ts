@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { vacancyFormSchema, VacancyFormSchema } from '../schemas';
-import { CreateVacancyUseCaseInput } from '@core/application';
+import { CreateVacancyInput } from '@core/application';
 import { DateTime } from 'luxon';
 import { Currency } from '../types/vacancy';
 import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/domain';
@@ -55,7 +55,7 @@ export const useVacancyForm = () => {
 
     try {
       const values = getValues();
-      const vacancyData: CreateVacancyUseCaseInput = {
+      const vacancyData: CreateVacancyInput = {
         companyId: companyCases.getId() || '',
         requirements: values.requirements || [],
         responsibilities: [],
