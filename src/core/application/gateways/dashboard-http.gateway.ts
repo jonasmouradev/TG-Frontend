@@ -18,10 +18,6 @@ export class DashboardHttpGateway implements DashboardGateway {
     return this.httpClient.get<VacancyStats>({ url: `/vacancies/${vacancyId}/stats` });
   }
 
-  async getCompanyStats(companyId: string, params?: DashboardFilters): PromiseResponse<DashboardStats> {
-    return this.httpClient.get<DashboardStats>({ url: `/dashboard/company/${companyId}/stats`, params });
-  }
-
   async getRecentApplications(limit?: number, companyId?: string): PromiseResponse<any> {
     const params = { limit, companyId };
     return this.httpClient.get<any>({ url: '/dashboard/recent-applications', params });
