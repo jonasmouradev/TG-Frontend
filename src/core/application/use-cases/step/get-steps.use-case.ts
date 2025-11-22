@@ -10,10 +10,10 @@ export interface GetStepsUseCaseOutput {
 }
 
 export class GetStepsUseCase implements IUseCase<GetStepsUseCaseInput, GetStepsUseCaseOutput> {
-  constructor(private readonly stepGateway: StepGateway) {}
+  constructor(private readonly gateway: StepGateway) {}
 
   async execute(input: GetStepsUseCaseInput = {}): Promise<GetStepsUseCaseOutput> {
-    const response = await this.stepGateway.findAll(input.filters);
+    const response = await this.gateway.findAll(input.filters);
 
     if (!response.data) {
       throw new Error('Failed to retrieve steps');

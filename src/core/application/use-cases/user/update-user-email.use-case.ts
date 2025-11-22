@@ -2,24 +2,24 @@ import { User } from '@core/domain';
 import { UserGateway, UpdateUserEmailDto } from '@core/domain/gateways/user.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export interface UpdateUserEmailUseCaseInput {
+export interface UpdateUserEmailInput {
   id: string;
   email: string;
 }
 
-export interface UpdateUserEmailUseCaseOutput {
+export interface UpdateUserEmailOutput {
   user: User;
 }
 
-export class UpdateUserEmailUseCase implements IUseCase<UpdateUserEmailUseCaseInput, UpdateUserEmailUseCaseOutput> {
-  constructor(private userGateway: UserGateway) {}
+export class UpdateUserEmailUseCase implements IUseCase<UpdateUserEmailInput, UpdateUserEmailOutput> {
+  constructor(private readonly gateway: UserGateway) {}
 
-  async execute(input: UpdateUserEmailUseCaseInput): Promise<UpdateUserEmailUseCaseOutput> {
+  async execute(input: UpdateUserEmailInput): Promise<UpdateUserEmailOutput> {
     const updateUserEmailDto: UpdateUserEmailDto = {
       email: input.email,
     };
 
-    const response = await this.userGateway.updateUserEmail(input.id, updateUserEmailDto);
+    const response = await this.gateway.updateUserEmail(input.id, updateUserEmailDto);
 
     if (!response.data) {
       throw new Error('Failed to update user email');

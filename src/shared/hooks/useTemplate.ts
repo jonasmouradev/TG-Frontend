@@ -8,15 +8,9 @@ import {
 import { useMemo } from 'react';
 
 export function useTemplateCases() {
-  const container = useCase();
+  const { templateGateway } = useCase();
 
-  if (!container) {
-    throw new Error('useTemplateCases must be used within UseCaseContext.Provider');
-  }
-
-  const { templateGateway } = container;
-
-  const templateCases = useMemo(
+  return useMemo(
     () => ({
       getProcess: (input?: {
         companyId?: string;
@@ -32,6 +26,4 @@ export function useTemplateCases() {
     }),
     [templateGateway],
   );
-
-  return templateCases;
 }

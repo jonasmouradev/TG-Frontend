@@ -3,7 +3,7 @@ import { ContractType, ExperienceLevel, Vacancy, VacancyType, WorkModeType } fro
 import { IUseCase } from '@core/domain/use-case.interface';
 import { DateTime } from 'luxon';
 
-export interface CreateVacancyUseCaseInput {
+export interface CreateVacancyInput {
   title: string;
   description: string;
   companyId: string;
@@ -22,21 +22,21 @@ export interface CreateVacancyUseCaseInput {
   expirationDate: DateTime | string;
 }
 
-export interface CreateVacancyUseCaseOutput {
+export interface CreateVacancyOutput {
   vacancy: Vacancy;
 }
 
-export class CreateVacancyUseCase implements IUseCase<CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput> {
-  constructor(private readonly vacancyGateway: VacancyGateway) {}
+export class CreateVacancyUseCase implements IUseCase<CreateVacancyInput, CreateVacancyOutput> {
+  constructor(private readonly gateway: VacancyGateway) {}
 
-  async execute(input: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
+  async execute(input: CreateVacancyInput): Promise<CreateVacancyOutput> {
     const createVacancyDto: CreateVacancyDto = {
       ...input,
       publicationDate: input.publicationDate?.toString() ?? DateTime.now().toISODate(),
       expirationDate: input.expirationDate?.toString() ?? DateTime.now().plus({ days: 10 }).toISODate(),
     };
 
-    const response = await this.vacancyGateway.create(createVacancyDto);
+    const response = await this.gateway.create(createVacancyDto);
 
     if (!response.data) {
       throw new Error('Failed to create vacancy');

@@ -12,10 +12,10 @@ export interface RefreshTokenUseCaseOutput {
 }
 
 export class RefreshTokenUseCase implements IUseCase<RefreshTokenUseCaseInput, RefreshTokenUseCaseOutput> {
-  constructor(private readonly authGateway: AuthGateway) {}
+  constructor(private readonly gateway: AuthGateway) {}
 
   async execute(): Promise<RefreshTokenUseCaseOutput> {
-    const response = await this.authGateway.refreshToken();
+    const response = await this.gateway.refreshToken();
 
     if (!response.data) {
       throw new Error('Failed to refresh token');

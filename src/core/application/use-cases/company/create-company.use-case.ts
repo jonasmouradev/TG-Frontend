@@ -13,7 +13,7 @@ export interface CreateCompanyUseCaseOutput {
 }
 
 export class CreateCompanyUseCase implements IUseCase<CreateCompanyUseCaseInput, CreateCompanyUseCaseOutput> {
-  constructor(private companyGateway: CompanyGateway) {}
+  constructor(private readonly gateway: CompanyGateway) {}
 
   async execute(input: CreateCompanyUseCaseInput): Promise<CreateCompanyUseCaseOutput> {
     const createCompanyDto: CreateCompanyDto = {
@@ -22,7 +22,7 @@ export class CreateCompanyUseCase implements IUseCase<CreateCompanyUseCaseInput,
       avatar: input.avatar,
     };
 
-    const response = await this.companyGateway.create(createCompanyDto);
+    const response = await this.gateway.create(createCompanyDto);
 
     if (!response.data) {
       throw new Error('Failed to create company');

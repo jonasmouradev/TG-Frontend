@@ -12,14 +12,14 @@ export interface UpdateCompetenceUseCaseOutput {
 }
 
 export class UpdateCompetenceUseCase implements IUseCase<UpdateCompetenceUseCaseInput, UpdateCompetenceUseCaseOutput> {
-  constructor(private readonly competenceGateway: CompetenceGateway) {}
+  constructor(private readonly gateway: CompetenceGateway) {}
 
   async execute(input: UpdateCompetenceUseCaseInput): Promise<UpdateCompetenceUseCaseOutput> {
     if (!input.id) {
       throw new Error('Competence ID is required');
     }
 
-    const response = await this.competenceGateway.update(input.id, input.data);
+    const response = await this.gateway.update(input.id, input.data);
 
     if (!response.data) {
       throw new Error('Failed to update competence');

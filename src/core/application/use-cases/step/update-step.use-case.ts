@@ -12,14 +12,14 @@ export interface UpdateStepUseCaseOutput {
 }
 
 export class UpdateStepUseCase implements IUseCase<UpdateStepUseCaseInput, UpdateStepUseCaseOutput> {
-  constructor(private readonly stepGateway: StepGateway) {}
+  constructor(private readonly gateway: StepGateway) {}
 
   async execute(input: UpdateStepUseCaseInput): Promise<UpdateStepUseCaseOutput> {
     if (!input.id) {
       throw new Error('Step ID is required');
     }
 
-    const response = await this.stepGateway.update(input.id, input.data);
+    const response = await this.gateway.update(input.id, input.data);
 
     if (!response.data) {
       throw new Error('Failed to update step');

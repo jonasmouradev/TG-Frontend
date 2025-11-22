@@ -2,19 +2,19 @@ import { User } from '@core/domain';
 import { UserGateway } from '@core/domain/gateways/user.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export interface GetUserUseCaseInput {
+export interface GetUserInput {
   id: string;
 }
 
-export interface GetUserUseCaseOutput {
+export interface GetUserOutput {
   user: User;
 }
 
-export class GetUserUseCase implements IUseCase<GetUserUseCaseInput, GetUserUseCaseOutput> {
-  constructor(private userGateway: UserGateway) {}
+export class GetUserUseCase implements IUseCase<GetUserInput, GetUserOutput> {
+  constructor(private readonly gateway: UserGateway) {}
 
-  async execute(input: GetUserUseCaseInput): Promise<GetUserUseCaseOutput> {
-    const response = await this.userGateway.getUser(input.id);
+  async execute(input: GetUserInput): Promise<GetUserOutput> {
+    const response = await this.gateway.getUser(input.id);
 
     if (!response.data) {
       throw new Error('User not found');

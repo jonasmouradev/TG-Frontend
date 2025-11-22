@@ -17,7 +17,7 @@ export interface SignUpUseCaseOutput {
 }
 
 export class SignUpUseCase implements IUseCase<SignUpUseCaseInput, SignUpUseCaseOutput> {
-  constructor(private readonly authGateway: AuthGateway) {}
+  constructor(private readonly gateway: AuthGateway) {}
 
   async execute(input: SignUpUseCaseInput): Promise<SignUpUseCaseOutput> {
     const signUpDto: SignUpDto = {
@@ -31,7 +31,7 @@ export class SignUpUseCase implements IUseCase<SignUpUseCaseInput, SignUpUseCase
       phone: input.phone,
     };
 
-    const response = await this.authGateway.signUp(signUpDto);
+    const response = await this.gateway.signUp(signUpDto);
 
     return {
       status: response.status,

@@ -10,14 +10,14 @@ export interface ForgotPasswordUseCaseOutput {
 }
 
 export class ForgotPasswordUseCase implements IUseCase<ForgotPasswordUseCaseInput, ForgotPasswordUseCaseOutput> {
-  constructor(private authGateway: AuthGateway) {}
+  constructor(private readonly gateway: AuthGateway) {}
 
   async execute(input: ForgotPasswordUseCaseInput): Promise<ForgotPasswordUseCaseOutput> {
     const forgotPasswordDto: ForgotPasswordDto = {
       email: input.email,
     };
 
-    const response = await this.authGateway.forgotPassword(forgotPasswordDto);
+    const response = await this.gateway.forgotPassword(forgotPasswordDto);
 
     if (!response.data) {
       throw new Error('Failed to send password reset email');

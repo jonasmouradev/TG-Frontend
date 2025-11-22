@@ -13,14 +13,14 @@ export interface GetCompetenceByIdUseCaseOutput {
 export class GetCompetenceByIdUseCase
   implements IUseCase<GetCompetenceByIdUseCaseInput, GetCompetenceByIdUseCaseOutput>
 {
-  constructor(private readonly competenceGateway: CompetenceGateway) {}
+  constructor(private readonly gateway: CompetenceGateway) {}
 
   async execute(input: GetCompetenceByIdUseCaseInput): Promise<GetCompetenceByIdUseCaseOutput> {
     if (!input.id) {
       throw new Error('Competence ID is required');
     }
 
-    const response = await this.competenceGateway.findOne(input.id);
+    const response = await this.gateway.findOne(input.id);
 
     return {
       competence: response.data,

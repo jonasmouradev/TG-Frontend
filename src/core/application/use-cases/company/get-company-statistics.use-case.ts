@@ -12,10 +12,10 @@ export interface GetCompanyStatisticsUseCaseOutput {
 export class GetCompanyStatisticsUseCase
   implements IUseCase<GetCompanyStatisticsUseCaseInput, GetCompanyStatisticsUseCaseOutput>
 {
-  constructor(private companyGateway: CompanyGateway) {}
+  constructor(private readonly gateway: CompanyGateway) {}
 
   async execute(input: GetCompanyStatisticsUseCaseInput): Promise<GetCompanyStatisticsUseCaseOutput> {
-    const response = await this.companyGateway.getCompanyStatistics(input.companyId);
+    const response = await this.gateway.getCompanyStatistics(input.companyId);
 
     if (!response.data) {
       throw new Error('Failed to get company statistics');

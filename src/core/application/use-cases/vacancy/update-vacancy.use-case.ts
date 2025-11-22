@@ -2,7 +2,7 @@ import { VacancyGateway, UpdateVacancyDto } from '@core/domain/gateways/vacancy.
 import { Vacancy, VacancyStatus, VacancyType, ExperienceLevel } from '@core/domain/entities';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export interface UpdateVacancyUseCaseInput {
+export interface UpdateVacancyInput {
   id: string;
   title?: string;
   description?: string;
@@ -20,14 +20,14 @@ export interface UpdateVacancyUseCaseInput {
   expirationDate?: Date;
 }
 
-export interface UpdateVacancyUseCaseOutput {
+export interface UpdateVacancyOutput {
   vacancy: Vacancy;
 }
 
-export class UpdateVacancyUseCase implements IUseCase<UpdateVacancyUseCaseInput, UpdateVacancyUseCaseOutput> {
-  constructor(private vacancyGateway: VacancyGateway) {}
+export class UpdateVacancyUseCase implements IUseCase<UpdateVacancyInput, UpdateVacancyOutput> {
+  constructor(private readonly gateway: VacancyGateway) {}
 
-  async execute(input: UpdateVacancyUseCaseInput): Promise<UpdateVacancyUseCaseOutput> {
+  async execute(input: UpdateVacancyInput): Promise<UpdateVacancyOutput> {
     const { id, ...updateData } = input;
 
     const updateVacancyDto: UpdateVacancyDto = {
@@ -47,7 +47,7 @@ export class UpdateVacancyUseCase implements IUseCase<UpdateVacancyUseCaseInput,
       expirationDate: updateData.expirationDate,
     };
 
-    const response = await this.vacancyGateway.update(id, updateVacancyDto);
+    const response = await this.gateway.update(id, updateVacancyDto);
 
     if (!response.data) {
       throw new Error('Failed to update vacancy');

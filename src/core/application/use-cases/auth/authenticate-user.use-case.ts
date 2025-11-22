@@ -14,7 +14,7 @@ export interface AuthenticateUserUseCaseOutput {
 }
 
 export class AuthenticateUserUseCase implements IUseCase<AuthenticateUserUseCaseInput, AuthenticateUserUseCaseOutput> {
-  constructor(private readonly authGateway: AuthGateway) {}
+  constructor(private readonly gateway: AuthGateway) {}
 
   async execute(input: AuthenticateUserUseCaseInput): Promise<AuthenticateUserUseCaseOutput> {
     const signInDto: SignInDto = {
@@ -22,7 +22,7 @@ export class AuthenticateUserUseCase implements IUseCase<AuthenticateUserUseCase
       password: input.password,
     };
 
-    const response = await this.authGateway.signIn(signInDto);
+    const response = await this.gateway.signIn(signInDto);
 
     if (!response.data) {
       throw new Error('Authentication failed');

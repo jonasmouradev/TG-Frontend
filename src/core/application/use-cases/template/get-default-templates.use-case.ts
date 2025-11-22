@@ -26,10 +26,10 @@ export interface GetDefaultTemplatesUseCaseOutput {
 }
 
 export class GetDefaultTemplatesUseCase implements IUseCase<void, GetDefaultTemplatesUseCaseOutput> {
-  constructor(private templateGateway: TemplateGateway) {}
+  constructor(private readonly gateway: TemplateGateway) {}
 
   async execute(): Promise<GetDefaultTemplatesUseCaseOutput> {
-    const response = await this.templateGateway.getDefaultTemplates();
+    const response = await this.gateway.getDefaultTemplates();
 
     if (!response.data) {
       throw new Error('Failed to get default templates');

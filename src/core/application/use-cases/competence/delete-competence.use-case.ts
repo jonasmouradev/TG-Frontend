@@ -10,14 +10,14 @@ export interface DeleteCompetenceUseCaseOutput {
 }
 
 export class DeleteCompetenceUseCase implements IUseCase<DeleteCompetenceUseCaseInput, DeleteCompetenceUseCaseOutput> {
-  constructor(private readonly competenceGateway: CompetenceGateway) {}
+  constructor(private readonly gateway: CompetenceGateway) {}
 
   async execute(input: DeleteCompetenceUseCaseInput): Promise<DeleteCompetenceUseCaseOutput> {
     if (!input.id) {
       throw new Error('Competence ID is required');
     }
 
-    await this.competenceGateway.remove(input.id);
+    await this.gateway.remove(input.id);
 
     return {
       success: true,

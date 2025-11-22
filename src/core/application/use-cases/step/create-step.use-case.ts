@@ -9,7 +9,7 @@ export interface CreateStepUseCaseOutput {
 }
 
 export class CreateStepUseCase implements IUseCase<CreateStepUseCaseInput, CreateStepUseCaseOutput> {
-  constructor(private readonly stepGateway: StepGateway) {}
+  constructor(private readonly gateway: StepGateway) {}
 
   async execute(input: CreateStepUseCaseInput): Promise<CreateStepUseCaseOutput> {
     if (!input.templateId) {
@@ -24,7 +24,7 @@ export class CreateStepUseCase implements IUseCase<CreateStepUseCaseInput, Creat
       throw new Error('Step type is required');
     }
 
-    const response = await this.stepGateway.create(input);
+    const response = await this.gateway.create(input);
 
     if (!response.data) {
       throw new Error('Failed to create step');

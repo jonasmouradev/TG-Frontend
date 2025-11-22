@@ -41,7 +41,7 @@ export interface CreateProcessTemplateUseCaseOutput {
 export class CreateProcessTemplateUseCase
   implements IUseCase<CreateProcessTemplateUseCaseInput, CreateProcessTemplateUseCaseOutput>
 {
-  constructor(private templateGateway: TemplateGateway) {}
+  constructor(private readonly gateway: TemplateGateway) {}
 
   async execute(input: CreateProcessTemplateUseCaseInput): Promise<CreateProcessTemplateUseCaseOutput> {
     // Validate input
@@ -64,7 +64,7 @@ export class CreateProcessTemplateUseCase
       })),
     };
 
-    const response = await this.templateGateway.createTemplate(createTemplateDto);
+    const response = await this.gateway.createTemplate(createTemplateDto);
 
     if (!response.data) {
       throw new Error('Failed to create process template');

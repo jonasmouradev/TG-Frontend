@@ -10,14 +10,14 @@ export interface DeleteStepUseCaseOutput {
 }
 
 export class DeleteStepUseCase implements IUseCase<DeleteStepUseCaseInput, DeleteStepUseCaseOutput> {
-  constructor(private readonly stepGateway: StepGateway) {}
+  constructor(private readonly gateway: StepGateway) {}
 
   async execute(input: DeleteStepUseCaseInput): Promise<DeleteStepUseCaseOutput> {
     if (!input.id) {
       throw new Error('Step ID is required');
     }
 
-    await this.stepGateway.remove(input.id);
+    await this.gateway.remove(input.id);
 
     return {
       success: true,

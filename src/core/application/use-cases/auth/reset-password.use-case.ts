@@ -11,7 +11,7 @@ export interface ResetPasswordUseCaseOutput {
 }
 
 export class ResetPasswordUseCase implements IUseCase<ResetPasswordUseCaseInput, ResetPasswordUseCaseOutput> {
-  constructor(private authGateway: AuthGateway) {}
+  constructor(private readonly gateway: AuthGateway) {}
 
   async execute(input: ResetPasswordUseCaseInput): Promise<ResetPasswordUseCaseOutput> {
     const resetPasswordDto: ResetPasswordDto = {
@@ -19,7 +19,7 @@ export class ResetPasswordUseCase implements IUseCase<ResetPasswordUseCaseInput,
       newPassword: input.newPassword,
     };
 
-    const response = await this.authGateway.resetPassword(resetPasswordDto);
+    const response = await this.gateway.resetPassword(resetPasswordDto);
 
     if (!response.data) {
       throw new Error('Failed to reset password');

@@ -6,10 +6,8 @@ import {
   GetCurrentUserUseCase,
   UpdateUserEmailUseCase,
   UpdateUserSessionUseCase,
-  GetUserUseCaseInput,
-  UpdateUserUseCaseInput,
-  UpdateUserEmailUseCaseInput,
 } from '@core/application/use-cases';
+import type { GetUserInput, UpdateUserInput, UpdateUserEmailInput } from '@core/application/use-cases';
 import { useMemo } from 'react';
 import { User } from '@core/domain';
 
@@ -25,9 +23,9 @@ export function useUserCases() {
   const userCases = useMemo(
     () => ({
       getMe: () => new GetMeUseCase(userGateway).execute(),
-      findOne: (input: GetUserUseCaseInput) => new GetUserUseCase(userGateway).execute(input),
-      update: (input: UpdateUserUseCaseInput) => new UpdateUserUseCase(userGateway).execute(input),
-      updateEmail: (input: UpdateUserEmailUseCaseInput) => new UpdateUserEmailUseCase(userGateway).execute(input),
+      findOne: (input: GetUserInput) => new GetUserUseCase(userGateway).execute(input),
+      update: (input: UpdateUserInput) => new UpdateUserUseCase(userGateway).execute(input),
+      updateEmail: (input: UpdateUserEmailInput) => new UpdateUserEmailUseCase(userGateway).execute(input),
       getCurrent: () => new GetCurrentUserUseCase(crypto, cookieStorage).execute(),
       updateSession: (input: User) => new UpdateUserSessionUseCase(crypto, cookieStorage).execute(input),
     }),

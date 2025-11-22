@@ -9,7 +9,7 @@ export interface CreateCompetenceUseCaseOutput {
 }
 
 export class CreateCompetenceUseCase implements IUseCase<CreateCompetenceUseCaseInput, CreateCompetenceUseCaseOutput> {
-  constructor(private readonly competenceGateway: CompetenceGateway) {}
+  constructor(private readonly gateway: CompetenceGateway) {}
 
   async execute(input: CreateCompetenceUseCaseInput): Promise<CreateCompetenceUseCaseOutput> {
     if (!input.name) {
@@ -20,7 +20,7 @@ export class CreateCompetenceUseCase implements IUseCase<CreateCompetenceUseCase
       throw new Error('Competence category is required');
     }
 
-    const response = await this.competenceGateway.create(input);
+    const response = await this.gateway.create(input);
 
     if (!response.data) {
       throw new Error('Failed to create competence');

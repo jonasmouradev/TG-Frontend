@@ -2,15 +2,15 @@ import { VacancyFilters, VacancyGateway } from '@core/domain/gateways/vacancy.ga
 import { PaginatedList, Vacancy } from '@core/domain/entities';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export type GetVacanciesUseCaseInput = VacancyFilters;
+export type GetVacanciesInput = VacancyFilters;
 
-export type GetVacanciesUseCaseOutput = PaginatedList<Vacancy>;
+export type GetVacanciesOutput = PaginatedList<Vacancy>;
 
-export class GetVacanciesUseCase implements IUseCase<GetVacanciesUseCaseInput, GetVacanciesUseCaseOutput> {
-  constructor(private readonly vacancyGateway: VacancyGateway) {}
+export class GetVacanciesUseCase implements IUseCase<GetVacanciesInput, GetVacanciesOutput> {
+  constructor(private readonly gateway: VacancyGateway) {}
 
-  async execute(input: GetVacanciesUseCaseInput): Promise<GetVacanciesUseCaseOutput> {
-    const response = await this.vacancyGateway.findAll(input);
+  async execute(input: GetVacanciesInput): Promise<GetVacanciesOutput> {
+    const response = await this.gateway.findAll(input);
 
     if (!response.data) {
       throw new Error('Vacancy not found');

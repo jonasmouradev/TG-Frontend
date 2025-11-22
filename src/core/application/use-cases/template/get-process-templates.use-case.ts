@@ -38,7 +38,7 @@ export interface GetProcessTemplatesUseCaseOutput {
 export class GetProcessTemplatesUseCase
   implements IUseCase<GetProcessTemplatesUseCaseInput, GetProcessTemplatesUseCaseOutput>
 {
-  constructor(private templateGateway: TemplateGateway) {}
+  constructor(private readonly gateway: TemplateGateway) {}
 
   async execute(input: GetProcessTemplatesUseCaseInput): Promise<GetProcessTemplatesUseCaseOutput> {
     const filters = {
@@ -50,7 +50,7 @@ export class GetProcessTemplatesUseCase
       offset: input.offset || 0,
     };
 
-    const response = await this.templateGateway.getProcessTemplates(filters);
+    const response = await this.gateway.getProcessTemplates(filters);
 
     if (!response.data) {
       throw new Error('Failed to get process templates');
