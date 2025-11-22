@@ -19,6 +19,9 @@ import {
   ResetPasswordUseCase,
   RefreshTokenUseCase,
   ForgotPasswordUseCase,
+  SignInUseCase,
+  SetAuthTokenUseCase,
+  GetAuthTokenUseCase,
 
   // User use cases
   GetMeUseCase,
@@ -42,6 +45,8 @@ import {
   // Company use cases
   GetCompanyUseCase,
   CreateCompanyUseCase,
+  SetCompanyIdUseCase,
+  GetCompanyIdUseCase,
   GetCompanyStatisticsUseCase,
 
   // Dashboard use cases
@@ -71,11 +76,6 @@ import {
   UpdateStepUseCase,
   DeleteStepUseCase,
   ReorderStepsUseCase,
-  SetAuthTokenUseCase,
-  SignInUseCase,
-  SetCompanyIdUseCase,
-  GetCompanyIdUseCase,
-  GetAuthTokenUseCase,
 } from '@core/application/use-cases';
 import {
   ApplicationGateway,
