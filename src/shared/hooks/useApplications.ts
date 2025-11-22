@@ -10,15 +10,9 @@ import {
 import { useMemo } from 'react';
 
 export function useApplicationCases() {
-  const container = useCase();
+  const { applicationGateway } = useCase();
 
-  if (!container) {
-    throw new Error('useApplicationCases must be used within UseCaseContext.Provider');
-  }
-
-  const { applicationGateway } = container;
-
-  const applicationCases = useMemo(
+  return useMemo(
     () => ({
       findAll: (input?: GetApplicationsUseCaseInput) => new GetApplicationsUseCase(applicationGateway).execute(input),
       create: (input: CreateApplicationUseCaseInput) => new CreateApplicationUseCase(applicationGateway).execute(input),
@@ -27,6 +21,4 @@ export function useApplicationCases() {
     }),
     [applicationGateway],
   );
-
-  return applicationCases;
 }

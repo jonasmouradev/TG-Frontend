@@ -14,15 +14,9 @@ import {
 import { useMemo } from 'react';
 
 export function useCompetenceCases() {
-  const container = useCase();
+  const { competenceGateway } = useCase();
 
-  if (!container) {
-    throw new Error('useCompetenceCases must be used within UseCaseContext.Provider');
-  }
-
-  const { competenceGateway } = container;
-
-  const competenceCases = useMemo(
+  return useMemo(
     () => ({
       findAll: (input?: GetCompetencesUseCaseInput) => new GetCompetencesUseCase(competenceGateway).execute(input),
       findOne: (input: GetCompetenceByIdUseCaseInput) => new GetCompetenceByIdUseCase(competenceGateway).execute(input),
@@ -32,6 +26,4 @@ export function useCompetenceCases() {
     }),
     [competenceGateway],
   );
-
-  return competenceCases;
 }

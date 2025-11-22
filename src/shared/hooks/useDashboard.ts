@@ -8,15 +8,9 @@ import {
 import { useMemo } from 'react';
 
 export function useDashboardCases() {
-  const container = useCase();
+  const { dashboardGateway } = useCase();
 
-  if (!container) {
-    throw new Error('useDashboardCases must be used within UseCaseContext.Provider');
-  }
-
-  const { dashboardGateway } = container;
-
-  const dashboardCases = useMemo(
+  return useMemo(
     () => ({
       getStats: (input?: GetDashboardStatsUseCaseInput) =>
         new GetDashboardStatsUseCase(dashboardGateway).execute(input),
@@ -27,6 +21,4 @@ export function useDashboardCases() {
     }),
     [dashboardGateway],
   );
-
-  return dashboardCases;
 }

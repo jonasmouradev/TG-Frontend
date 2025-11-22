@@ -12,15 +12,9 @@ import { GetCompanyInput } from '@core/application/use-cases/company/get-company
 import { useMemo } from 'react';
 
 export function useCompanyCases() {
-  const container = useCase();
+  const { companyGateway, cookieStorage, crypto } = useCase();
 
-  if (!container) {
-    throw new Error('useCompanyCases must be used within UseCaseContext.Provider');
-  }
-
-  const { companyGateway, cookieStorage, crypto } = container;
-
-  const companyCases = useMemo(
+  return useMemo(
     () => ({
       findOne: (input: GetCompanyInput) => new GetCompanyUseCase(companyGateway).execute(input),
       create: (input: CreateCompanyUseCaseInput) => new CreateCompanyUseCase(companyGateway).execute(input),
@@ -31,6 +25,4 @@ export function useCompanyCases() {
     }),
     [companyGateway, cookieStorage, crypto],
   );
-
-  return companyCases;
 }
