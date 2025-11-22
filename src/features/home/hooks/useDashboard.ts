@@ -1,6 +1,5 @@
 import { Vacancy } from '@core/domain';
 import { useDashboardCases, useVacancyCases } from '@shared/hooks';
-import { DateTime } from 'luxon';
 import { useState, useEffect } from 'react';
 
 interface DashboardStats {
@@ -37,7 +36,7 @@ export const useDashboard = () => {
 
     try {
       // Load all dashboard data in parallel
-      const [statsData] = await Promise.all([getStats(), getPublished(), getRecentApplications({})]);
+      const [statsData, published] = await Promise.all([getStats(), getPublished(), getRecentApplications()]);
 
       setStats({
         activeJobs: statsData.stats.totalVacancies,
@@ -48,29 +47,7 @@ export const useDashboard = () => {
         avgProcessTime: 12,
         satisfaction: 4.8,
       });
-      setRecentJobs([
-        new Vacancy({
-          id: '14c69c82-a715-4846-be58-ca063f6651b0',
-          title: 'Back-end Sênior',
-          description: 'Descrição da vaga',
-          location: 'SP',
-          salaryMin: 500000,
-          salaryMax: 1000000,
-          currency: 'R$',
-          type: 'full_time',
-          level: 'junior',
-          status: 'published',
-          companyId: 'b5f313dc-2639-45bf-b4ba-51be8c5855b7',
-          createdAt: DateTime.fromISO('2025-11-22T00:09:21.602Z'),
-          updatedAt: DateTime.fromISO('2025-11-22T00:09:21.680Z'),
-          expirationDate: DateTime.fromISO('2026-01-21T00:09:21.000Z'),
-          publicationDate: DateTime.fromISO('2025-11-22T00:09:21.000Z'),
-          remote: false,
-          requirements: ['Requisito 1', 'Requisito 2'],
-          responsibilities: ['Responsabilidade 1', 'Responsabilidade 2'],
-          benefits: ['Benefício 1', 'Benefício 2'],
-        }),
-      ]);
+      setRecentJobs(published.data || []);
       setRecentCandidates([
         {
           id: '4',

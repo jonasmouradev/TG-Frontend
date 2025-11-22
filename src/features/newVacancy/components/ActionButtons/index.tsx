@@ -1,12 +1,14 @@
-import { Button } from '@shared/index';
+import { Button, paths } from '@shared/index';
 import { CheckCircle2, FileText, Loader2 } from 'lucide-react';
 import { useNewVacancy } from '../../hooks';
 import { useVacancyFormContext } from '../../contexts/VacancyFormContext';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
 
 export default function ActionButtons() {
-  const { createVacancy, publishVacancy, isLoading, handleSubmit, isValid } = useVacancyFormContext();
+  const { createVacancy, publishVacancy, isLoading, isValid } = useVacancyFormContext();
   const { stages } = useNewVacancy();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     if (!isValid) {
@@ -21,8 +23,10 @@ export default function ActionButtons() {
   };
 
   const handleSaveDraft = async () => {
+    if (!validateForm()) return;
     try {
       await createVacancy();
+      navigate(paths.HOME);
       toast.success('Rascunho salvo com sucesso!');
     } catch (err) {
       console.error('Error saving draft:', err);
@@ -31,14 +35,12 @@ export default function ActionButtons() {
   };
 
   const handlePublishVacancy = async () => {
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     try {
       const result = await createVacancy();
       if (result?.vacancy?.id) {
         await publishVacancy(result.vacancy.id);
+        navigate(paths.HOME);
         toast.success('Vaga publicada com sucesso!');
       }
     } catch (err) {
@@ -53,11 +55,7 @@ export default function ActionButtons() {
         {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />}
         Salvar Rascunho
       </Button>
-      <Button
-        className="flex-1 bg-blue-600 hover:bg-blue-700"
-        onClick={handleSubmit(handlePublishVacancy)}
-        disabled={isLoading}
-      >
+      <Button className="flex-1 bg-blue-600 hover:bg-blue-700" onClick={handlePublishVacancy} disabled={isLoading}>
         {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle2 className="w-4 h-4 mr-2" />}
         Publicar Vaga
       </Button>

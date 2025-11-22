@@ -37,6 +37,10 @@ export const useVacancyForm = () => {
       benefits: [],
       salaryRange: { min: 0, max: 0 },
       currency: Currency.R$,
+      publicationDate: DateTime.now().toISODate(),
+      expirationDate: DateTime.now().plus({ days: 30 }).toISODate(),
+      level: ExperienceLevel.JUNIOR,
+      type: VacancyType.FULL_TIME,
     },
     mode: 'onChange',
   });

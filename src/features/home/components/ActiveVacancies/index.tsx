@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Input, Badge } from '@/shared';
-import { Vacancy } from '@core/domain';
+import { Vacancy, VacancyStatus } from '@core/domain';
 import {
   Plus,
   Search,
@@ -19,21 +19,20 @@ import { useNavigate } from 'react-router';
 const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: VacancyStatus) => {
     const colors = {
-      active: 'bg-green-100 text-green-700 border-green-200',
-      draft: 'bg-gray-100 text-gray-700 border-gray-200',
-      closed: 'bg-red-100 text-red-700 border-red-200',
+      [VacancyStatus.PUBLISHED]: 'bg-green-100 text-green-700 border-green-200',
+      [VacancyStatus.DRAFT]: 'bg-gray-100 text-gray-700 border-gray-200',
+      [VacancyStatus.CLOSED]: 'bg-red-100 text-red-700 border-red-200',
     };
     return colors[status as keyof typeof colors];
   };
 
-  const getStatusLabel = (status: string) => {
+  const getStatusLabel = (status: VacancyStatus) => {
     const labels = {
-      active: 'Ativa',
-      draft: 'Rascunho',
-      closed: 'Fechada',
+      [VacancyStatus.PUBLISHED]: 'Ativa',
+      [VacancyStatus.DRAFT]: 'Rascunho',
+      [VacancyStatus.CLOSED]: 'Fechada',
     };
     return labels[status as keyof typeof labels];
   };
@@ -82,6 +81,7 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
                     <Badge variant="outline" className={getStatusColor(job.status)}>
                       {getStatusLabel(job.status)}
                     </Badge>
+                    {/* TODO implement new candidates count */}
                     {/* {job.newCandidates > 0 && (
                       <Badge className="bg-red-500 text-white">{job.newCandidates} novos</Badge>
                     )} */}
