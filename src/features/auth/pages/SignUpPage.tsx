@@ -16,11 +16,11 @@ import {
 
 import { Building2, Eye, EyeOff, ArrowRight, CheckCircle2, Users, Zap, Crown, Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { container } from '@/core/infra/container';
-import { SignUpUseCase } from '@/core/application/use-cases/auth/sign-up.use-case';
 import { HttpStatusCode } from '@core/domain';
+import { useAuthCases } from '@shared/hooks';
 
 export default function SignupScreen() {
+  const { signUp } = useAuthCases();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [accountType, setAccountType] = useState<'COMPANY' | 'PERSON'>('COMPANY');
@@ -111,8 +111,7 @@ export default function SignupScreen() {
   ];
 
   async function handleSubmit() {
-    const useCase = new SignUpUseCase(container.authGateway);
-    const response = await useCase.execute({
+    const response = await signUp({
       email: formData.email,
       password: formData.password,
       type: accountType,

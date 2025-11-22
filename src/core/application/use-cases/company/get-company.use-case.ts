@@ -2,19 +2,19 @@ import { CompanyGateway } from '@core/domain/gateways/company.gateway';
 import { Company } from '@core/domain/entities';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export interface GetCompanyUseCaseInput {
+export interface GetCompanyInput {
   id: string;
 }
 
-export interface GetCompanyUseCaseOutput {
+export interface GetCompanyOutput {
   company: Company;
 }
 
-export class GetCompanyUseCase implements IUseCase<GetCompanyUseCaseInput, GetCompanyUseCaseOutput> {
-  constructor(private companyGateway: CompanyGateway) {}
+export class GetCompanyUseCase implements IUseCase<GetCompanyInput, GetCompanyOutput> {
+  constructor(private readonly gateway: CompanyGateway) {}
 
-  async execute(input: GetCompanyUseCaseInput): Promise<GetCompanyUseCaseOutput> {
-    const response = await this.companyGateway.findOne(input.id);
+  async execute(input: GetCompanyInput): Promise<GetCompanyOutput> {
+    const response = await this.gateway.findOne(input.id);
 
     if (!response.data) {
       throw new Error('Company not found');

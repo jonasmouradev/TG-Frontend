@@ -2,26 +2,15 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { vacancyFormSchema, VacancyFormSchema } from '../schemas';
-import { container } from '@core/infra/container';
-import { CreateVacancyUseCaseInput, CreateVacancyUseCaseOutput, PublishVacancyUseCaseOutput } from '@core/application';
+import { CreateVacancyUseCaseInput } from '@core/application';
 import { DateTime } from 'luxon';
 import { Currency } from '../types/vacancy';
 import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/domain';
-
-const vacancyFormServices = {
-  async createVacancy(data: CreateVacancyUseCaseInput): Promise<CreateVacancyUseCaseOutput> {
-    const createVacancyUseCase = container.createVacancy();
-    return createVacancyUseCase.execute(data);
-  },
-
-  async publishVacancy(id: string): Promise<PublishVacancyUseCaseOutput> {
-    const publishVacancyUseCase = container.publishVacancy();
-    return publishVacancyUseCase.execute({ id });
-  },
-};
+import { useCompanyCases, useVacancyCases } from '@shared/hooks';
 
 export const useVacancyForm = () => {
-  const getCompanyId = container.getCompanyId();
+  const companyCases = useCompanyCases();
+  const vacancyCases = useVacancyCases();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,7 +56,7 @@ export const useVacancyForm = () => {
     try {
       const values = getValues();
       const vacancyData: CreateVacancyUseCaseInput = {
-        companyId: getCompanyId.execute() || '',
+        companyId: companyCases.getId() || '',
         requirements: values.requirements || [],
         responsibilities: [],
         contract: values.contract || ContractType.CLT,
@@ -85,7 +74,7 @@ export const useVacancyForm = () => {
         benefits: values.benefits || [],
       };
 
-      const result = await vacancyFormServices.createVacancy(vacancyData);
+      const result = await vacancyCases.create(vacancyData);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro ao criar vaga';
@@ -101,7 +90,7 @@ export const useVacancyForm = () => {
     setError(null);
 
     try {
-      const result = await vacancyFormServices.publishVacancy(vacancyId);
+      const result = await vacancyCases.publish({ id: vacancyId });
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro ao publicar vaga';

@@ -19,16 +19,16 @@ export interface GetDashboardStatsUseCaseOutput {
 export class GetDashboardStatsUseCase
   implements IUseCase<GetDashboardStatsUseCaseInput, GetDashboardStatsUseCaseOutput>
 {
-  constructor(private dashboardGateway: DashboardGateway) {}
+  constructor(private readonly gateway: DashboardGateway) {}
 
-  async execute(input: GetDashboardStatsUseCaseInput): Promise<GetDashboardStatsUseCaseOutput> {
+  async execute(input?: GetDashboardStatsUseCaseInput): Promise<GetDashboardStatsUseCaseOutput> {
     const filters: DashboardFilters = {
-      dateFrom: input.dateFrom,
-      dateTo: input.dateTo,
-      period: input.period,
+      dateFrom: input?.dateFrom,
+      dateTo: input?.dateTo,
+      period: input?.period,
     };
 
-    const response = await this.dashboardGateway.findGeneralStats(filters);
+    const response = await this.gateway.findGeneralStats(filters);
 
     if (!response.data) {
       throw new Error('Failed to get dashboard statistics');

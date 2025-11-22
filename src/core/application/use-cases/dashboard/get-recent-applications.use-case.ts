@@ -20,10 +20,10 @@ export interface GetRecentApplicationsUseCaseOutput {
 export class GetRecentApplicationsUseCase
   implements IUseCase<GetRecentApplicationsUseCaseInput, GetRecentApplicationsUseCaseOutput>
 {
-  constructor(private dashboardGateway: DashboardGateway) {}
+  constructor(private readonly gateway: DashboardGateway) {}
 
-  async execute(input: GetRecentApplicationsUseCaseInput): Promise<GetRecentApplicationsUseCaseOutput> {
-    const response = await this.dashboardGateway.getRecentApplications(input.limit, input.companyId);
+  async execute(input?: GetRecentApplicationsUseCaseInput): Promise<GetRecentApplicationsUseCaseOutput> {
+    const response = await this.gateway.getRecentApplications(input?.limit, input?.companyId);
 
     if (!response.data) {
       throw new Error('Failed to get recent applications');

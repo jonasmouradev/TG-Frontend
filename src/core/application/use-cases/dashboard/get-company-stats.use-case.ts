@@ -7,7 +7,6 @@ import {
 import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetCompanyStatsUseCaseInput {
-  companyId: string;
   dateFrom?: string;
   dateTo?: string;
   period?: PeriodFilter;
@@ -18,16 +17,16 @@ export interface GetCompanyStatsUseCaseOutput {
 }
 
 export class GetCompanyStatsUseCase implements IUseCase<GetCompanyStatsUseCaseInput, GetCompanyStatsUseCaseOutput> {
-  constructor(private dashboardGateway: DashboardGateway) {}
+  constructor(private readonly gateway: DashboardGateway) {}
 
-  async execute(input: GetCompanyStatsUseCaseInput): Promise<GetCompanyStatsUseCaseOutput> {
+  async execute(input?: GetCompanyStatsUseCaseInput): Promise<GetCompanyStatsUseCaseOutput> {
     const filters: DashboardFilters = {
-      dateFrom: input.dateFrom,
-      dateTo: input.dateTo,
-      period: input.period,
+      dateFrom: input?.dateFrom,
+      dateTo: input?.dateTo,
+      period: input?.period,
     };
 
-    const response = await this.dashboardGateway.getCompanyStats(input.companyId, filters);
+    const response = await this.gateway.getCompanyStats(filters);
 
     if (!response.data) {
       throw new Error('Failed to get company statistics');

@@ -18,18 +18,18 @@ export interface GetApplicationsUseCaseOutput {
 }
 
 export class GetApplicationsUseCase implements IUseCase<GetApplicationsUseCaseInput, GetApplicationsUseCaseOutput> {
-  constructor(private applicationGateway: ApplicationGateway) {}
+  constructor(private readonly gateway: ApplicationGateway) {}
 
-  async execute(input: GetApplicationsUseCaseInput): Promise<GetApplicationsUseCaseOutput> {
+  async execute(input?: GetApplicationsUseCaseInput): Promise<GetApplicationsUseCaseOutput> {
     const filters: ApplicationFilters = {
-      applicantId: input.applicantId,
-      vacancyId: input.vacancyId,
-      status: input.status,
-      dateFrom: input.dateFrom,
-      dateTo: input.dateTo,
+      applicantId: input?.applicantId,
+      vacancyId: input?.vacancyId,
+      status: input?.status,
+      dateFrom: input?.dateFrom,
+      dateTo: input?.dateTo,
     };
 
-    const response = await this.applicationGateway.findAll(filters);
+    const response = await this.gateway.findAll(filters);
 
     if (!response.data) {
       throw new Error('Failed to get applications');

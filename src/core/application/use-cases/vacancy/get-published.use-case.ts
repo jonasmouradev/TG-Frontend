@@ -1,9 +1,7 @@
 import { VacancyGateway, VacancyList } from '@core/domain/gateways/vacancy.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
 
-export interface GetPublishedVacancyUseCaseOutput {
-  vacancy: VacancyList;
-}
+export type GetPublishedVacancyUseCaseOutput = VacancyList;
 
 export class GetPublishedVacancyUseCase implements IUseCase<void, GetPublishedVacancyUseCaseOutput> {
   constructor(private readonly gateway: VacancyGateway) {}
@@ -15,8 +13,6 @@ export class GetPublishedVacancyUseCase implements IUseCase<void, GetPublishedVa
       throw new Error('Vacancy not found');
     }
 
-    return {
-      vacancy: response.data,
-    };
+    return response.data;
   }
 }

@@ -14,8 +14,8 @@ import {
 } from '@/shared';
 import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, Users, Briefcase, TrendingUp, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { container } from '@/core/infra/container';
 import { toast } from 'sonner';
+import { useAuthCases } from '@shared/hooks';
 
 const features = [
   { icon: Briefcase, title: 'Gestão de Vagas', description: 'Crie e gerencie vagas facilmente' },
@@ -32,8 +32,7 @@ const stats = [
 
 export default function LoginScreen() {
   const navigate = useNavigate();
-  const signIn = container.signIn();
-  const authenticateUser = container.authenticateUser();
+  const { signIn, authenticateUser } = useAuthCases();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,12 +44,12 @@ export default function LoginScreen() {
     setIsLoading(true);
 
     try {
-      const response = await authenticateUser.execute({
+      const response = await authenticateUser({
         email,
         password,
       });
       if (response) {
-        signIn.execute({
+        signIn({
           user: response.user,
           token: response.accessToken,
           expiresIn: response.expiresIn,
