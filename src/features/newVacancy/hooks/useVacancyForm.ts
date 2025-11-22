@@ -76,6 +76,8 @@ export const useVacancyForm = () => {
         description: values.description,
         location: values.location,
         benefits: values.benefits || [],
+        area: values.department || '',
+        steps: [],
       };
 
       const result = await vacancyCases.create(vacancyData);
