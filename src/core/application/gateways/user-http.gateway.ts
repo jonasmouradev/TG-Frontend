@@ -11,7 +11,7 @@ import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.por
 export class UserHttpGateway implements UserGateway {
   constructor(private readonly httpClient: IHttpClient) {}
 
-  async getCurrentUser(): PromiseResponse<User> {
+  async getMe(): PromiseResponse<User> {
     return this.httpClient.get<User>({ url: '/users/me' });
   }
 
