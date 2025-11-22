@@ -71,12 +71,3 @@ export class DIContainer {
     this.applicationGateway = new ApplicationHttpGateway(this.httpClient);
   }
 }
-
-// Global container instance
-export const container = new DIContainer();
-
-/**
- * React Context Provider for DI Container
- * Allows components to access use cases through React context
- */
-export { container as diContainer };

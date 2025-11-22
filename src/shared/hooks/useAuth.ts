@@ -12,21 +12,33 @@ import {
   SetAuthTokenUseCase,
   GetAuthTokenUseCase,
 } from '@core/application/use-cases';
+import type {
+  SignInUseCaseInput,
+  SignUpUseCaseInput,
+  ForgotPasswordUseCaseInput,
+  ResetPasswordUseCaseInput,
+  AuthenticateUserUseCaseInput,
+} from '@core/application/use-cases';
+import { useMemo } from 'react';
 
 export function useAuthCases() {
   const { authGateway, cookieStorage, crypto } = useCase();
 
-  return {
-    signIn: new SignInUseCase(crypto, cookieStorage).execute,
-    signUp: new SignUpUseCase(authGateway).execute,
-    signOut: new SignOutUseCase(cookieStorage).execute,
-    decodeToken: new DecodeTokenUseCase().execute,
-    validateToken: new ValidateTokenUseCase().execute,
-    refreshToken: new RefreshTokenUseCase(authGateway).execute,
-    forgotPassword: new ForgotPasswordUseCase(authGateway).execute,
-    resetPassword: new ResetPasswordUseCase(authGateway).execute,
-    authenticateUser: new AuthenticateUserUseCase(authGateway).execute,
-    setToken: new SetAuthTokenUseCase(crypto, cookieStorage).execute,
-    getToken: new GetAuthTokenUseCase(crypto, cookieStorage).execute,
-  };
+  return useMemo(
+    () => ({
+      signIn: (input: SignInUseCaseInput) => new SignInUseCase(crypto, cookieStorage).execute(input),
+      signUp: (input: SignUpUseCaseInput) => new SignUpUseCase(authGateway).execute(input),
+      signOut: () => new SignOutUseCase(cookieStorage).execute(),
+      decodeToken: (input: string) => new DecodeTokenUseCase().execute(input),
+      validateToken: (input: string) => new ValidateTokenUseCase().execute(input),
+      refreshToken: () => new RefreshTokenUseCase(authGateway).execute(),
+      forgotPassword: (input: ForgotPasswordUseCaseInput) => new ForgotPasswordUseCase(authGateway).execute(input),
+      resetPassword: (input: ResetPasswordUseCaseInput) => new ResetPasswordUseCase(authGateway).execute(input),
+      authenticateUser: (input: AuthenticateUserUseCaseInput) =>
+        new AuthenticateUserUseCase(authGateway).execute(input),
+      setToken: (input: string) => new SetAuthTokenUseCase(crypto, cookieStorage).execute(input),
+      getToken: () => new GetAuthTokenUseCase(crypto, cookieStorage).execute(),
+    }),
+    [authGateway, cookieStorage, crypto],
+  );
 }

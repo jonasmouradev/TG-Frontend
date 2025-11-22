@@ -6,17 +6,33 @@ import {
   GetCurrentUserUseCase,
   UpdateUserEmailUseCase,
   UpdateUserSessionUseCase,
+  GetUserUseCaseInput,
+  UpdateUserUseCaseInput,
+  UpdateUserEmailUseCaseInput,
 } from '@core/application/use-cases';
+import { useMemo } from 'react';
+import { User } from '@core/domain';
 
 export function useUserCases() {
-  const { userGateway, cookieStorage, crypto } = useCase();
+  const container = useCase();
 
-  return {
-    getMe: new GetMeUseCase(userGateway).execute,
-    findOne: new GetUserUseCase(userGateway).execute,
-    update: new UpdateUserUseCase(userGateway).execute,
-    updateEmail: new UpdateUserEmailUseCase(userGateway).execute,
-    getCurrent: new GetCurrentUserUseCase(crypto, cookieStorage).execute,
-    updateSession: new UpdateUserSessionUseCase(crypto, cookieStorage).execute,
-  };
+  if (!container) {
+    throw new Error('useUserCases must be used within UseCaseContext.Provider');
+  }
+
+  const { userGateway, cookieStorage, crypto } = container;
+
+  const userCases = useMemo(
+    () => ({
+      getMe: () => new GetMeUseCase(userGateway).execute(),
+      findOne: (input: GetUserUseCaseInput) => new GetUserUseCase(userGateway).execute(input),
+      update: (input: UpdateUserUseCaseInput) => new UpdateUserUseCase(userGateway).execute(input),
+      updateEmail: (input: UpdateUserEmailUseCaseInput) => new UpdateUserEmailUseCase(userGateway).execute(input),
+      getCurrent: () => new GetCurrentUserUseCase(crypto, cookieStorage).execute(),
+      updateSession: (input: User) => new UpdateUserSessionUseCase(crypto, cookieStorage).execute(input),
+    }),
+    [userGateway, cookieStorage, crypto],
+  );
+
+  return userCases;
 }

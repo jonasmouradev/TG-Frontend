@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UserType, UpdateUserInput } from '../types';
-import { container } from '@core/infra/container';
+import { useCase } from '@shared/contexts/UseCaseContext';
 
 // Profile services using inline API calls - prepared for use case integration
 const profileServices = {
@@ -52,11 +52,12 @@ export const useProfile = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { userGateway } = useCase();
 
   const fetchUser = async () => {
     try {
       setIsLoading(true);
-      const res = await container.userGateway.getMe();
+      const res = await userGateway.getMe();
       setUser(res.data ?? null);
     } catch {
       setError('Erro ao carregar dados do usuário');
