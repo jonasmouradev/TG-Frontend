@@ -18,6 +18,7 @@ export interface CreateVacancyInput {
   requirements: string[];
   contract: ContractType;
   workMode: WorkModeType;
+  steps: string[];
   responsibilities: string[];
   publicationDate: DateTime | string;
   expirationDate: DateTime | string;
