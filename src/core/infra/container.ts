@@ -92,6 +92,7 @@ import { ActivityGateway } from '@core/domain/gateways/activity.gateway';
 import { TemplateGateway } from '@core/domain/gateways/template.gateway';
 import { CompetenceGateway } from '@core/domain/gateways/competence.gateway';
 import { StepGateway } from '@core/domain/gateways/step.gateway';
+import { GetPublishedVacancyUseCase } from '@core/application/use-cases/vacancy/get-published.use-case';
 
 /**
  * Simple Dependency Injection Container
@@ -191,6 +192,10 @@ export class DIContainer {
   // Vacancy use case factories
   getVacancyUseCase(): GetVacancyUseCase {
     return new GetVacancyUseCase(this.vacancyGateway);
+  }
+
+  getVacancyPublishedUseCase(): GetPublishedVacancyUseCase {
+    return new GetPublishedVacancyUseCase(this.vacancyGateway);
   }
 
   updateVacancyUseCase(): UpdateVacancyUseCase {

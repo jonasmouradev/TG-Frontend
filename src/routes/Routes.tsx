@@ -1,9 +1,10 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Layout from '@shared/components/layout/Layout';
+
 import { paths } from '@shared/utils/constants';
 import { lazy } from 'react';
 import ActiveVacancies from '@features/activeVacancies';
 
+const Layout = lazy(() => import('@shared/components/layout/Layout'));
 const HomePage = lazy(() => import('@features/home'));
 const CompleteProfilePage = lazy(() => import('@features/home/pages/CompleteProfilePage'));
 const MetricsPage = lazy(() => import('@features/home/pages/MetricsPage'));
