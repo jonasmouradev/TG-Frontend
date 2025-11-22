@@ -1,5 +1,5 @@
 import { Vacancy } from '@core/domain';
-import { useCompanyCases, useDashboardCases, useVacancyCases } from '@shared/hooks';
+import { useDashboardCases, useVacancyCases } from '@shared/hooks';
 import { DateTime } from 'luxon';
 import { useState, useEffect } from 'react';
 
@@ -28,9 +28,8 @@ export const useDashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentJobs, setRecentJobs] = useState<Vacancy[]>([]);
   const [recentCandidates, setRecentCandidates] = useState<Candidate[]>([]);
-  const { getStatistics, getId } = useCompanyCases();
   const { getPublished } = useVacancyCases();
-  const { getRecentApplications } = useDashboardCases();
+  const { getRecentApplications, getStats } = useDashboardCases();
 
   const loadDashboardData = async () => {
     setIsLoading(true);
@@ -38,17 +37,13 @@ export const useDashboard = () => {
 
     try {
       // Load all dashboard data in parallel
-      const [statsData] = await Promise.all([
-        getStatistics({ companyId: getId() ?? '' }),
-        getPublished(),
-        getRecentApplications({}),
-      ]);
+      const [statsData] = await Promise.all([getStats(), getPublished(), getRecentApplications({})]);
 
       setStats({
-        activeJobs: statsData.statistics.totalVacancies,
-        totalCandidates: statsData.statistics.totalApplications,
-        newApplications: statsData.statistics.totalVacancies, // TODO: adjust when backend provides this data
-        scheduledInterviews: statsData.statistics.totalUsers,
+        activeJobs: statsData.stats.totalVacancies,
+        totalCandidates: statsData.stats.totalApplications,
+        newApplications: statsData.stats.totalVacancies, // TODO: adjust when backend provides this data
+        scheduledInterviews: statsData.stats.totalUsers,
         conversionRate: 24,
         avgProcessTime: 12,
         satisfaction: 4.8,
