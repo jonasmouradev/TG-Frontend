@@ -43,4 +43,14 @@ export interface IUser {
   id: string;
   type: 'COMPANY' | 'PERSON';
   username: string;
+  companyId: string | null;
+  profile:
+    | {
+        id: string;
+        cnpj: string;
+      }
+    | {
+        id: string;
+        cpf: string;
+      };
 }
