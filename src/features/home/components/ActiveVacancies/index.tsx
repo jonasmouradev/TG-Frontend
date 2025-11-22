@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Input, Badge } from '@/shared';
-import { Job } from '@features/home/hooks/useDashboard';
+import { Vacancy } from '@core/domain';
 import {
   Plus,
   Search,
@@ -16,7 +16,7 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
+const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -44,7 +44,7 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
         <div>
           <h3 className="text-xl font-bold mb-1">Vagas Abertas</h3>
           <p className="text-sm text-gray-600">
-            {(recentJobs || []).filter(j => j.status === 'active').length} vagas publicadas
+            {recentJobs.filter(j => j.status === 'published').length} vagas publicadas
           </p>
         </div>
         <Button onClick={() => navigate('/vacancies/new')} className="bg-blue-600 hover:bg-blue-700">
@@ -72,7 +72,7 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
 
       {/* Jobs List */}
       <div className="space-y-3">
-        {(recentJobs || []).map(job => (
+        {recentJobs?.map(job => (
           <Card key={job.id} className="hover:shadow-lg transition-all border-2">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start justify-between gap-3 mb-3">
@@ -82,22 +82,21 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
                     <Badge variant="outline" className={getStatusColor(job.status)}>
                       {getStatusLabel(job.status)}
                     </Badge>
-                    {job.newCandidates > 0 && (
+                    {/* {job.newCandidates > 0 && (
                       <Badge className="bg-red-500 text-white">{job.newCandidates} novos</Badge>
-                    )}
+                    )} */}
                   </div>
                   <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
                       <Building2 className="w-4 h-4" />
-                      {job.department}
+                      {job.level}
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
                       {job.location}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {job.daysOpen} dias aberta
+                      <Clock className="w-4 h-4" />5 dias aberta
                     </span>
                   </div>
                 </div>
@@ -110,10 +109,10 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Job[] }) => {
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-gray-400" />
-                    <span className="font-semibold text-gray-900">{job.candidates}</span>
+                    <span className="font-semibold text-gray-900">10</span>
                     <span className="text-gray-600">candidatos</span>
                   </div>
-                  {job.status === 'active' && (
+                  {job.status === 'published' && (
                     <div className="flex items-center gap-2 text-green-600">
                       <CheckCircle2 className="w-4 h-4" />
                       <span className="font-semibold">Recebendo</span>

@@ -1,3 +1,5 @@
+import { Vacancy } from '@core/domain';
+import { container } from '@core/infra/container';
 import { useState, useEffect } from 'react';
 
 interface DashboardStats {
@@ -10,19 +12,6 @@ interface DashboardStats {
   satisfaction: number;
 }
 
-export interface Job {
-  id: string;
-  title: string;
-  department: string;
-  location: string;
-  type: string;
-  status: 'active' | 'draft' | 'closed';
-  candidates: number;
-  newCandidates: number;
-  daysOpen: number;
-  createdAt: string;
-}
-
 export interface Candidate {
   id: string;
   name: string;
@@ -32,19 +21,19 @@ export interface Candidate {
   avatar: string;
 }
 
-// Dashboard services using the existing API structure but prepared for use case integration
+const companyId = container.getCompanyId().execute() || '';
+
 const dashboardServices = {
   async getDashboardStats(): Promise<DashboardStats> {
-    // TODO: Replace with GetDashboardStatsUseCase
-    console.log('Fetching dashboard stats');
-    // Simulate API call
+    const dashboardStats = container.getCompanyStats();
     return new Promise(resolve => {
-      setTimeout(() => {
+      setTimeout(async () => {
+        const { stats } = await dashboardStats.execute({ companyId });
         resolve({
-          activeJobs: 12,
-          totalCandidates: 248,
-          newApplications: 34,
-          scheduledInterviews: 8,
+          activeJobs: stats.totalVacancies,
+          totalCandidates: stats.totalApplications,
+          newApplications: stats.recentApplications.length,
+          scheduledInterviews: stats.totalUsers,
           conversionRate: 24,
           avgProcessTime: 12,
           satisfaction: 4.8,
@@ -53,70 +42,46 @@ const dashboardServices = {
     });
   },
 
-  async getRecentJobs(): Promise<Job[]> {
-    // TODO: Replace with GetRecentJobsUseCase or similar
-    console.log('Fetching recent jobs');
-    // Simulate API call
+  async getRecentJobs(): Promise<Vacancy[]> {
+    const activeVacancies = container.getVacancyPublished();
     return new Promise(resolve => {
-      setTimeout(() => {
-        resolve([
-          {
-            id: '1',
-            title: 'Desenvolvedor Front-end Sênior',
-            department: 'Tecnologia',
-            location: 'São Paulo, SP',
-            type: 'CLT',
-            status: 'active',
-            candidates: 45,
-            newCandidates: 12,
-            daysOpen: 5,
-            createdAt: '2024-01-15',
-          },
-          {
-            id: '2',
-            title: 'Designer UX/UI Pleno',
-            department: 'Design',
-            location: 'Remoto',
-            type: 'PJ',
-            status: 'active',
-            candidates: 32,
-            newCandidates: 8,
-            daysOpen: 12,
-            createdAt: '2024-01-10',
-          },
-          {
-            id: '3',
-            title: 'Gerente de Produto',
-            department: 'Produto',
-            location: 'São Paulo, SP',
-            type: 'CLT',
-            status: 'active',
-            candidates: 28,
-            newCandidates: 5,
-            daysOpen: 8,
-            createdAt: '2024-01-12',
-          },
-          {
-            id: '4',
-            title: 'Analista de Marketing Digital',
-            department: 'Marketing',
-            location: 'Híbrido',
-            type: 'CLT',
-            status: 'draft',
-            candidates: 0,
-            newCandidates: 0,
-            daysOpen: 1,
-            createdAt: '2024-01-18',
-          },
-        ]);
+      setTimeout(async () => {
+        const { vacancy } = await activeVacancies.execute();
+        resolve(
+          vacancy.data || [
+            {
+              id: '14c69c82-a715-4846-be58-ca063f6651b0',
+              title: 'Back-end Sênior',
+              description: 'Descrição da vaga',
+              location: 'SP',
+              salary_min: '5000.00',
+              salary_max: '10000.00',
+              currency: 'R$',
+              type: 'full_time',
+              contract: 'clt',
+              work_mode: 'hybrid',
+              level: 'junior',
+              status: 'published',
+              publication_date: '2025-11-21T00:00:00.000Z',
+              expiration_date: '2025-12-21T00:00:00.000Z',
+              area: null,
+              company_id: 'b5f313dc-2639-45bf-b4ba-51be8c5855b7',
+              created_at: '2025-11-22T00:09:21.602Z',
+              updated_at: '2025-11-22T00:09:21.680Z',
+              deleted_at: null,
+              createdAt: '2025-11-22T00:09:21.602Z',
+              updatedAt: '2025-11-22T00:09:21.680Z',
+              deletedAt: null,
+              company: { id: 'b5f313dc-2639-45bf-b4ba-51be8c5855b7', cnpj: '17.960.701/0001-75' },
+            },
+          ],
+        );
+        console.log(vacancy);
       }, 800);
     });
   },
 
   async getRecentCandidates(): Promise<Candidate[]> {
-    // TODO: Replace with GetRecentCandidatesUseCase or GetRecentApplicationsUseCase
-    console.log('Fetching recent candidates');
-    // Simulate API call
     return new Promise(resolve => {
       setTimeout(() => {
         resolve([
@@ -162,7 +127,7 @@ export const useDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [recentJobs, setRecentJobs] = useState<Job[]>([]);
+  const [recentJobs, setRecentJobs] = useState<Vacancy[]>([]);
   const [recentCandidates, setRecentCandidates] = useState<Candidate[]>([]);
 
   const loadDashboardData = async () => {

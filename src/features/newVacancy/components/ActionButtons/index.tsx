@@ -30,7 +30,7 @@ export default function ActionButtons() {
     }
   };
 
-  const handlePublishVacancy = handleSubmit(async () => {
+  const handlePublishVacancy = async () => {
     if (!validateForm()) {
       return;
     }
@@ -45,7 +45,7 @@ export default function ActionButtons() {
       console.error('Error publishing vacancy:', err);
       toast.error('Erro ao publicar vaga');
     }
-  });
+  };
 
   return (
     <div className="flex gap-3 mt-8 sticky bottom-6 bg-white p-4 rounded-lg shadow-lg border">
@@ -53,7 +53,11 @@ export default function ActionButtons() {
         {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />}
         Salvar Rascunho
       </Button>
-      <Button className="flex-1 bg-blue-600 hover:bg-blue-700" onClick={handlePublishVacancy} disabled={isLoading}>
+      <Button
+        className="flex-1 bg-blue-600 hover:bg-blue-700"
+        onClick={handleSubmit(handlePublishVacancy)}
+        disabled={isLoading}
+      >
         {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle2 className="w-4 h-4 mr-2" />}
         Publicar Vaga
       </Button>
