@@ -56,7 +56,7 @@ export const useProfile = () => {
   const fetchUser = async () => {
     try {
       setIsLoading(true);
-      const res = await container.userGateway.getCurrentUser();
+      const res = await container.userGateway.getMe();
       setUser(res.data ?? null);
     } catch {
       setError('Erro ao carregar dados do usuário');

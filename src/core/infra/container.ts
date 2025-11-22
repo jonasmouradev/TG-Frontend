@@ -21,7 +21,7 @@ import {
   ForgotPasswordUseCase,
 
   // User use cases
-  GetCurrentUserUseCase,
+  GetMeUseCase,
   GetUserUseCase,
   UpdateUserUseCase,
   UpdateUserEmailUseCase,
@@ -32,6 +32,7 @@ import {
   DeleteVacancyUseCase,
   PublishVacancyUseCase,
   CreateVacancyUseCase,
+  GetPublishedVacancyUseCase,
 
   // Application use cases
   GetApplicationsUseCase,
@@ -92,8 +93,7 @@ import { ActivityGateway } from '@core/domain/gateways/activity.gateway';
 import { TemplateGateway } from '@core/domain/gateways/template.gateway';
 import { CompetenceGateway } from '@core/domain/gateways/competence.gateway';
 import { StepGateway } from '@core/domain/gateways/step.gateway';
-import { GetPublishedVacancyUseCase } from '@core/application/use-cases/vacancy/get-published.use-case';
-import { GetMeUseCase } from '@core/application/use-cases/user/get-current-user.use-case';
+import { GetCurrentUserUseCase } from '@core/application/use-cases/auth/get-current-user.use-case';
 
 /**
  * Simple Dependency Injection Container
@@ -175,7 +175,7 @@ export class DIContainer {
 
   // User use case factories
   getCurrentUserUseCase(): GetCurrentUserUseCase {
-    return new GetCurrentUserUseCase(this.userGateway);
+    return new GetCurrentUserUseCase(this.crypto, this.cookieStorage);
   }
 
   getUserUseCase(): GetUserUseCase {

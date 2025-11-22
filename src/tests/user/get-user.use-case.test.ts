@@ -24,7 +24,7 @@ describe('GetUserUseCase', () => {
     });
 
     const mockUserGateway: UserGateway = {
-      getCurrentUser: vi.fn(),
+      getMe: vi.fn(),
       getUser: vi.fn().mockResolvedValue({
         data: mockUser,
         error: null,
@@ -49,7 +49,7 @@ describe('GetUserUseCase', () => {
   it('should throw error when user not found', async () => {
     // Arrange
     const mockUserGateway: UserGateway = {
-      getCurrentUser: vi.fn(),
+      getMe: vi.fn(),
       getUser: vi.fn().mockResolvedValue({
         data: null,
         error: { message: 'User not found' },
