@@ -12,6 +12,7 @@ export interface CreateVacancyInput {
   salaryMax?: number;
   currency?: string;
   type: VacancyType;
+  area: string;
   level: ExperienceLevel;
   benefits?: string[];
   requirements: string[];
