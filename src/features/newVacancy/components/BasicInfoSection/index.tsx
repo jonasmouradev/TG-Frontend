@@ -22,21 +22,9 @@ export default function BasicInfoSection() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="department">Departamento</Label>
-            <Select value={formData.department} onValueChange={value => updateFormData({ department: value })}>
-              <SelectTrigger id="department">
-                <SelectValue placeholder="Selecione" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="tech">Tecnologia</SelectItem>
-                <SelectItem value="design">Design</SelectItem>
-                <SelectItem value="marketing">Marketing</SelectItem>
-                <SelectItem value="sales">Vendas</SelectItem>
-                <SelectItem value="hr">Recursos Humanos</SelectItem>
-                <SelectItem value="finance">Financeiro</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.department && <p className="text-sm text-red-500">{errors.department.message}</p>}
+            <Label htmlFor="area">Departamento</Label>
+            <Input id="area" placeholder="Ex: Tecnologia" {...register('area')} />
+            {errors.area && <p className="text-sm text-red-500">{errors.area.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="contract">Tipo de Contrato</Label>

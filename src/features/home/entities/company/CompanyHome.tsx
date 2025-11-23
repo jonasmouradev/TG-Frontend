@@ -28,10 +28,7 @@ export default function CompanyHome() {
   // Use fallback data if stats is null
   const dashboardStats = stats || {
     activeJobs: 0,
-    totalCandidates: 0,
-    newApplications: 0,
-    scheduledInterviews: 0,
-    conversionRate: 0,
+    candidatesToday: 0,
     avgProcessTime: 0,
     satisfaction: 0,
   };

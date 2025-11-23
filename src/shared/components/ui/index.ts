@@ -17,3 +17,5 @@ export * from './Sheet';
 export * from './Separator';
 export * from './Sidebar';
 export * from './Checkbox';
+export * from './DropdownMenu';
+export * from './Dialog';

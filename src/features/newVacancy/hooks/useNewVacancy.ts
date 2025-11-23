@@ -3,7 +3,7 @@ import { ProcessTemplate, Stage } from '../types';
 import { Sparkles } from 'lucide-react';
 
 const useNewVacancy = () => {
-  const [skills, setSkills] = useState<string[]>(['React', 'TypeScript', 'Node.js']);
+  const [skills, setSkills] = useState<string[]>([]);
   const [newSkill, setNewSkill] = useState('');
   const [stages, setStages] = useState<Stage[]>([
     {

@@ -28,7 +28,7 @@ export const useVacancyForm = () => {
     defaultValues: {
       title: '',
       description: '',
-      department: '',
+      area: '',
       location: '',
       workMode: WorkModeType.REMOTE,
       questions: [],
@@ -76,7 +76,7 @@ export const useVacancyForm = () => {
         description: values.description,
         location: values.location,
         benefits: values.benefits || [],
-        area: values.department || '',
+        area: values.area || '',
         steps: [],
       };
 
@@ -113,7 +113,7 @@ export const useVacancyForm = () => {
       description: '',
       requirements: [],
       questions: [],
-      department: '',
+      area: '',
       location: '',
       contract: ContractType.CLT,
       benefits: [],

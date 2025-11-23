@@ -4,8 +4,8 @@ import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/
 export const vacancyFormSchema = z.object({
   title: z.string().min(3, 'O título deve ter pelo menos 3 caracteres'),
   description: z.string().min(10, 'A descrição deve ter pelo menos 10 caracteres'),
-  department: z.string().optional(),
-  location: z.string().min(1, 'Localização é obrigatória'),
+  area: z.string().min(3, 'Departamento é obrigatório'),
+  location: z.string().min(2, 'Localização é obrigatória'),
   contract: z.nativeEnum(ContractType),
   workMode: z.nativeEnum(WorkModeType),
   type: z.nativeEnum(VacancyType).optional(),
@@ -29,7 +29,7 @@ export type VacancyFormSchema = z.infer<typeof vacancyFormSchema>;
 // Schemas parciais para validação por seções
 export const basicInfoSchema = vacancyFormSchema.pick({
   title: true,
-  department: true,
+  area: true,
   location: true,
   contract: true,
   workMode: true,

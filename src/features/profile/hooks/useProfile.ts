@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
-import { UserType, UpdateUserInput } from '../types';
-import { useCase } from '@shared/contexts/UseCaseContext';
+import { useState } from 'react';
+import { UpdateUserInput } from '../types';
+import { useUserCases } from '@shared/hooks/user';
 
-// Profile services using inline API calls - prepared for use case integration
 const profileServices = {
   async getUser(id: string) {
     // TODO: Replace with GetUserUseCase
@@ -49,28 +48,14 @@ const profileServices = {
 };
 
 export const useProfile = () => {
-  const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { userGateway } = useCase();
-
-  const fetchUser = async () => {
-    try {
-      setIsLoading(true);
-      const res = await userGateway.getMe();
-      setUser(res.data ?? null);
-    } catch {
-      setError('Erro ao carregar dados do usuário');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { getCurrent } = useUserCases();
 
   const updateProfile = async (id: string, data: UpdateUserInput) => {
     try {
       setIsLoading(true);
       const updatedUser = await profileServices.updateUser(id, data);
-      setUser(updatedUser);
       return updatedUser;
     } catch (error) {
       setError('Erro ao atualizar perfil');
@@ -85,7 +70,6 @@ export const useProfile = () => {
       setIsLoading(true);
       await profileServices.updateEmail(id, email);
       // Refetch user data to get updated info
-      await fetchUser();
     } catch (error) {
       setError('Erro ao atualizar email');
       throw error;
@@ -98,10 +82,6 @@ export const useProfile = () => {
     try {
       setIsLoading(true);
       const result = await profileServices.updateUsername(id, username);
-      // Update the user state with new data
-      if (result) {
-        setUser(result);
-      }
       return result;
     } catch (error) {
       setError('Erro ao atualizar nome de usuário');
@@ -111,17 +91,12 @@ export const useProfile = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   return {
-    user,
+    user: getCurrent(),
     isLoading,
     error,
     refetch: () => {
       setError(null);
-      fetchUser();
     },
     updateProfile,
     updateUserEmail,

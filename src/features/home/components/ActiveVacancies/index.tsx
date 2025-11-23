@@ -1,4 +1,22 @@
-import { Button, Card, CardContent, Input, Badge } from '@/shared';
+import {
+  Button,
+  Card,
+  CardContent,
+  Input,
+  Badge,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  useVacancyCases,
+} from '@/shared';
+import { DeleteVacancyInput } from '@core/application';
 import { Vacancy, VacancyStatus } from '@core/domain';
 import {
   Plus,
@@ -12,6 +30,7 @@ import {
   CheckCircle2,
   Eye,
   Edit,
+  TrashIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -19,6 +38,28 @@ import { useNavigate } from 'react-router';
 const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedVacancyId, setSelectedVacancyId] = useState<string | null>(null);
+
+  const handleDeleteClick = (vacancyId: string) => {
+    setSelectedVacancyId(vacancyId);
+    setDeleteDialogOpen(true);
+  };
+
+  const vacancy = useVacancyCases();
+  const handleConfirmDelete = async () => {
+    if (!selectedVacancyId) {
+      return;
+    }
+    try {
+      await vacancy.delete({ id: selectedVacancyId } as DeleteVacancyInput);
+    } catch (error) {
+      console.error('Failed to delete vacancy:', error);
+    }
+    setDeleteDialogOpen(false);
+    setSelectedVacancyId(null);
+  };
+
   const getStatusColor = (status: VacancyStatus) => {
     const colors = {
       [VacancyStatus.PUBLISHED]: 'bg-green-100 text-green-700 border-green-200',
@@ -100,9 +141,22 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
                     </span>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="flex-shrink-0">
-                  <MoreVertical className="w-4 h-4" />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="flex-shrink-0">
+                      <MoreVertical className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => handleDeleteClick(job.id)}
+                      className="cursor-pointer text-red-600 flex items-center gap-2 py-1 px-3"
+                    >
+                      <TrashIcon className="w-4 h-4" />
+                      Excluir vaga
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               <div className="flex items-center justify-between pt-3 border-t">
@@ -138,6 +192,25 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
       <Button variant="outline" className="w-full">
         Ver Todas as Vagas
       </Button>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar exclusão</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button variant="destructive" onClick={() => handleConfirmDelete()}>
+              Excluir
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
