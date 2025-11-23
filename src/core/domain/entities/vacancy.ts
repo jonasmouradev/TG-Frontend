@@ -58,6 +58,20 @@ type VacancyProps = {
   benefits?: string[];
   requirements: string[];
   responsibilities: string[];
+  steps: {
+    id: string;
+    order: number;
+    step: {
+      name: string;
+      description: string;
+    };
+  }[];
+  company: {
+    id: string;
+    user: {
+      name: string;
+    };
+  };
   status: VacancyStatus;
   publicationDate: DateTime | null;
   expirationDate: DateTime | null;
@@ -138,6 +152,14 @@ export class Vacancy {
 
   get expirationDate(): DateTime | null {
     return this.props.expirationDate;
+  }
+
+  get company(): { id: string; user: { name: string } } {
+    return this.props.company;
+  }
+
+  get steps(): { id: string; order: number; step: { name: string; description: string } }[] {
+    return this.props.steps;
   }
 
   get createdAt(): DateTime {
