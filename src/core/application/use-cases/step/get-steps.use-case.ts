@@ -11,6 +11,7 @@ export interface GetStepsUseCaseOutput {
 
 export class GetStepsUseCase implements IUseCase<GetStepsUseCaseInput, GetStepsUseCaseOutput> {
   constructor(private readonly gateway: StepGateway) {}
+  public static readonly queryKey = (input: Partial<GetStepsUseCaseInput>) => ['step', 'getSteps', input];
 
   async execute(input: GetStepsUseCaseInput = {}): Promise<GetStepsUseCaseOutput> {
     const response = await this.gateway.findAll(input.filters);

@@ -27,7 +27,12 @@ export interface GetRecruitmentProcessesUseCaseOutput {
 export class GetRecruitmentProcessesUseCase
   implements IUseCase<GetRecruitmentProcessesUseCaseInput, GetRecruitmentProcessesUseCaseOutput>
 {
-  constructor(private activityGateway: ActivityGateway) {}
+  constructor(private readonly gateway: ActivityGateway) {}
+
+  public static readonly queryKey = (input: Partial<GetRecruitmentProcessesUseCaseInput>) => [
+    'recruitmentProcesses',
+    input,
+  ];
 
   async execute(input: GetRecruitmentProcessesUseCaseInput): Promise<GetRecruitmentProcessesUseCaseOutput> {
     const filters: ProcessFilters = {
@@ -38,7 +43,7 @@ export class GetRecruitmentProcessesUseCase
       offset: input.offset || 0,
     };
 
-    const response = await this.activityGateway.getRecruitmentProcesses(filters);
+    const response = await this.gateway.getRecruitmentProcesses(filters);
 
     if (!response.data) {
       throw new Error('Failed to get recruitment processes');

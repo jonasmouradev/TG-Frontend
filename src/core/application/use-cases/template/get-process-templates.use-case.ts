@@ -40,6 +40,10 @@ export class GetProcessTemplatesUseCase
 {
   constructor(private readonly gateway: TemplateGateway) {}
 
+  public static readonly queryKey = (input: GetProcessTemplatesUseCaseInput) => {
+    return ['templates', input];
+  };
+
   async execute(input: GetProcessTemplatesUseCaseInput): Promise<GetProcessTemplatesUseCaseOutput> {
     const filters = {
       companyId: input.companyId,

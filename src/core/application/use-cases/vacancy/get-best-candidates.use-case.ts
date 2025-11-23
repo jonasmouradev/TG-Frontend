@@ -13,6 +13,8 @@ export type GetBestCandidatesOutput = CandidateVacancyMatch[] | null;
 export class GetBestCandidatesUseCase implements IUseCase<GetBestCandidatesInput, GetBestCandidatesOutput> {
   constructor(private readonly gateway: VacancyGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetBestCandidatesInput>) => ['vacancy', 'getBestCandidates', input];
+
   async execute(input: GetBestCandidatesInput): Promise<GetBestCandidatesOutput> {
     const response = await this.gateway.findBestCandidates({
       vacancyId: input.vacancyId,

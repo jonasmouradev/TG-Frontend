@@ -13,6 +13,8 @@ export interface GetCompanyOutput {
 export class GetCompanyUseCase implements IUseCase<GetCompanyInput, GetCompanyOutput> {
   constructor(private readonly gateway: CompanyGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetCompanyInput>) => ['company', input];
+
   async execute(input: GetCompanyInput): Promise<GetCompanyOutput> {
     const response = await this.gateway.findOne(input.id);
 

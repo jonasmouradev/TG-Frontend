@@ -9,6 +9,8 @@ export type GetVacanciesOutput = PaginatedList<Vacancy>;
 export class GetVacanciesUseCase implements IUseCase<GetVacanciesInput, GetVacanciesOutput> {
   constructor(private readonly gateway: VacancyGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetVacanciesInput>) => ['vacancy', 'getVacancies', input];
+
   async execute(input: GetVacanciesInput): Promise<GetVacanciesOutput> {
     const response = await this.gateway.findAll(input);
 

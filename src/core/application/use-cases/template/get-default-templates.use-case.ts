@@ -28,6 +28,10 @@ export interface GetDefaultTemplatesUseCaseOutput {
 export class GetDefaultTemplatesUseCase implements IUseCase<void, GetDefaultTemplatesUseCaseOutput> {
   constructor(private readonly gateway: TemplateGateway) {}
 
+  public static readonly queryKey = (): string[] => {
+    return ['templates', 'default'];
+  };
+
   async execute(): Promise<GetDefaultTemplatesUseCaseOutput> {
     const response = await this.gateway.getDefaultTemplates();
 

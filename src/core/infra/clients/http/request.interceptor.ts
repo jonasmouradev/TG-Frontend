@@ -6,7 +6,7 @@ import {
   SetAuthTokenUseCase,
   SignOutUseCase,
   ValidateTokenUseCase,
-} from '@core/application';
+} from '@core/application/use-cases';
 
 interface TokenResponse {
   access_token: string;

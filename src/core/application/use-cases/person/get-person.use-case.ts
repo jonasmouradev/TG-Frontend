@@ -13,6 +13,8 @@ export interface GetPersonOutput {
 export class GetPersonUseCase implements IUseCase<GetPersonInput, GetPersonOutput> {
   constructor(private readonly gateway: PersonGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetPersonInput>) => ['person', 'getPerson', input];
+
   async execute(input: GetPersonInput): Promise<GetPersonOutput> {
     const response = await this.gateway.findOne(input.id);
 

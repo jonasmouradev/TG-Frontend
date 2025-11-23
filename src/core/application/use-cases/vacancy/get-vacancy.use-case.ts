@@ -13,6 +13,8 @@ export interface GetVacancyOutput {
 export class GetVacancyUseCase implements IUseCase<GetVacancyInput, GetVacancyOutput> {
   constructor(private readonly gateway: VacancyGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetVacancyInput>) => ['vacancy', 'getVacancy', input];
+
   async execute(input: GetVacancyInput): Promise<GetVacancyOutput> {
     const response = await this.gateway.findOne(input.id);
 

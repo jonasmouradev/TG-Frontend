@@ -21,6 +21,8 @@ export class GetDashboardStatsUseCase
 {
   constructor(private readonly gateway: DashboardGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetDashboardStatsUseCaseInput>) => ['dashboardStats', input];
+
   async execute(input?: GetDashboardStatsUseCaseInput): Promise<GetDashboardStatsUseCaseOutput> {
     const filters: DashboardFilters = {
       dateFrom: input?.dateFrom,

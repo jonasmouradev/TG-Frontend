@@ -12,6 +12,8 @@ export interface GetCompetencesUseCaseOutput {
 export class GetCompetencesUseCase implements IUseCase<GetCompetencesUseCaseInput, GetCompetencesUseCaseOutput> {
   constructor(private readonly gateway: CompetenceGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetCompetencesUseCaseInput>) => ['competences', input];
+
   async execute(input: GetCompetencesUseCaseInput = {}): Promise<GetCompetencesUseCaseOutput> {
     const response = await this.gateway.findAll(input.filters);
 

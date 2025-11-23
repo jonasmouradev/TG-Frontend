@@ -13,6 +13,8 @@ export type GetForVacancyOutput = CandidateVacancyMatch[] | null;
 export class GetForVacancyUseCase implements IUseCase<GetForVacancyInput, GetForVacancyOutput> {
   constructor(private readonly gateway: MatchingGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetForVacancyInput>) => ['matching', 'forVacancy', input];
+
   async execute(input: GetForVacancyInput): Promise<GetForVacancyOutput> {
     const response = await this.gateway.findForVacancy({
       vacancyId: input.vacancyId,

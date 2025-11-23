@@ -8,13 +8,23 @@ import {
   CreateCompanyUseCaseInput,
   GetCompanyStatisticsUseCaseInput,
 } from '@core/application/use-cases';
-import { GetCompanyInput } from '@core/application/use-cases/company/get-company.use-case';
+import { GetCompanyInput, GetCompanyOutput } from '@core/application/use-cases/company/get-company.use-case';
 import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { QueryHookOptions } from '..';
 
 export function useCompanyCases() {
   const { companyGateway, cookieStorage, crypto } = useCase();
 
-  return useMemo(
+  function useGetCompany({ input, ...options }: QueryHookOptions<GetCompanyInput, GetCompanyOutput>) {
+    return useQuery({
+      queryKey: GetCompanyUseCase.queryKey(input),
+      queryFn: () => new GetCompanyUseCase(companyGateway).execute(input),
+      ...options,
+    });
+  }
+
+  const cases = useMemo(
     () => ({
       findOne: (input: GetCompanyInput) => new GetCompanyUseCase(companyGateway).execute(input),
       create: (input: CreateCompanyUseCaseInput) => new CreateCompanyUseCase(companyGateway).execute(input),
@@ -25,4 +35,9 @@ export function useCompanyCases() {
     }),
     [companyGateway, cookieStorage, crypto],
   );
+
+  return {
+    ...cases,
+    useGetCompany,
+  };
 }

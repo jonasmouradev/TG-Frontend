@@ -6,6 +6,8 @@ export type GetPublishedVacancyOutput = VacancyList;
 export class GetPublishedVacancyUseCase implements IUseCase<void, GetPublishedVacancyOutput> {
   constructor(private readonly gateway: VacancyGateway) {}
 
+  public static readonly queryKey = () => ['vacancy', 'getPublishedVacancy'];
+
   async execute(): Promise<GetPublishedVacancyOutput> {
     const response = await this.gateway.findPublished();
 

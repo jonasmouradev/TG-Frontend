@@ -21,10 +21,12 @@ export interface GetRecentActivitiesUseCaseOutput {
 export class GetRecentActivitiesUseCase
   implements IUseCase<GetRecentActivitiesUseCaseInput, GetRecentActivitiesUseCaseOutput>
 {
-  constructor(private activityGateway: ActivityGateway) {}
+  constructor(private readonly gateway: ActivityGateway) {}
+
+  public static readonly queryKey = (input: Partial<GetRecentActivitiesUseCaseInput>) => ['recentActivities', input];
 
   async execute(input: GetRecentActivitiesUseCaseInput): Promise<GetRecentActivitiesUseCaseOutput> {
-    const response = await this.activityGateway.getRecentActivities({
+    const response = await this.gateway.getRecentActivities({
       limit: input.limit || 10,
       companyId: input.companyId,
     });
@@ -33,9 +35,6 @@ export class GetRecentActivitiesUseCase
       throw new Error('Failed to get recent activities');
     }
 
-    return {
-      activities: response.data.activities,
-      totalCount: response.data.totalCount,
-    };
+    return response.data;
   }
 }

@@ -22,6 +22,11 @@ export class GetRecentApplicationsUseCase
 {
   constructor(private readonly gateway: DashboardGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetRecentApplicationsUseCaseInput>) => [
+    'recentApplications',
+    input,
+  ];
+
   async execute(input?: GetRecentApplicationsUseCaseInput): Promise<GetRecentApplicationsUseCaseOutput> {
     const response = await this.gateway.getRecentApplications(input?.limit, input?.companyId);
 

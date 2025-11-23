@@ -16,7 +16,7 @@ import {
   DialogTitle,
   useVacancyCases,
 } from '@/shared';
-import { DeleteVacancyInput } from '@core/application';
+import { DeleteVacancyInput } from '@core/application/use-cases';
 import { Vacancy, VacancyStatus } from '@core/domain';
 import {
   Plus,

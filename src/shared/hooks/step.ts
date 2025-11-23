@@ -9,15 +9,17 @@ import {
   UpdateStepUseCaseInput,
   GetStepsUseCaseInput,
   ReorderStepsUseCaseInput,
+  GetStepsUseCaseOutput,
 } from '@core/application/use-cases';
 import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { QueryHookOptions } from '@shared/types';
 
 export function useStepCases() {
   const { stepGateway } = useCase();
 
-  const stepCases = useMemo(
+  const cases = useMemo(
     () => ({
-      findAll: (input: GetStepsUseCaseInput) => new GetStepsUseCase(stepGateway).execute(input),
       create: (input: CreateStepUseCaseInput) => new CreateStepUseCase(stepGateway).execute(input),
       update: (input: UpdateStepUseCaseInput) => new UpdateStepUseCase(stepGateway).execute(input),
       delete: (input: { id: string }) => new DeleteStepUseCase(stepGateway).execute(input),
@@ -26,5 +28,16 @@ export function useStepCases() {
     [stepGateway],
   );
 
-  return stepCases;
+  function useGetSteps({ input, ...options }: QueryHookOptions<GetStepsUseCaseInput, GetStepsUseCaseOutput>) {
+    return useQuery({
+      queryKey: GetStepsUseCase.queryKey(input || {}),
+      queryFn: () => new GetStepsUseCase(stepGateway).execute(input || {}),
+      ...options,
+    });
+  }
+
+  return {
+    ...cases,
+    useGetSteps,
+  };
 }

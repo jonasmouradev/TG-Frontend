@@ -15,6 +15,8 @@ export class GetCompetenceByIdUseCase
 {
   constructor(private readonly gateway: CompetenceGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetCompetenceByIdUseCaseInput>) => ['competenceById', input];
+
   async execute(input: GetCompetenceByIdUseCaseInput): Promise<GetCompetenceByIdUseCaseOutput> {
     if (!input.id) {
       throw new Error('Competence ID is required');

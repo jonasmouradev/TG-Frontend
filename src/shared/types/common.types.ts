@@ -1,3 +1,5 @@
+import { QueryOptions } from '@tanstack/react-query';
+
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;
@@ -54,3 +56,9 @@ export interface IUser {
         cpf: string;
       };
 }
+
+export type QueryHookOptions<I, O> = {
+  input: I;
+  enabled?: boolean;
+  staleTime?: number;
+} & QueryOptions<O>;

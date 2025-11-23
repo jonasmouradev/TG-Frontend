@@ -27,17 +27,32 @@ export const useDashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentJobs, setRecentJobs] = useState<Vacancy[]>([]);
   const [recentCandidates, setRecentCandidates] = useState<Candidate[]>([]);
-  const vacancy = useVacancyCases();
-  const { getRecentApplications, getStats } = useDashboardCases();
+  const { useGetVacancies } = useVacancyCases();
+  const { useGetDashboardStats, useGetRecentApplications } = useDashboardCases();
+
+  const { data: statsData } = useGetDashboardStats({
+    input: {},
+    enabled: false,
+  });
+
+  const { data: recentApplicationsData } = useGetRecentApplications({
+    input: { limit: 5 },
+    enabled: false,
+  });
+
+  const { data: vacanciesData } = useGetVacancies({
+    input: {},
+    enabled: false,
+  });
 
   const loadDashboardData = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // Load all dashboard data in parallel
-      const [statsData, vacancies] = await Promise.all([getStats(), vacancy.findAll({}), getRecentApplications()]);
-
+      if (!statsData || !recentApplicationsData || !vacanciesData) {
+        throw new Error('Failed to load dashboard data');
+      }
       setStats({
         activeJobs: statsData.stats.totalVacancies,
         totalCandidates: statsData.stats.totalApplications,
@@ -47,7 +62,7 @@ export const useDashboard = () => {
         avgProcessTime: 12,
         satisfaction: 4.8,
       });
-      setRecentJobs(vacancies.data || []);
+      setRecentJobs(vacanciesData?.data || []);
       setRecentCandidates([
         {
           id: '4',

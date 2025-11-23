@@ -20,6 +20,8 @@ export interface GetApplicationsUseCaseOutput {
 export class GetApplicationsUseCase implements IUseCase<GetApplicationsUseCaseInput, GetApplicationsUseCaseOutput> {
   constructor(private readonly gateway: ApplicationGateway) {}
 
+  public static readonly queryKey = (input: Partial<GetApplicationsUseCaseInput>) => ['applications', input];
+
   async execute(input?: GetApplicationsUseCaseInput): Promise<GetApplicationsUseCaseOutput> {
     const filters: ApplicationFilters = {
       applicantId: input?.applicantId,
