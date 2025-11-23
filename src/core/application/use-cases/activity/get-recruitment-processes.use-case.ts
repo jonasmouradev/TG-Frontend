@@ -39,7 +39,7 @@ export class GetRecruitmentProcessesUseCase
       status: input.status || 'all',
       companyId: input.companyId,
       recruiterId: input.recruiterId,
-      limit: input.limit || 50,
+      limit: input.limit || 30,
       offset: input.offset || 0,
     };
 

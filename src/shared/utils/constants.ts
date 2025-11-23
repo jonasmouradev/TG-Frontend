@@ -17,7 +17,7 @@ export const paths = {
   ACTIVE_VACANCIES: '/vacancies/active',
   SCHEDULING: '/vacancies/scheduling',
   CANDIDATE_REGISTRATION: '/candidates/registration',
-  VACANCY_APPLICATIONS: '/vacancies/:id/applications',
+  VACANCY_APPLICATION: '/vacancy/:id/application',
 } as const;
 
 export type Paths = keyof typeof paths;

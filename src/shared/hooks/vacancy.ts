@@ -58,7 +58,7 @@ export function useVacancyCases() {
     });
   }
 
-  function useGetPublishedVacancy({ ...options }: QueryHookOptions<void, GetPublishedVacancyOutput>) {
+  function useGetPublishedVacancy({ ...options }: Omit<QueryHookOptions<void, GetPublishedVacancyOutput>, 'input'>) {
     return useQuery({
       queryKey: GetPublishedVacancyUseCase.queryKey(),
       queryFn: () => new GetPublishedVacancyUseCase(vacancyGateway).execute(),

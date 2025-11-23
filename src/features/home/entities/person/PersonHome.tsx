@@ -1,18 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  Button,
-  Avatar,
-  AvatarFallback,
-  Input,
-  Badge,
-  paths,
-} from '@/shared';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Input, Badge, paths } from '@/shared';
 import {
   Briefcase,
   Search,
@@ -20,7 +8,6 @@ import {
   MapPin,
   Bell,
   FileText,
-  Clock,
   Send,
   CheckCircle2,
   XCircle,
@@ -35,29 +22,7 @@ import {
   BarChart3,
 } from 'lucide-react';
 import HomeHeader from '@features/home/components/HomeHeader';
-
-interface Job {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  type: string;
-  salary: string;
-  postedDate: string;
-  applicants: number;
-  saved: boolean;
-  match: number;
-  logo: string;
-}
-
-interface Application {
-  id: string;
-  jobTitle: string;
-  company: string;
-  appliedDate: string;
-  stage: string;
-  status: 'pending' | 'interview' | 'rejected' | 'offer';
-}
+import { useDashboard } from '@features/home/hooks';
 
 export default function PersonHome() {
   const navigate = useNavigate();
@@ -71,82 +36,7 @@ export default function PersonHome() {
     savedJobs: 8,
   };
 
-  const recommendedJobs: Job[] = [
-    {
-      id: '1',
-      title: 'Desenvolvedor Front-end Sênior',
-      company: 'TechCorp',
-      location: 'São Paulo, SP',
-      type: 'CLT',
-      salary: 'R$ 10.000 - R$ 14.000',
-      postedDate: '2 dias atrás',
-      applicants: 45,
-      saved: true,
-      match: 95,
-      logo: 'TC',
-    },
-    {
-      id: '2',
-      title: 'Designer UX/UI Pleno',
-      company: 'Creative Studio',
-      location: 'Remoto',
-      type: 'PJ',
-      salary: 'R$ 8.000 - R$ 12.000',
-      postedDate: '1 dia atrás',
-      applicants: 32,
-      saved: false,
-      match: 88,
-      logo: 'CS',
-    },
-    {
-      id: '3',
-      title: 'Product Manager',
-      company: 'StartupXYZ',
-      location: 'Híbrido - SP',
-      type: 'CLT',
-      salary: 'R$ 12.000 - R$ 18.000',
-      postedDate: '3 dias atrás',
-      applicants: 28,
-      saved: true,
-      match: 82,
-      logo: 'SX',
-    },
-  ];
-
-  const myApplications: Application[] = [
-    {
-      id: '1',
-      jobTitle: 'Full Stack Developer',
-      company: 'Tech Solutions',
-      appliedDate: '15/01/2024',
-      stage: 'Entrevista Técnica',
-      status: 'interview',
-    },
-    {
-      id: '2',
-      jobTitle: 'React Developer',
-      company: 'Digital Agency',
-      appliedDate: '12/01/2024',
-      stage: 'Análise de Currículo',
-      status: 'pending',
-    },
-    {
-      id: '3',
-      jobTitle: 'Frontend Engineer',
-      company: 'E-commerce Inc',
-      appliedDate: '10/01/2024',
-      stage: 'Proposta Enviada',
-      status: 'offer',
-    },
-    {
-      id: '4',
-      jobTitle: 'UI Developer',
-      company: 'Design Studio',
-      appliedDate: '08/01/2024',
-      stage: 'Não Selecionado',
-      status: 'rejected',
-    },
-  ];
+  const { publishedVacancies } = useDashboard();
 
   const upcomingInterviews = [
     {
@@ -169,26 +59,26 @@ export default function PersonHome() {
     },
   ];
 
-  const getStatusColor = (status: string) => {
-    const colors = {
-      pending: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-      interview: 'bg-blue-100 text-blue-700 border-blue-200',
-      rejected: 'bg-red-100 text-red-700 border-red-200',
-      offer: 'bg-green-100 text-green-700 border-green-200',
-    };
-    return colors[status as keyof typeof colors];
-  };
+  // const getStatusColor = (status: string) => {
+  //   const colors = {
+  //     pending: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+  //     interview: 'bg-blue-100 text-blue-700 border-blue-200',
+  //     rejected: 'bg-red-100 text-red-700 border-red-200',
+  //     offer: 'bg-green-100 text-green-700 border-green-200',
+  //   };
+  //   return colors[status as keyof typeof colors];
+  // };
 
-  const getStatusIcon = (status: string) => {
-    const icons = {
-      pending: Clock,
-      interview: MessageSquare,
-      rejected: XCircle,
-      offer: CheckCircle2,
-    };
-    const Icon = icons[status as keyof typeof icons];
-    return Icon ? <Icon className="w-4 h-4" /> : null;
-  };
+  // const getStatusIcon = (status: string) => {
+  //   const icons = {
+  //     pending: Clock,
+  //     interview: MessageSquare,
+  //     rejected: XCircle,
+  //     offer: CheckCircle2,
+  //   };
+  //   const Icon = icons[status as keyof typeof icons];
+  //   return Icon ? <Icon className="w-4 h-4" /> : null;
+  // };
 
   const toggleSaveJob = (jobId: string) => {
     setSavedJobs(prev => (prev.includes(jobId) ? prev.filter(id => id !== jobId) : [...prev, jobId]));
@@ -327,27 +217,27 @@ export default function PersonHome() {
               </div>
 
               <div className="space-y-4">
-                {recommendedJobs.map(job => (
+                {publishedVacancies?.data.map(job => (
                   <Card key={job.id} className="border-2 hover:shadow-lg transition-all">
                     <CardContent className="p-4 sm:p-5 lg:p-6">
                       <div className="flex flex-col sm:flex-row items-start gap-4">
-                        <Avatar className="w-12 h-12 border-2 border-gray-200 flex-shrink-0">
+                        {/* <Avatar className="w-12 h-12 border-2 border-gray-200 flex-shrink-0">
                           <AvatarFallback className="bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-700 font-bold text-sm">
                             {job.logo}
                           </AvatarFallback>
-                        </Avatar>
+                        </Avatar> */}
 
                         <div className="flex-1 w-full min-w-0">
                           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                             <div className="flex-1 min-w-0">
                               <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">{job.title}</h4>
-                              <p className="text-sm text-gray-600 mb-2">{job.company}</p>
+                              <p className="text-sm text-gray-600 mb-2">{job.title}</p>
                             </div>
                             <Badge
-                              className={`${getMatchBadgeColor(job.match)} flex items-center gap-1 flex-shrink-0 self-start`}
+                              className={`${getMatchBadgeColor(50)} flex items-center gap-1 flex-shrink-0 self-start`}
                             >
                               <Star className="w-3 h-3" />
-                              {job.match}% match
+                              50% match
                             </Badge>
                           </div>
 
@@ -362,14 +252,14 @@ export default function PersonHome() {
                             </span>
                             <span className="flex items-center gap-1">
                               <DollarSign className="w-4 h-4 flex-shrink-0" />
-                              {job.salary}
+                              {job.salaryMax}
                             </span>
                           </div>
 
                           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t">
                             <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-500">
-                              <span>{job.postedDate}</span>
-                              <span>{job.applicants} candidatos</span>
+                              <span>{job.publicationDate?.toLocaleString()}</span>
+                              <span>5 candidatos</span>
                             </div>
                             <div className="flex gap-2">
                               <Button
@@ -385,7 +275,7 @@ export default function PersonHome() {
                               <Button
                                 size="sm"
                                 className="bg-blue-600 hover:bg-blue-700"
-                                onClick={() => navigate(paths.VACANCY_APPLICATIONS.replace(':id', job.id))}
+                                onClick={() => navigate(paths.VACANCY_APPLICATION.replace(':id', job.id))}
                               >
                                 Candidatar-se
                               </Button>
@@ -478,7 +368,7 @@ export default function PersonHome() {
                 <CardTitle className="text-lg">Minhas Candidaturas</CardTitle>
                 <CardDescription className="text-xs">Status das suas aplicações</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-3 pt-0">
+              {/* <CardContent className="space-y-3 pt-0">
                 {myApplications.slice(0, 4).map(app => (
                   <div key={app.id} className="p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer border">
                     <div className="flex items-start justify-between gap-2 mb-2">
@@ -500,7 +390,7 @@ export default function PersonHome() {
                 <Button variant="outline" size="sm" className="w-full mt-2">
                   Ver Todas as Candidaturas
                 </Button>
-              </CardContent>
+              </CardContent> */}
             </Card>
 
             {/* Quick Actions */}

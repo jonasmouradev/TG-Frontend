@@ -1,18 +1,19 @@
-import { Badge, Button } from '@shared/index';
-import { ProcessTemplate } from '../../../types';
+import { useNewVacancy } from '@features/newVacancy/hooks';
+import { Badge, Button, useTemplateCases } from '@shared/index';
 
-interface ProcessTemplatesProps {
-  processTemplates: ProcessTemplate[];
-  savedTemplates: ProcessTemplate[];
-  applyTemplate: (template: ProcessTemplate) => void;
-}
+export default function ProcessTemplates() {
+  const { useGetProcessTemplates } = useTemplateCases();
+  const { data: processTemplates } = useGetProcessTemplates({
+    input: {},
+    enabled: true,
+  });
 
-export default function ProcessTemplates({ processTemplates, savedTemplates, applyTemplate }: ProcessTemplatesProps) {
+  const templates = processTemplates?.templates || [];
+  const { applyTemplate, savedTemplates } = useNewVacancy();
+
   return (
     <div className="grid grid-cols-1 gap-3">
-      {/* Templates Padrão */}
-      {processTemplates.map(template => {
-        const Icon = template.icon;
+      {templates.map(template => {
         return (
           <div
             key={template.id}
@@ -20,9 +21,9 @@ export default function ProcessTemplates({ processTemplates, savedTemplates, app
             onClick={() => applyTemplate(template)}
           >
             <div className="flex items-start gap-3">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+              {/* <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                 <Icon className="w-6 h-6 text-white" />
-              </div>
+              </div> */}
               <div className="flex-1">
                 <h4 className="font-semibold text-lg mb-1 group-hover:text-blue-600 transition-colors">
                   {template.name}
@@ -53,7 +54,7 @@ export default function ProcessTemplates({ processTemplates, savedTemplates, app
             <div className="h-px bg-gray-300 flex-1" />
           </div>
           {savedTemplates.map(template => {
-            const Icon = template.icon;
+            // const Icon = template.icon;
             return (
               <div
                 key={template.id}
@@ -62,7 +63,7 @@ export default function ProcessTemplates({ processTemplates, savedTemplates, app
               >
                 <div className="flex items-start gap-3">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 text-white" />
+                    {/* <Icon className="w-6 h-6 text-white" /> */}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">

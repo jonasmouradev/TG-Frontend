@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ProcessTemplate, Stage } from '../types';
 import { Sparkles } from 'lucide-react';
+import { ProcessTemplateDto } from '@core/domain';
 
 const useNewVacancy = () => {
   const [skills, setSkills] = useState<string[]>([]);
@@ -40,7 +41,7 @@ const useNewVacancy = () => {
   const [showExportModal, setShowExportModal] = useState(false);
   const [templateName, setTemplateName] = useState('');
   const [templateDescription, setTemplateDescription] = useState('');
-  const [savedTemplates, setSavedTemplates] = useState<ProcessTemplate[]>([]);
+  const [savedTemplates, setSavedTemplates] = useState<ProcessTemplateDto[]>([]);
 
   const addSkill = () => {
     if (newSkill.trim() && !skills.includes(newSkill.trim())) {
@@ -147,7 +148,7 @@ const useNewVacancy = () => {
     setDraggedItem(null);
   };
 
-  const applyTemplate = (template: ProcessTemplate) => {
+  const applyTemplate = (template: ProcessTemplateDto) => {
     const newStages = template.stages.map((stage, index) => ({
       ...stage,
       id: `${Date.now()}-${index}`,

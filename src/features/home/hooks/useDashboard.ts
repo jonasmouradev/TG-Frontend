@@ -27,23 +27,25 @@ export const useDashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentJobs, setRecentJobs] = useState<Vacancy[]>([]);
   const [recentCandidates, setRecentCandidates] = useState<Candidate[]>([]);
-  const { useGetVacancies } = useVacancyCases();
+  const { useGetVacancies, useGetPublishedVacancy } = useVacancyCases();
   const { useGetDashboardStats, useGetRecentApplications } = useDashboardCases();
 
   const { data: statsData } = useGetDashboardStats({
     input: {},
-    enabled: false,
+    enabled: true,
   });
 
   const { data: recentApplicationsData } = useGetRecentApplications({
     input: { limit: 5 },
-    enabled: false,
+    enabled: true,
   });
 
   const { data: vacanciesData } = useGetVacancies({
     input: {},
-    enabled: false,
+    enabled: true,
   });
+
+  const { data: publishedVacancies } = useGetPublishedVacancy({ enabled: true });
 
   const loadDashboardData = async () => {
     setIsLoading(true);
@@ -96,6 +98,7 @@ export const useDashboard = () => {
     stats,
     recentJobs,
     recentCandidates,
+    publishedVacancies,
     refreshData,
   };
 };

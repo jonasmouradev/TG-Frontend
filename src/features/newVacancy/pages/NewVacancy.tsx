@@ -6,7 +6,6 @@ import {
   ProcessSection,
   ActionButtons,
 } from '../components';
-import { processTemplates } from '../consts';
 import { useNewVacancy } from '../hooks';
 import { VacancyFormProvider } from '../contexts/VacancyFormContext';
 
@@ -24,7 +23,7 @@ export default function NewVacancy() {
         <DescriptionSection />
         <RequirementsSection {...newVacancy} />
         <BenefitsSection />
-        <ProcessSection processTemplates={processTemplates} />
+        <ProcessSection />
         <ActionButtons />
       </div>
     </VacancyFormProvider>

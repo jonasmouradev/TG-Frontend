@@ -1,16 +1,6 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Button,
-  Badge,
-  Avatar,
-  AvatarFallback,
-  Textarea,
-  // useVacancyCases,
-} from '@/shared';
+import { useParams } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle, Button, Badge, Textarea } from '@/shared';
 
 import {
   ArrowLeft,
@@ -34,69 +24,37 @@ import {
   X,
   Info,
 } from 'lucide-react';
+import { useDashboard } from '@features/home/hooks';
 
 export default function VacancyApplication() {
+  // Capturar o ID da vaga da URL
+  const { id } = useParams<{ id: string }>();
+
   const [isSaved, setIsSaved] = useState(false);
   const [showApplicationModal, setShowApplicationModal] = useState(false);
   const [coverLetter, setCoverLetter] = useState('');
   const [selectedResume, setSelectedResume] = useState('current');
 
-  const job = {
-    id: '1',
-    title: 'Desenvolvedor Front-end Sênior',
-    company: 'TechCorp',
-    logo: 'TC',
-    location: 'São Paulo, SP - Híbrido',
-    type: 'CLT',
-    salary: 'R$ 10.000 - R$ 14.000',
-    postedDate: '2 dias atrás',
-    applicants: 45,
-    match: 95,
-    description:
-      'Buscamos um desenvolvedor Front-end experiente para integrar nosso time de produto. Você será responsável por criar interfaces modernas e responsivas, trabalhando com React, TypeScript e Next.js em projetos de alto impacto.',
-    responsibilities: [
-      'Desenvolver e manter componentes React reutilizáveis e escaláveis',
-      'Colaborar com designers para implementar UI/UX de alta qualidade',
-      'Otimizar aplicações web para máxima performance e acessibilidade',
-      'Participar de code reviews e discussões técnicas',
-      'Mentorar desenvolvedores júnior e contribuir com a cultura técnica',
-    ],
-    requirements: [
-      '5+ anos de experiência com desenvolvimento React',
-      'Forte conhecimento em TypeScript e JavaScript moderno',
-      'Experiência com Next.js, SSR e otimização de performance',
-      'Conhecimento sólido em testes (Jest, Testing Library, Cypress)',
-      'Familiaridade com Git, CI/CD e metodologias ágeis',
-      'Inglês intermediário para leitura de documentação',
-    ],
-    niceToHave: [
-      'Experiência com GraphQL e Apollo Client',
-      'Conhecimento em design systems e Figma',
-      'Contribuições open source',
-      'Experiência com React Native',
-    ],
-    benefits: [
-      'Plano de saúde e odontológico (Unimed)',
-      'Vale refeição/alimentação flexível',
-      'Gympass ou Totalpass',
-      'Auxílio educação (R$ 1.000/mês)',
-      'Stock options após 6 meses',
-      'Day off no aniversário',
-      'Trabalho híbrido (3x presencial por semana)',
-      'Budget para equipamentos (notebook, monitor, etc)',
-      'Ambiente descontraído e cultura de inovação',
-    ],
-    aboutCompany:
-      'A TechCorp é uma startup de tecnologia em rápido crescimento, focada em soluções SaaS para gestão empresarial. Nosso time é composto por 80+ pessoas apaixonadas por tecnologia e inovação. Valorizamos autonomia, aprendizado contínuo e trabalho em equipe.',
-    process: [
-      { stage: 'Triagem de Currículo', duration: '2 dias' },
-      { stage: 'Entrevista com RH', duration: '1 semana' },
-      { stage: 'Desafio Técnico', duration: '5 dias para fazer' },
-      { stage: 'Entrevista Técnica', duration: '1 semana' },
-      { stage: 'Entrevista Cultural', duration: '5 dias' },
-      { stage: 'Proposta', duration: '3 dias' },
-    ],
-  };
+  const { publishedVacancies } = useDashboard();
+  const job = publishedVacancies?.data.find(vacancy => vacancy.id === id);
+
+  if (!job) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="max-w-md">
+          <CardContent className="p-6 text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Vaga não encontrada</h2>
+            <p className="text-gray-600 mb-4">A vaga que você está procurando não existe ou foi removida.</p>
+            <Button onClick={() => window.history.back()}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const handleApply = () => {
     setShowApplicationModal(true);
@@ -142,14 +100,14 @@ export default function VacancyApplication() {
             <Card className="border-2">
               <CardContent className="p-6">
                 <div className="flex gap-4 mb-4">
-                  <Avatar className="w-16 h-16 border-2">
+                  {/* <Avatar className="w-16 h-16 border-2">
                     <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-blue-700 font-bold text-lg">
                       {job.logo}
                     </AvatarFallback>
-                  </Avatar>
+                  </Avatar> */}
                   <div className="flex-1">
                     <h1 className="text-2xl font-bold mb-1">{job.title}</h1>
-                    <p className="text-lg text-gray-700 mb-3">{job.company}</p>
+                    <p className="text-lg text-gray-700 mb-3">{job.title}</p>
                     <div className="flex flex-wrap gap-3 text-sm">
                       <span className="flex items-center gap-1 text-gray-600">
                         <MapPin className="w-4 h-4" />
@@ -161,7 +119,7 @@ export default function VacancyApplication() {
                       </span>
                       <span className="flex items-center gap-1 text-gray-600">
                         <DollarSign className="w-4 h-4" />
-                        {job.salary}
+                        {job.salaryMax}
                       </span>
                     </div>
                   </div>
@@ -170,15 +128,15 @@ export default function VacancyApplication() {
                 <div className="flex flex-wrap gap-2 mb-4">
                   <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
                     <Star className="w-3 h-3" />
-                    {job.match}% de compatibilidade
+                    50% de compatibilidade
                   </Badge>
                   <Badge variant="outline" className="text-gray-600">
                     <Clock className="w-3 h-3 mr-1" />
-                    {job.postedDate}
+                    {job.publicationDate?.toLocaleString()}
                   </Badge>
                   <Badge variant="outline" className="text-gray-600">
                     <Users className="w-3 h-3 mr-1" />
-                    {job.applicants} candidatos
+                    15 candidatos
                   </Badge>
                 </div>
 
@@ -193,22 +151,22 @@ export default function VacancyApplication() {
             </Card>
 
             {/* Match Alert */}
-            {job.match >= 90 && (
-              <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-teal-50">
-                <CardContent className="p-4 flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center flex-shrink-0">
-                    <Target className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Excelente compatibilidade!</h3>
-                    <p className="text-sm text-gray-700">
-                      Seu perfil tem {job.match}% de match com esta vaga. Suas habilidades e experiência são muito
-                      alinhadas com o que a empresa busca.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            {/* {50 >= 90 && ( */}
+            <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-teal-50">
+              <CardContent className="p-4 flex items-start gap-3">
+                <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center flex-shrink-0">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Excelente compatibilidade!</h3>
+                  <p className="text-sm text-gray-700">
+                    Seu perfil tem 50% de match com esta vaga. Suas habilidades e experiência são muito alinhadas com o
+                    que a empresa busca.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            {/* )} */}
 
             {/* Description */}
             <Card>
@@ -254,7 +212,7 @@ export default function VacancyApplication() {
                     Diferenciais
                   </h3>
                   <ul className="space-y-2">
-                    {job.niceToHave.map((item, idx) => (
+                    {job.requirements.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-gray-700">
                         <span className="text-yellow-600 flex-shrink-0">+</span>
                         <span>{item}</span>
@@ -275,7 +233,7 @@ export default function VacancyApplication() {
               </CardHeader>
               <CardContent>
                 <div className="grid sm:grid-cols-2 gap-2">
-                  {job.benefits.map((benefit, idx) => (
+                  {job.benefits?.map((benefit, idx) => (
                     <div key={idx} className="flex items-center gap-2 text-sm">
                       <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
                       <span>{benefit}</span>
@@ -294,7 +252,7 @@ export default function VacancyApplication() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 leading-relaxed">{job.aboutCompany}</p>
+                <p className="text-gray-700 leading-relaxed">job.aboutCompany</p>
               </CardContent>
             </Card>
           </div>
@@ -332,7 +290,7 @@ export default function VacancyApplication() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {job.process.map((step, idx) => (
+                  {/* {job.process.map((step, idx) => (
                     <div key={idx} className="flex gap-3">
                       <div className="flex flex-col items-center">
                         <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-semibold text-sm flex-shrink-0">
@@ -345,7 +303,7 @@ export default function VacancyApplication() {
                         <div className="text-xs text-gray-600">{step.duration}</div>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-gray-700">
                   <Info className="w-4 h-4 inline mr-1" />
@@ -385,14 +343,14 @@ export default function VacancyApplication() {
             <CardContent className="p-6 space-y-6">
               {/* Job Summary */}
               <div className="flex gap-4 p-4 bg-gray-50 rounded-lg">
-                <Avatar className="w-12 h-12">
+                {/* <Avatar className="w-12 h-12">
                   <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-blue-700 font-bold">
                     {job.logo}
                   </AvatarFallback>
-                </Avatar>
+                </Avatar> */}
                 <div>
                   <h3 className="font-semibold">{job.title}</h3>
-                  <p className="text-sm text-gray-600">{job.company}</p>
+                  <p className="text-sm text-gray-600">job.company</p>
                   <p className="text-xs text-gray-500 mt-1">
                     {job.location} • {job.type}
                   </p>
@@ -451,7 +409,7 @@ export default function VacancyApplication() {
                   <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-gray-700">
                     Ao se candidatar, você concorda em compartilhar suas informações de perfil e currículo com{' '}
-                    <strong>{job.company}</strong>.
+                    <strong>job.company</strong>.
                   </div>
                 </div>
               </div>

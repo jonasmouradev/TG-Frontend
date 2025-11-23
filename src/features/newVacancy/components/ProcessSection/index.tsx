@@ -7,9 +7,8 @@ import StageList from './StageList';
 import StageForm from './StageForm';
 import ExportTemplateModal from './ExportTemplateModal';
 import { useNewVacancy } from '../../hooks';
-import { ProcessTemplate } from '../../types';
 
-export default function ProcessSection({ processTemplates }: { readonly processTemplates: ProcessTemplate[] }) {
+export default function ProcessSection() {
   const {
     stages,
     newStage,
@@ -37,8 +36,6 @@ export default function ProcessSection({ processTemplates }: { readonly processT
     setTemplateName,
     templateDescription,
     setTemplateDescription,
-    savedTemplates,
-    applyTemplate,
     exportAsTemplate,
     stageStats,
   } = useNewVacancy();
@@ -98,13 +95,7 @@ export default function ProcessSection({ processTemplates }: { readonly processT
           {/* Estatísticas */}
           {showStats && stages.length > 0 && <ProcessStats stageStats={stageStats} totalStages={stages.length} />}
 
-          {showTemplates && (
-            <ProcessTemplates
-              processTemplates={processTemplates}
-              savedTemplates={savedTemplates}
-              applyTemplate={applyTemplate}
-            />
-          )}
+          {showTemplates && <ProcessTemplates />}
         </div>
 
         {/* Etapas Existentes com Drag & Drop */}

@@ -104,7 +104,7 @@ export const router = createBrowserRouter([
         element: <CandidateRegistration />,
       },
       {
-        path: paths.VACANCY_APPLICATIONS,
+        path: paths.VACANCY_APPLICATION,
         element: <VacancyApplication />,
       },
       {
