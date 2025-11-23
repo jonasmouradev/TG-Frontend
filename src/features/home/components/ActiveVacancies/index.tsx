@@ -34,8 +34,9 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
-const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
+const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onRefresh?: () => void }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -53,11 +54,14 @@ const ActiveVacancies = ({ recentJobs }: { recentJobs: Vacancy[] }) => {
     }
     try {
       await vacancy.delete({ id: selectedVacancyId } as DeleteVacancyInput);
+      setDeleteDialogOpen(false);
+      setSelectedVacancyId(null);
+      toast.success('Vaga excluída com sucesso!');
+      onRefresh?.();
     } catch (error) {
       console.error('Failed to delete vacancy:', error);
+      toast.error('Erro ao excluir vaga');
     }
-    setDeleteDialogOpen(false);
-    setSelectedVacancyId(null);
   };
 
   const getStatusColor = (status: VacancyStatus) => {

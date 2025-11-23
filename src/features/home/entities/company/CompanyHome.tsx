@@ -40,7 +40,7 @@ export default function CompanyHome() {
         <WelcomeSection />
         <StatsCards dashboardStats={dashboardStats} />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-          <ActiveVacancies recentJobs={recentJobs} />
+          <ActiveVacancies recentJobs={recentJobs} onRefresh={refreshData} />
           <HomeSidebar dashboardStats={dashboardStats} />
         </div>
       </div>
