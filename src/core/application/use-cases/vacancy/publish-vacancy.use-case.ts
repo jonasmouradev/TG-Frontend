@@ -14,7 +14,7 @@ export class PublishVacancyUseCase implements IUseCase<PublishVacancyInput, Publ
   constructor(private readonly gateway: VacancyGateway) {}
 
   async execute(input: PublishVacancyInput): Promise<PublishVacancyOutput> {
-    const response = await this.gateway.publishVacancy(input.id);
+    const response = await this.gateway.publish(input.id);
 
     if (!response.data) {
       throw new Error('Failed to publish vacancy');
