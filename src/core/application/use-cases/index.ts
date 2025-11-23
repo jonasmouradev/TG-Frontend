@@ -9,3 +9,4 @@ export * from './activity';
 export * from './template';
 export * from './competence';
 export * from './step';
+export * from './person';

@@ -14,30 +14,30 @@ import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.por
 export class PersonHttpGateway implements PersonGateway {
   constructor(private readonly httpClient: IHttpClient) {}
 
-  async getPersons(filters?: PersonFilters): PromiseResponse<PersonListResponse> {
+  async findAll(filters?: PersonFilters): PromiseResponse<PersonListResponse> {
     return this.httpClient.get<PersonListResponse>({
       url: `/persons`,
       params: filters as Record<string, unknown>,
     });
   }
 
-  async getPersonById(id: string): PromiseResponse<Person> {
+  async findOne(id: string): PromiseResponse<Person> {
     return this.httpClient.get<Person>({ url: `/persons/${id}` });
   }
 
-  async createPerson(payload: CreatePersonDto): PromiseResponse<Person> {
+  async create(payload: CreatePersonDto): PromiseResponse<Person> {
     return this.httpClient.post<Person>({ url: `/persons`, payload });
   }
 
-  async updatePerson(id: string, payload: UpdatePersonDto): PromiseResponse<Person> {
+  async update(id: string, payload: UpdatePersonDto): PromiseResponse<Person> {
     return this.httpClient.put<Person>({ url: `/persons/${id}`, payload });
   }
 
-  async deletePerson(id: string): PromiseResponse<void> {
+  async delete(id: string): PromiseResponse<void> {
     return this.httpClient.delete({ url: `/persons/${id}` });
   }
 
-  async getPersonByUserId(userId: string): PromiseResponse<Person> {
+  async findByUserId(userId: string): PromiseResponse<Person> {
     return this.httpClient.get<Person>({ url: `/persons/user/${userId}` });
   }
 

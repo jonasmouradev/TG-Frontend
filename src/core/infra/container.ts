@@ -10,6 +10,7 @@ import {
   TemplateHttpGateway,
   CompetenceHttpGateway,
   StepHttpGateway,
+  PersonHttpGateway,
 } from '@core/application/gateways';
 
 import {
@@ -20,6 +21,7 @@ import {
   ICookieStorage,
   ICrypto,
   IHttpClient,
+  PersonGateway,
   UserGateway,
   VacancyGateway,
 } from '@core/domain';
@@ -41,6 +43,7 @@ export class DIContainer {
 
   public readonly authGateway: AuthGateway;
   public readonly userGateway: UserGateway;
+  public readonly personGateway: PersonGateway;
   public readonly vacancyGateway: VacancyGateway;
   public readonly applicationGateway: ApplicationGateway;
   public readonly companyGateway: CompanyGateway;
@@ -62,6 +65,7 @@ export class DIContainer {
     this.authGateway = new AuthHttpGateway(this.httpClient);
     this.userGateway = new UserHttpGateway(this.httpClient);
     this.stepGateway = new StepHttpGateway(this.httpClient);
+    this.personGateway = new PersonHttpGateway(this.httpClient);
     this.vacancyGateway = new VacancyHttpGateway(this.httpClient);
     this.companyGateway = new CompanyHttpGateway(this.httpClient);
     this.activityGateway = new ActivityHttpGateway(this.httpClient);

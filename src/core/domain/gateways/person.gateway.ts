@@ -37,12 +37,12 @@ export interface AddEducationDto {
 }
 
 export abstract class PersonGateway {
-  abstract getPersons(filters?: PersonFilters): PromiseResponse<PersonListResponse>;
-  abstract getPersonById(id: string): PromiseResponse<Person>;
-  abstract createPerson(payload: CreatePersonDto): PromiseResponse<Person>;
-  abstract updatePerson(id: string, payload: UpdatePersonDto): PromiseResponse<Person>;
-  abstract deletePerson(id: string): PromiseResponse<void>;
-  abstract getPersonByUserId(userId: string): PromiseResponse<Person>;
+  abstract findAll(filters?: PersonFilters): PromiseResponse<PersonListResponse>;
+  abstract findOne(id: string): PromiseResponse<Person>;
+  abstract create(payload: CreatePersonDto): PromiseResponse<Person>;
+  abstract update(id: string, payload: UpdatePersonDto): PromiseResponse<Person>;
+  abstract delete(id: string): PromiseResponse<void>;
+  abstract findByUserId(userId: string): PromiseResponse<Person>;
   abstract addCompetence(id: string, payload: AddCompetenceDto): PromiseResponse<Person>;
   abstract removeCompetence(id: string, competenceId: string): PromiseResponse<void>;
   abstract addWorkExperience(id: string, payload: AddWorkExperienceDto): PromiseResponse<Person>;
