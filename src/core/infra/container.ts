@@ -31,6 +31,8 @@ import { ActivityGateway } from '@core/domain/gateways/activity.gateway';
 import { TemplateGateway } from '@core/domain/gateways/template.gateway';
 import { CompetenceGateway } from '@core/domain/gateways/competence.gateway';
 import { StepGateway } from '@core/domain/gateways/step.gateway';
+import { MatchingHttpGateway } from '@core/application/gateways/matching-http.gateway';
+import { MatchingGateway } from '@core/domain/gateways/matching.gateway';
 
 /**
  * Simple Dependency Injection Container
@@ -52,6 +54,7 @@ export class DIContainer {
   public readonly templateGateway: TemplateGateway;
   public readonly competenceGateway: CompetenceGateway;
   public readonly stepGateway: StepGateway;
+  public readonly matchGateway: MatchingGateway;
 
   constructor() {
     this.crypto = new Crypto();
@@ -65,6 +68,7 @@ export class DIContainer {
     this.authGateway = new AuthHttpGateway(this.httpClient);
     this.userGateway = new UserHttpGateway(this.httpClient);
     this.stepGateway = new StepHttpGateway(this.httpClient);
+    this.matchGateway = new MatchingHttpGateway(this.httpClient);
     this.personGateway = new PersonHttpGateway(this.httpClient);
     this.vacancyGateway = new VacancyHttpGateway(this.httpClient);
     this.companyGateway = new CompanyHttpGateway(this.httpClient);

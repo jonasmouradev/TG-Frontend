@@ -1,5 +1,6 @@
 import { ExperienceLevel, Vacancy, VacancyStatus, VacancyType, PaginatedList } from '@core/domain/entities';
 import { PromiseResponse } from '../ports/http-client.port';
+import { CandidateVacancyMatch } from '../entities/candidate-vacancy-match';
 
 type Filters = {
   companyId?: string;
@@ -26,8 +27,8 @@ type Create = {
   benefits?: string[];
   requirements: string[];
   responsibilities: string[];
-  publicationDate: string | '';
-  expirationDate: string | '';
+  publicationDate: string;
+  expirationDate: string;
 };
 
 type Update = {
@@ -47,6 +48,16 @@ type Update = {
   expirationDate?: Date;
 };
 
+type FindBestCandidate = {
+  vacancyId: string;
+};
+
+type FindBestCandidates = {
+  vacancyId: string;
+  minScore?: number;
+  limit?: number;
+};
+
 type VacancyList = PaginatedList<Vacancy>;
 
 export interface VacancyGateway {
@@ -56,8 +67,17 @@ export interface VacancyGateway {
   create(payload: Create): PromiseResponse<Vacancy>;
   update(id: string, payload: Update): PromiseResponse<Vacancy>;
   remove(id: string): PromiseResponse<void | null>;
-  publishVacancy(id: string): PromiseResponse<Vacancy>;
-  closeVacancy(id: string): PromiseResponse<Vacancy>;
+  publish(id: string): PromiseResponse<Vacancy>;
+  close(id: string): PromiseResponse<Vacancy>;
+  findBestCandidates(params: FindBestCandidates): PromiseResponse<CandidateVacancyMatch[]>;
+  findBestCandidate(params: FindBestCandidate): PromiseResponse<CandidateVacancyMatch | null>;
 }
 
-export type { Filters as VacancyFilters, Update as UpdateVacancyDto, Create as CreateVacancyDto, VacancyList };
+export type {
+  Filters as VacancyFilters,
+  Update as UpdateVacancyDto,
+  Create as CreateVacancyDto,
+  FindBestCandidate as FindBestCandidateDto,
+  FindBestCandidates as FindBestCandidatesDto,
+  VacancyList,
+};

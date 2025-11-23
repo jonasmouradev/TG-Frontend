@@ -6,6 +6,8 @@ import {
   CreateVacancyUseCase,
   GetVacanciesUseCase,
   GetPublishedVacancyUseCase,
+  GetBestCandidateUseCase,
+  GetBestCandidatesUseCase,
 } from '@core/application/use-cases';
 import type {
   GetVacancyInput,
@@ -14,18 +16,14 @@ import type {
   PublishVacancyInput,
   CreateVacancyInput,
   GetVacanciesInput,
+  GetBestCandidateInput,
+  GetBestCandidatesInput,
 } from '@core/application/use-cases';
 import { useCase } from '@shared/contexts/UseCaseContext';
 import { useMemo } from 'react';
 
 export function useVacancyCases() {
-  const container = useCase();
-
-  if (!container) {
-    throw new Error('useVacancyCases must be used within UseCaseContext.Provider');
-  }
-
-  const { vacancyGateway } = container;
+  const { vacancyGateway } = useCase();
 
   const vacancyCases = useMemo(
     () => ({
@@ -36,6 +34,8 @@ export function useVacancyCases() {
       delete: (input: DeleteVacancyInput) => new DeleteVacancyUseCase(vacancyGateway).execute(input),
       publish: (input: PublishVacancyInput) => new PublishVacancyUseCase(vacancyGateway).execute(input),
       getPublished: () => new GetPublishedVacancyUseCase(vacancyGateway).execute(),
+      getBestCandidate: (input: GetBestCandidateInput) => new GetBestCandidateUseCase(vacancyGateway).execute(input),
+      getBestCandidates: (input: GetBestCandidatesInput) => new GetBestCandidatesUseCase(vacancyGateway).execute(input),
     }),
     [vacancyGateway],
   );

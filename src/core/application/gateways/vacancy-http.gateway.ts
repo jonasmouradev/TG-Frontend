@@ -1,7 +1,10 @@
 import { Vacancy } from '@core/domain/entities';
+import { CandidateVacancyMatch } from '@core/domain/entities/candidate-vacancy-match';
 import {
   CreateVacancyDto,
   UpdateVacancyDto,
+  FindBestCandidateDto,
+  FindBestCandidatesDto,
   VacancyFilters,
   VacancyGateway,
   VacancyList,
@@ -35,11 +38,32 @@ export class VacancyHttpGateway implements VacancyGateway {
     return this.httpClient.delete({ url: `/vacancies/${id}` });
   }
 
-  async publishVacancy(id: string): PromiseResponse<Vacancy> {
+  async publish(id: string): PromiseResponse<Vacancy> {
     return this.httpClient.post<Vacancy>({ url: `/vacancies/${id}/publish` });
   }
 
-  async closeVacancy(id: string): PromiseResponse<Vacancy> {
+  async close(id: string): PromiseResponse<Vacancy> {
     return this.httpClient.post<Vacancy>({ url: `/vacancies/${id}/close` });
+  }
+
+  async findBestCandidates({
+    vacancyId,
+    minScore,
+    limit,
+  }: FindBestCandidatesDto): PromiseResponse<CandidateVacancyMatch[]> {
+    const params: Record<string, number> = {};
+    if (minScore !== undefined) params.minScore = minScore;
+    if (limit !== undefined) params.limit = limit;
+
+    return this.httpClient.get<CandidateVacancyMatch[]>({
+      url: `/vacancies/${vacancyId}/best-candidates`,
+      params,
+    });
+  }
+
+  async findBestCandidate({ vacancyId }: FindBestCandidateDto): PromiseResponse<CandidateVacancyMatch | null> {
+    return this.httpClient.get<CandidateVacancyMatch | null>({
+      url: `/vacancies/${vacancyId}/best-candidate`,
+    });
   }
 }

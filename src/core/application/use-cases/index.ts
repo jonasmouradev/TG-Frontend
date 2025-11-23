@@ -10,3 +10,4 @@ export * from './template';
 export * from './competence';
 export * from './step';
 export * from './person';
+export * from './matching';
