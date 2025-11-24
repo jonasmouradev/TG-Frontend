@@ -30,31 +30,46 @@ export const useDashboard = () => {
   const { useGetVacancies, useGetPublishedVacancy } = useVacancyCases();
   const { useGetDashboardStats, useGetRecentApplications } = useDashboardCases();
 
-  const { data: statsData } = useGetDashboardStats({
+  const {
+    data: statsData,
+    isFetching: isStatsFetching,
+    refetch: refetchStats,
+  } = useGetDashboardStats({
     input: {},
     enabled: true,
   });
 
-  const { data: recentApplicationsData } = useGetRecentApplications({
+  const {
+    data: recentApplicationsData,
+    isFetching: isRecentFetching,
+    refetch: refetchRecent,
+  } = useGetRecentApplications({
     input: { limit: 5 },
     enabled: true,
   });
 
-  const { data: vacanciesData } = useGetVacancies({
+  const {
+    data: vacanciesData,
+    isFetching: isVacanciesFetching,
+    refetch: refetchVacancies,
+  } = useGetVacancies({
     input: {},
     enabled: true,
   });
 
-  const { data: publishedVacancies } = useGetPublishedVacancy({ enabled: true });
+  const { data: publishedVacancies, refetch: refetchPublished } = useGetPublishedVacancy({ enabled: true });
 
-  const loadDashboardData = async () => {
-    setIsLoading(true);
-    setError(null);
+  // Atualiza o estado de loading com base nas queries ativas
+  useEffect(() => {
+    setIsLoading(Boolean(isStatsFetching || isRecentFetching || isVacanciesFetching));
+  }, [isStatsFetching, isRecentFetching, isVacanciesFetching]);
 
+  // Quando todas as queries disponibilizarem dados, popula os estados
+  useEffect(() => {
     try {
-      if (!statsData || !recentApplicationsData || !vacanciesData) {
-        throw new Error('Failed to load dashboard data');
-      }
+      if (!statsData || !recentApplicationsData || !vacanciesData) return;
+
+      setError(null);
       setStats({
         activeJobs: statsData.stats.totalVacancies,
         totalCandidates: statsData.stats.totalApplications,
@@ -82,14 +97,10 @@ export const useDashboard = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
+  }, [statsData, recentApplicationsData, vacanciesData]);
 
   const refreshData = async () => {
-    await loadDashboardData();
+    await Promise.all([refetchStats?.(), refetchRecent?.(), refetchVacancies?.(), refetchPublished?.()]);
   };
 
   return {

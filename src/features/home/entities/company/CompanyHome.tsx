@@ -10,7 +10,6 @@ import HomeSidebar from '../../components/HomeSidebar';
 export default function CompanyHome() {
   const { stats, recentJobs, error, refreshData } = useDashboard();
 
-  // Show error state
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
@@ -25,7 +24,6 @@ export default function CompanyHome() {
     );
   }
 
-  // Use fallback data if stats is null
   const dashboardStats = stats || {
     activeJobs: 0,
     candidatesToday: 0,
