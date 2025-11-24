@@ -83,7 +83,7 @@ export type Person = {
   githubProfile?: string;
   portfolioUrl?: string;
   experiences: WorkExperience[];
-  educations: Education[];
+  formations: Education[];
   competences: PersonCompetence[];
   createdAt: string;
   updatedAt: string;
