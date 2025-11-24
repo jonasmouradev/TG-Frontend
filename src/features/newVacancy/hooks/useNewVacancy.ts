@@ -11,7 +11,6 @@ const useNewVacancy = (templateId?: string) => {
   const queryClient = useQueryClient();
   const { stepGateway } = useCase();
 
-  // Buscar steps existentes do template
   const { data: stepsData, isLoading } = useGetSteps({
     input: { filters: templateId ? { templateId } : undefined },
     enabled: true,
@@ -21,7 +20,6 @@ const useNewVacancy = (templateId?: string) => {
   const [newSkill, setNewSkill] = useState('');
   const [steps, setSteps] = useState<Step[]>([]);
 
-  // Sincronizar steps com dados do backend
   useEffect(() => {
     if (stepsData?.data?.data) {
       const mappedSteps: Step[] = stepsData.data.data.map(step => ({
@@ -37,26 +35,20 @@ const useNewVacancy = (templateId?: string) => {
     }
   }, [stepsData]);
 
-  // Helper functions para conversão de tipos
   const mapStepTypeToLocal = (type: string): Step['type'] => {
-    const typeMap: Record<string, Step['type']> = {
-      screening: 'screening',
-      interview: 'interview',
-      technical_test: 'test',
-      application: 'screening',
-      background_check: 'custom',
-      offer: 'custom',
-      onboarding: 'custom',
-    };
-    return typeMap[type] || 'custom';
+    return StepType[type as keyof typeof StepType] || 'custom';
   };
 
   const mapLocalTypeToStepType = (type: Step['type']) => {
     const typeMap: Record<Step['type'], (typeof StepType)[keyof typeof StepType]> = {
       screening: StepType.SCREENING,
       interview: StepType.INTERVIEW,
-      test: StepType.TECHNICAL_TEST,
-      custom: StepType.APPLICATION,
+      technical_test: StepType.TECHNICAL_TEST,
+      background_check: StepType.BACKGROUND_CHECK,
+      offer: StepType.OFFER,
+      onboarding: StepType.ONBOARDING,
+      custom: StepType.CUSTOM,
+      application: StepType.APPLICATION,
     };
     return typeMap[type];
   };
@@ -67,11 +59,9 @@ const useNewVacancy = (templateId?: string) => {
     return match ? parseInt(match[0], 10) : undefined;
   };
 
-  // Mutations
   const createStepMutation = useMutation({
     mutationFn: stepCases.create,
     onSuccess: () => {
-      // Invalida a query com os mesmos parâmetros usados no useGetSteps
       queryClient.invalidateQueries({
         queryKey: GetStepsUseCase.queryKey({
           filters: templateId ? { templateId } : undefined,
@@ -115,7 +105,7 @@ const useNewVacancy = (templateId?: string) => {
   const [newStep, setNewStep] = useState<Step>({
     id: '',
     name: '',
-    type: 'interview' as const,
+    type: StepType.INTERVIEW,
     description: '',
     duration: '',
     responsible: '',
@@ -245,7 +235,7 @@ const useNewVacancy = (templateId?: string) => {
       id: Date.now().toString(),
       name: templateName,
       description: templateDescription || 'Template personalizado',
-      stages: steps.map(({ ...step }) => step),
+      stages: steps.map(step => step),
     };
 
     setSavedTemplates([...savedTemplates, newTemplate]);
@@ -356,13 +346,17 @@ const useNewVacancy = (templateId?: string) => {
   };
 
   const getStepTypeLabel = (type: string) => {
-    const types: Record<string, string> = {
+    const types: Record<StepType, string> = {
       screening: 'Triagem',
       interview: 'Entrevista',
-      test: 'Teste/Desafio',
+      technical_test: 'Teste/Desafio',
+      background_check: 'Verificação de Antecedentes',
+      offer: 'Oferta',
+      onboarding: 'Integração',
+      application: 'Aplicação',
       custom: 'Personalizado',
     };
-    return types[type] || type;
+    return types[type as StepType] || type;
   };
 
   const getStepTypeColor = (type: string) => {

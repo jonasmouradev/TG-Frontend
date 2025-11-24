@@ -8,19 +8,17 @@ export const StepType = {
   BACKGROUND_CHECK: 'background_check',
   OFFER: 'offer',
   ONBOARDING: 'onboarding',
+  CUSTOM: 'custom',
 } as const;
 export type StepType = (typeof StepType)[keyof typeof StepType];
 
 type StepProps = {
   id: string;
-  templateId: string;
+  templateId: string | null;
   name: string;
   description?: string;
-  order: number;
   type: StepType;
-  isRequired: boolean;
-  estimatedDuration?: number;
-  config?: Record<string, any>;
+  estimatedDuration?: string;
   createdAt: DateTime;
   updatedAt: DateTime;
 };
@@ -36,7 +34,7 @@ export class Step {
     return this.props.id;
   }
 
-  get templateId(): string {
+  get templateId(): string | null {
     return this.props.templateId;
   }
 
@@ -48,24 +46,12 @@ export class Step {
     return this.props.description;
   }
 
-  get order(): number {
-    return this.props.order;
-  }
-
   get type(): StepType {
     return this.props.type;
   }
 
-  get isRequired(): boolean {
-    return this.props.isRequired;
-  }
-
-  get estimatedDuration(): number | undefined {
+  get estimatedDuration(): string | undefined {
     return this.props.estimatedDuration;
-  }
-
-  get config(): Record<string, any> | undefined {
-    return this.props.config;
   }
 
   get createdAt(): DateTime {

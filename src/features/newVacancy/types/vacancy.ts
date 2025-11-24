@@ -1,4 +1,4 @@
-import { ContractType, ExperienceLevel, VacancyType, WorkModeType } from '@core/domain';
+import { ContractType, ExperienceLevel, Step, VacancyType, WorkModeType } from '@core/domain';
 import { DateTime } from 'luxon';
 
 export interface VacancyFormData {
@@ -22,16 +22,6 @@ export interface VacancyFormData {
 export enum Currency {
   USD = 'USD',
   R$ = 'R$',
-}
-
-export interface Step {
-  id: string;
-  name: string;
-  type: 'screening' | 'interview' | 'test' | 'custom';
-  description: string;
-  duration?: string;
-  responsible?: string;
-  autoNotify?: boolean;
 }
 
 export interface ProcessTemplate {
