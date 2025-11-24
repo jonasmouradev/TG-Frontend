@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { Application } from './application';
 
 export const VacancyType = {
   FULL_TIME: 'full_time',
@@ -58,6 +59,7 @@ type VacancyProps = {
   benefits?: string[];
   requirements: string[];
   responsibilities: string[];
+  applications: Application[];
   steps: {
     id: string;
     order: number;
@@ -132,6 +134,10 @@ export class Vacancy {
 
   get benefits(): string[] | undefined {
     return this.props.benefits;
+  }
+
+  get applications(): Application[] {
+    return this.props.applications;
   }
 
   get requirements(): string[] {

@@ -206,8 +206,14 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-gray-400" />
-                    <span className="font-semibold text-gray-900">10</span>
-                    <span className="text-gray-600">candidatos</span>
+                    {job.applications.length === 0 ? (
+                      <span className="text-gray-600">Nenhum candidato</span>
+                    ) : (
+                      <>
+                        <span className="font-semibold text-gray-900">{job.applications.length}</span>
+                        <span className="text-gray-600">candidatos</span>
+                      </>
+                    )}
                   </div>
                   {job.status === 'published' && (
                     <div className="flex items-center gap-2 text-green-600">
