@@ -16,7 +16,7 @@ export default function NewVacancy() {
     <VacancyFormProvider>
       <div className="w-screen max-w-7xl mx-auto p-6 min-h-screen bg-white">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-blue-600 bg-clip-text text-transparent">Nova Vaga</h1>
+          <h1 className="text-4xl font-bold mb-2 bg-blue-700 bg-clip-text text-transparent p-1">Nova Vaga</h1>
           <p className="text-gray-600">Preencha as informações abaixo para publicar uma nova oportunidade</p>
         </div>
         <BasicInfoSection />

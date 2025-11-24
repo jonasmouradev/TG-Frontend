@@ -1,32 +1,101 @@
-import { useState } from 'react';
-import { ProcessTemplate, Stage } from '../types';
-import { Sparkles } from 'lucide-react';
-import { ProcessTemplateDto } from '@core/domain';
+import { useState, useEffect } from 'react';
+import { Stage as Step } from '../types';
+import { ProcessTemplateDto, StepType } from '@core/domain';
+import { useStepCases } from '@shared/hooks/step';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { GetStepsUseCase } from '@core/application';
+import { useCase } from '@shared/contexts/UseCaseContext';
 
-const useNewVacancy = () => {
+const useNewVacancy = (templateId?: string) => {
+  const stepCases = useStepCases();
+  const queryClient = useQueryClient();
+  const { stepGateway } = useCase();
+
+  // Buscar steps existentes do template
+  const { data: stepsData, isLoading } = stepCases.useGetSteps({
+    input: { filters: templateId ? { templateId } : undefined },
+    enabled: !!templateId,
+  });
+
   const [skills, setSkills] = useState<string[]>([]);
   const [newSkill, setNewSkill] = useState('');
-  const [stages, setStages] = useState<Stage[]>([
-    {
-      id: '1',
-      name: 'Triagem de Currículos',
-      type: 'screening',
-      description: 'Análise inicial dos candidatos',
-      duration: '2 dias',
-      responsible: '',
-      autoNotify: true,
+  const [steps, setSteps] = useState<Step[]>([]);
+
+  // Sincronizar steps com dados do backend
+  useEffect(() => {
+    if (stepsData?.data?.data) {
+      const mappedSteps: Step[] = stepsData.data.data.map(step => ({
+        id: step.id,
+        name: step.name,
+        type: mapStepTypeToLocal(step.type),
+        description: step.description || '',
+        duration: step.estimatedDuration ? `${step.estimatedDuration} dias` : '',
+        responsible: '',
+        autoNotify: false,
+      }));
+      setSteps(mappedSteps);
+    }
+  }, [stepsData]);
+
+  // Helper functions para conversão de tipos
+  const mapStepTypeToLocal = (type: string): Step['type'] => {
+    const typeMap: Record<string, Step['type']> = {
+      screening: 'screening',
+      interview: 'interview',
+      technical_test: 'test',
+      application: 'screening',
+      background_check: 'custom',
+      offer: 'custom',
+      onboarding: 'custom',
+    };
+    return typeMap[type] || 'custom';
+  };
+
+  const mapLocalTypeToStepType = (type: Step['type']) => {
+    const typeMap: Record<Step['type'], (typeof StepType)[keyof typeof StepType]> = {
+      screening: StepType.SCREENING,
+      interview: StepType.INTERVIEW,
+      test: StepType.TECHNICAL_TEST,
+      custom: StepType.APPLICATION,
+    };
+    return typeMap[type];
+  };
+
+  const parseDuration = (duration: string): number | undefined => {
+    if (!duration) return undefined;
+    const match = duration.match(/\d+/);
+    return match ? parseInt(match[0], 10) : undefined;
+  };
+
+  // Mutations
+  const createStepMutation = useMutation({
+    mutationFn: stepCases.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetStepsUseCase.queryKey({}) });
     },
-    {
-      id: '2',
-      name: 'Entrevista com RH',
-      type: 'interview',
-      description: 'Alinhamento cultural e expectativas',
-      duration: '1 semana',
-      responsible: '',
-      autoNotify: true,
+  });
+
+  const updateStepMutation = useMutation({
+    mutationFn: stepCases.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['step', 'getSteps'] });
     },
-  ]);
-  const [newStage, setNewStage] = useState({
+  });
+
+  const deleteStepMutation = useMutation({
+    mutationFn: stepCases.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['step', 'getSteps'] });
+    },
+  });
+
+  const reorderStepsMutation = useMutation({
+    mutationFn: stepCases.reorder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['step', 'getSteps'] });
+    },
+  });
+  const [newStep, setNewStep] = useState({
     name: '',
     type: 'interview' as const,
     description: '',
@@ -36,7 +105,7 @@ const useNewVacancy = () => {
   });
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
-  const [editingStage, setEditingStage] = useState<string | null>(null);
+  const [editingStep, setEditingStep] = useState<string | null>(null);
   const [showStats, setShowStats] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [templateName, setTemplateName] = useState('');
@@ -54,47 +123,95 @@ const useNewVacancy = () => {
     setSkills(skills.filter(s => s !== skillToRemove));
   };
 
-  const addStage = () => {
-    if (newStage.name.trim()) {
-      setStages([
-        ...stages,
+  const addStep = async () => {
+    if (newStep.name.trim()) {
+      try {
+        await createStepMutation.mutateAsync({
+          templateId: '',
+          name: newStep.name,
+          type: mapLocalTypeToStepType(newStep.type),
+          description: newStep.description,
+          order: steps.length,
+          isRequired: false,
+          estimatedDuration: parseDuration(newStep.duration),
+        });
+        setNewStep({ name: '', type: 'interview', description: '', duration: '', responsible: '', autoNotify: false });
+      } catch (error) {
+        console.error('Erro ao adicionar step:', error);
+      }
+    } else {
+      // Fallback para modo local (sem templateId)
+      setSteps([
+        ...steps,
         {
           id: Date.now().toString(),
-          name: newStage.name,
-          type: newStage.type,
-          description: newStage.description,
-          duration: newStage.duration,
-          responsible: newStage.responsible,
-          autoNotify: newStage.autoNotify,
+          name: newStep.name,
+          type: newStep.type,
+          description: newStep.description,
+          duration: newStep.duration,
+          responsible: newStep.responsible,
+          autoNotify: newStep.autoNotify,
         },
       ]);
-      setNewStage({ name: '', type: 'interview', description: '', duration: '', responsible: '', autoNotify: false });
+      setNewStep({ name: '', type: 'interview', description: '', duration: '', responsible: '', autoNotify: false });
     }
   };
 
-  const duplicateStage = (stage: Stage) => {
-    const newStage = {
-      ...stage,
-      id: Date.now().toString(),
-      name: `${stage.name} (cópia)`,
-    };
-    setStages([...stages, newStage]);
+  const duplicateStep = async (step: Step) => {
+    if (templateId) {
+      try {
+        await createStepMutation.mutateAsync({
+          templateId,
+          name: `${step.name} (cópia)`,
+          type: mapLocalTypeToStepType(step.type),
+          description: step.description,
+          order: steps.length,
+          isRequired: false,
+          estimatedDuration: step.duration ? parseDuration(step.duration) : undefined,
+        });
+      } catch (error) {
+        console.error('Erro ao duplicar step:', error);
+      }
+    } else {
+      const newStep = {
+        ...step,
+        id: Date.now().toString(),
+        name: `${step.name} (cópia)`,
+      };
+      setSteps([...steps, newStep]);
+    }
   };
 
-  const updateStage = (id: string, updates: Partial<Stage>) => {
-    setStages(stages.map(s => (s.id === id ? { ...s, ...updates } : s)));
-    setEditingStage(null);
+  const updateStep = async (id: string, updates: Partial<Step>) => {
+    if (templateId && id) {
+      try {
+        await updateStepMutation.mutateAsync({
+          id,
+          data: {
+            name: updates.name,
+            type: updates.type ? mapLocalTypeToStepType(updates.type) : undefined,
+            description: updates.description,
+            estimatedDuration: updates.duration ? parseDuration(updates.duration) : undefined,
+          },
+        });
+        setEditingStep(null);
+      } catch (error) {
+        console.error('Erro ao atualizar step:', error);
+      }
+    } else {
+      setSteps(steps.map(s => (s.id === id ? { ...s, ...updates } : s)));
+      setEditingStep(null);
+    }
   };
 
   const exportAsTemplate = () => {
-    if (!templateName.trim() || stages.length === 0) return;
+    if (!templateName.trim() || steps.length === 0) return;
 
-    const newTemplate: ProcessTemplate = {
+    const newTemplate: ProcessTemplateDto = {
       id: Date.now().toString(),
       name: templateName,
       description: templateDescription || 'Template personalizado',
-      icon: Sparkles,
-      stages: stages.map(({ ...stage }) => stage),
+      stages: steps.map(({ ...step }) => step),
     };
 
     setSavedTemplates([...savedTemplates, newTemplate]);
@@ -104,16 +221,24 @@ const useNewVacancy = () => {
   };
 
   // Estatísticas simuladas - em produção viriam do backend
-  const stageStats = stages.map(stage => ({
-    ...stage,
+  const stepStats = steps.map(step => ({
+    ...step,
     candidates: Math.floor(Math.random() * 50) + 10,
     approved: Math.floor(Math.random() * 30) + 5,
     avgDuration: `${Math.floor(Math.random() * 7) + 1} dias`,
     approvalRate: Math.floor(Math.random() * 40) + 50,
   }));
 
-  const removeStage = (id: string) => {
-    setStages(stages.filter(s => s.id !== id));
+  const removeStep = async (id: string) => {
+    if (templateId && id) {
+      try {
+        await deleteStepMutation.mutateAsync({ id });
+      } catch (error) {
+        console.error('Erro ao remover step:', error);
+      }
+    } else {
+      setSteps(steps.filter(s => s.id !== id));
+    }
   };
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
@@ -126,21 +251,32 @@ const useNewVacancy = () => {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e: React.DragEvent, targetId: string) => {
+  const handleDrop = async (e: React.DragEvent, targetId: string) => {
     e.preventDefault();
 
     if (!draggedItem || draggedItem === targetId) return;
 
-    const draggedIndex = stages.findIndex(s => s.id === draggedItem);
-    const targetIndex = stages.findIndex(s => s.id === targetId);
+    const draggedIndex = steps.findIndex(s => s.id === draggedItem);
+    const targetIndex = steps.findIndex(s => s.id === targetId);
 
     if (draggedIndex === -1 || targetIndex === -1) return;
 
-    const newStages = [...stages];
-    const [removed] = newStages.splice(draggedIndex, 1);
-    newStages.splice(targetIndex, 0, removed);
+    const newSteps = [...steps];
+    const [removed] = newSteps.splice(draggedIndex, 1);
+    newSteps.splice(targetIndex, 0, removed);
 
-    setStages(newStages);
+    if (templateId) {
+      try {
+        await reorderStepsMutation.mutateAsync({
+          templateId,
+          stepIds: newSteps.map(s => s.id),
+        });
+      } catch (error) {
+        console.error('Erro ao reordenar steps:', error);
+      }
+    } else {
+      setSteps(newSteps);
+    }
     setDraggedItem(null);
   };
 
@@ -148,16 +284,44 @@ const useNewVacancy = () => {
     setDraggedItem(null);
   };
 
-  const applyTemplate = (template: ProcessTemplateDto) => {
-    const newStages = template.stages.map((stage, index) => ({
-      ...stage,
-      id: `${Date.now()}-${index}`,
-    }));
-    setStages(newStages);
+  const applyTemplate = async (template: ProcessTemplateDto) => {
+    if (template.id) {
+      try {
+        // Busca os steps do template selecionado
+        const result = await queryClient.fetchQuery({
+          queryKey: GetStepsUseCase.queryKey({ filters: { templateId: template.id } }),
+          queryFn: () => new GetStepsUseCase(stepGateway).execute({ filters: { templateId: template.id } }),
+        });
+
+        if (result?.data?.data) {
+          const stepsArray = Array.isArray(result.data.data) ? result.data.data : [];
+          const mappedSteps: Step[] = stepsArray.map(step => ({
+            id: step.id,
+            name: step.name,
+            type: mapStepTypeToLocal(step.type),
+            description: step.description || '',
+            duration: step.estimatedDuration ? `${step.estimatedDuration} dias` : '',
+            responsible: '',
+            autoNotify: false,
+          }));
+          setSteps(mappedSteps);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar steps do template:', error);
+      }
+    } else if (template.stages) {
+      // Fallback para templates locais sem ID
+      setSteps(
+        template.stages.map(stage => ({
+          ...stage,
+          id: Date.now().toString() + Math.random(),
+        })),
+      );
+    }
     setShowTemplates(false);
   };
 
-  const getStageTypeLabel = (type: string) => {
+  const getStepTypeLabel = (type: string) => {
     const types: Record<string, string> = {
       screening: 'Triagem',
       interview: 'Entrevista',
@@ -167,7 +331,7 @@ const useNewVacancy = () => {
     return types[type] || type;
   };
 
-  const getStageTypeColor = (type: string) => {
+  const getStepTypeColor = (type: string) => {
     const colors: Record<string, string> = {
       screening: 'bg-purple-100 text-purple-700',
       interview: 'bg-blue-100 text-blue-700',
@@ -185,14 +349,22 @@ const useNewVacancy = () => {
     setNewSkill,
     addSkill,
     removeSkill,
-    stages,
-    newStage,
-    setNewStage,
-    addStage,
-    duplicateStage,
-    editingStage,
-    setEditingStage,
-    updateStage,
+    steps,
+    stages: steps, // Alias para compatibilidade
+    newStep,
+    newStage: newStep, // Alias para compatibilidade
+    setNewStep,
+    setNewStage: setNewStep, // Alias para compatibilidade
+    addStep,
+    addStage: addStep, // Alias para compatibilidade
+    duplicateStep,
+    duplicateStage: duplicateStep, // Alias para compatibilidade
+    editingStep,
+    editingStage: editingStep, // Alias para compatibilidade
+    setEditingStep,
+    setEditingStage: setEditingStep, // Alias para compatibilidade
+    updateStep,
+    updateStage: updateStep, // Alias para compatibilidade
     exportAsTemplate,
     showExportModal,
     setShowExportModal,
@@ -201,18 +373,23 @@ const useNewVacancy = () => {
     templateDescription,
     setTemplateDescription,
     savedTemplates,
-    stageStats,
+    stepStats,
+    stageStats: stepStats, // Alias para compatibilidade
     showStats,
     setShowStats,
-    removeStage,
+    removeStep,
+    removeStage: removeStep, // Alias para compatibilidade
     handleDragStart,
     handleDragOver,
     handleDrop,
     handleDragEnd,
     draggedItem,
     applyTemplate,
-    getStageTypeLabel,
-    getStageTypeColor,
+    getStepTypeLabel,
+    getStageTypeLabel: getStepTypeLabel, // Alias para compatibilidade
+    getStepTypeColor,
+    getStageTypeColor: getStepTypeColor, // Alias para compatibilidade
+    isLoading,
   };
 };
 

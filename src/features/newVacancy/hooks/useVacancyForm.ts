@@ -41,6 +41,7 @@ export const useVacancyForm = () => {
       expirationDate: DateTime.now().plus({ days: 30 }).toISODate(),
       level: ExperienceLevel.JUNIOR,
       type: VacancyType.FULL_TIME,
+      stages: [],
     },
     mode: 'onChange',
   });

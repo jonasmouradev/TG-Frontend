@@ -22,6 +22,7 @@ export const vacancyFormSchema = z.object({
   currency: z.string().optional(),
   publicationDate: z.date().or(z.string()).nullable(),
   expirationDate: z.date().or(z.string()).nullable(),
+  stages: z.array(z.any()),
 });
 
 export type VacancyFormSchema = z.infer<typeof vacancyFormSchema>;

@@ -9,7 +9,7 @@ type Filters = {
 };
 
 type Create = {
-  templateId: string;
+  templateId?: string;
   name: string;
   description?: string;
   order: number;

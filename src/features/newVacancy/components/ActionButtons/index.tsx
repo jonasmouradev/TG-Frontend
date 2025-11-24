@@ -40,7 +40,7 @@ export default function ActionButtons() {
       const result = await createVacancy();
       if (result?.vacancy?.id) {
         await publishVacancy(result.vacancy.id);
-        navigate(paths.HOME);
+        // navigate(paths.HOME);
         toast.success('Vaga publicada com sucesso!');
       }
     } catch (err) {

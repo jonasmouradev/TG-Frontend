@@ -12,10 +12,6 @@ export class CreateStepUseCase implements IUseCase<CreateStepUseCaseInput, Creat
   constructor(private readonly gateway: StepGateway) {}
 
   async execute(input: CreateStepUseCaseInput): Promise<CreateStepUseCaseOutput> {
-    if (!input.templateId) {
-      throw new Error('Template ID is required');
-    }
-
     if (!input.name) {
       throw new Error('Step name is required');
     }
