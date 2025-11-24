@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 
 export default function ActionButtons() {
   const { createVacancy, publishVacancy, isLoading, isValid } = useVacancyFormContext();
-  const { stages } = useNewVacancy();
+  const { steps } = useNewVacancy();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -15,7 +15,7 @@ export default function ActionButtons() {
       toast.error('Por favor, preencha todos os campos obrigatórios corretamente');
       return false;
     }
-    if (stages.length === 0) {
+    if (steps.length === 0) {
       toast.error('Por favor, adicione pelo menos uma etapa ao processo seletivo');
       return false;
     }

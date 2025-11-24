@@ -24,7 +24,7 @@ export enum Currency {
   R$ = 'R$',
 }
 
-export interface Stage {
+export interface Step {
   id: string;
   name: string;
   type: 'screening' | 'interview' | 'test' | 'custom';
@@ -39,5 +39,5 @@ export interface ProcessTemplate {
   name: string;
   description: string;
   icon: React.ElementType;
-  stages: Omit<Stage, 'id'>[];
+  stages: Omit<Step, 'id'>[];
 }

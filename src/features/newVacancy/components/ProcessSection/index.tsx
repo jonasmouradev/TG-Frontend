@@ -3,29 +3,29 @@ import { BarChart3, Download, GitBranch, Sparkles } from 'lucide-react';
 import Section from '../Section';
 import ProcessTemplates from './ProcessTemplates';
 import ProcessStats from './ProcessStats';
-import StageList from './StageList';
-import StageForm from './StageForm';
+import StepList from './StageList';
+import StepForm from './StageForm';
 import ExportTemplateModal from './ExportTemplateModal';
 import { useNewVacancy } from '../../hooks';
 
 export default function ProcessSection() {
   const {
-    stages,
-    newStage,
-    setNewStage,
-    addStage,
-    duplicateStage,
-    editingStage,
-    setEditingStage,
-    updateStage,
-    removeStage,
+    steps,
+    newStep,
+    setNewStep,
+    addStep,
+    duplicateStep,
+    editingStep,
+    setEditingStep,
+    updateStep,
+    removeStep,
     handleDragStart,
     handleDragOver,
     handleDrop,
     handleDragEnd,
     draggedItem,
-    getStageTypeColor,
-    getStageTypeLabel,
+    getStepTypeColor,
+    getStepTypeLabel,
     showTemplates,
     setShowTemplates,
     showStats,
@@ -37,7 +37,7 @@ export default function ProcessSection() {
     templateDescription,
     setTemplateDescription,
     exportAsTemplate,
-    stageStats,
+    stepStats,
   } = useNewVacancy();
 
   return (
@@ -63,7 +63,7 @@ export default function ProcessSection() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowExportModal(true)}
-                disabled={stages.length === 0}
+                disabled={steps.length === 0}
               >
                 <Download className="w-4 h-4 mr-2" />
                 Exportar como Template
@@ -82,7 +82,7 @@ export default function ProcessSection() {
               setTemplateName={setTemplateName}
               templateDescription={templateDescription}
               setTemplateDescription={setTemplateDescription}
-              stagesCount={stages.length}
+              stagesCount={steps.length}
               onCancel={() => {
                 setShowExportModal(false);
                 setTemplateName('');
@@ -93,38 +93,38 @@ export default function ProcessSection() {
           )}
 
           {/* Estatísticas */}
-          {showStats && stages.length > 0 && <ProcessStats stageStats={stageStats} totalStages={stages.length} />}
+          {showStats && steps.length > 0 && <ProcessStats stepStats={stepStats} totalSteps={steps.length} />}
 
           {showTemplates && <ProcessTemplates />}
         </div>
 
         {/* Etapas Existentes com Drag & Drop */}
-        {stages.length > 0 && (
-          <StageList
-            stages={stages}
+        {steps.length > 0 && (
+          <StepList
+            steps={steps}
             draggedItem={draggedItem}
-            editingStage={editingStage}
+            editingStep={editingStep}
             handleDragStart={handleDragStart}
             handleDragOver={handleDragOver}
             handleDrop={handleDrop}
             handleDragEnd={handleDragEnd}
-            setEditingStage={setEditingStage}
-            updateStage={updateStage}
-            duplicateStage={duplicateStage}
-            removeStage={removeStage}
-            getStageTypeColor={getStageTypeColor}
-            getStageTypeLabel={getStageTypeLabel}
+            setEditingStep={setEditingStep}
+            updateStep={updateStep}
+            duplicateStep={duplicateStep}
+            removeStep={removeStep}
+            getStepTypeColor={getStepTypeColor}
+            getStepTypeLabel={getStepTypeLabel}
           />
         )}
 
         {/* Adicionar Nova Etapa */}
-        <StageForm newStage={newStage} setNewStage={setNewStage} addStage={addStage} />
+        <StepForm newStep={newStep} setNewStep={setNewStep} addStep={addStep} />
 
-        {stages.length > 0 && (
+        {steps.length > 0 && (
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <p className="text-sm text-green-800">
-              ✅ {stages.length} etapa{stages.length !== 1 ? 's' : ''} configurada{stages.length !== 1 ? 's' : ''}.
-              Arraste para reordenar.
+              ✅ {steps.length} etapa{steps.length !== 1 ? 's' : ''} configurada{steps.length !== 1 ? 's' : ''}. Arraste
+              para reordenar.
             </p>
           </div>
         )}

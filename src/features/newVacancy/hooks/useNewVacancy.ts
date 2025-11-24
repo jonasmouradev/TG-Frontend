@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Stage as Step } from '../types';
+import { Step } from '../types';
 import { ProcessTemplateDto, StepType } from '@core/domain';
 import { useStepCases } from '@shared/hooks/step';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -112,7 +112,8 @@ const useNewVacancy = (templateId?: string) => {
       });
     },
   });
-  const [newStep, setNewStep] = useState({
+  const [newStep, setNewStep] = useState<Step>({
+    id: '',
     name: '',
     type: 'interview' as const,
     description: '',
@@ -150,9 +151,17 @@ const useNewVacancy = (templateId?: string) => {
           description: newStep.description,
           order: steps.length,
           isRequired: false,
-          estimatedDuration: parseDuration(newStep.duration),
+          estimatedDuration: parseDuration(newStep.duration || ''),
         });
-        setNewStep({ name: '', type: 'interview', description: '', duration: '', responsible: '', autoNotify: false });
+        setNewStep({
+          id: '',
+          name: '',
+          type: 'interview',
+          description: '',
+          duration: '',
+          responsible: '',
+          autoNotify: false,
+        });
       } catch (error) {
         console.error('Erro ao adicionar step:', error);
       }
@@ -170,7 +179,15 @@ const useNewVacancy = (templateId?: string) => {
           autoNotify: newStep.autoNotify,
         },
       ]);
-      setNewStep({ name: '', type: 'interview', description: '', duration: '', responsible: '', autoNotify: false });
+      setNewStep({
+        id: '',
+        name: '',
+        type: 'interview',
+        description: '',
+        duration: '',
+        responsible: '',
+        autoNotify: false,
+      });
     }
   };
 
@@ -329,8 +346,8 @@ const useNewVacancy = (templateId?: string) => {
     } else if (template.stages) {
       // Fallback para templates locais sem ID
       setSteps(
-        template.stages.map(stage => ({
-          ...stage,
+        template.stages.map(step => ({
+          ...step,
           id: Date.now().toString() + Math.random(),
         })),
       );
@@ -360,6 +377,7 @@ const useNewVacancy = (templateId?: string) => {
 
   return {
     showTemplates,
+    steps,
     setShowTemplates,
     skills,
     newSkill,
@@ -367,21 +385,13 @@ const useNewVacancy = (templateId?: string) => {
     addSkill,
     removeSkill,
     stepsData,
-    stages: steps, // Alias para compatibilidade
     newStep,
-    newStage: newStep, // Alias para compatibilidade
     setNewStep,
-    setNewStage: setNewStep, // Alias para compatibilidade
     addStep,
-    addStage: addStep, // Alias para compatibilidade
     duplicateStep,
-    duplicateStage: duplicateStep, // Alias para compatibilidade
     editingStep,
-    editingStage: editingStep, // Alias para compatibilidade
     setEditingStep,
-    setEditingStage: setEditingStep, // Alias para compatibilidade
     updateStep,
-    updateStage: updateStep, // Alias para compatibilidade
     exportAsTemplate,
     showExportModal,
     setShowExportModal,
@@ -391,11 +401,9 @@ const useNewVacancy = (templateId?: string) => {
     setTemplateDescription,
     savedTemplates,
     stepStats,
-    stageStats: stepStats, // Alias para compatibilidade
     showStats,
     setShowStats,
     removeStep,
-    removeStage: removeStep, // Alias para compatibilidade
     handleDragStart,
     handleDragOver,
     handleDrop,
@@ -403,9 +411,7 @@ const useNewVacancy = (templateId?: string) => {
     draggedItem,
     applyTemplate,
     getStepTypeLabel,
-    getStageTypeLabel: getStepTypeLabel, // Alias para compatibilidade
     getStepTypeColor,
-    getStageTypeColor: getStepTypeColor, // Alias para compatibilidade
     isLoading,
   };
 };

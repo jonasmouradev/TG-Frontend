@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { usePersonCases } from '@shared/hooks/person';
-import { Education, PersonCompetence, WorkExperience } from '@core/domain';
+import { PersonCompetenceLevel } from '@core/domain';
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
@@ -44,6 +44,10 @@ export default function CompleteProfilePage() {
   const { useGetPerson, ...personCases } = usePersonCases();
 
   const { data } = useGetPerson({ input: { id: decodedToken?.user.profileId ?? '' } });
+
+  const workExperiences = data?.person.experiences ?? [];
+  const educations = data?.person.educations ?? [];
+  const skills = data?.person.competences ?? [];
 
   // Personal Information
   const [personalInfo, setPersonalInfo] = useState({
@@ -59,9 +63,7 @@ export default function CompleteProfilePage() {
   });
 
   // Work Experience
-  const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>(data?.person.experiences || []);
-  const [newWorkExperience, setNewWorkExperience] = useState<WorkExperience>({
-    id: '',
+  const [newWorkExperience, setNewWorkExperience] = useState({
     company: '',
     position: '',
     startDate: '',
@@ -71,22 +73,21 @@ export default function CompleteProfilePage() {
   });
 
   // Education
-  const [educations, setEducations] = useState<Education[]>(data?.person.educations || []);
-  const [newEducation, setNewEducation] = useState<Education>({
-    id: '',
+  const [newEducation, setNewEducation] = useState({
     institution: '',
     degree: '',
     fieldOfStudy: '',
     startDate: '',
     endDate: '',
     isCurrent: false,
+    gpa: undefined as number | undefined,
   });
 
   // Skills
-  const [skills, setSkills] = useState<PersonCompetence[]>(data?.person.competences || []);
   const [newSkill, setNewSkill] = useState({
-    name: '',
-    level: 'INTERMEDIARIO' as 'INICIANTE' | 'INTERMEDIARIO' | 'AVANCADO' | 'ESPECIALISTA',
+    competenceId: '',
+    level: 'intermediate' as PersonCompetenceLevel,
+    yearsOfExperience: 0,
   });
 
   // Professional Summary
@@ -112,10 +113,8 @@ export default function CompleteProfilePage() {
 
   const addWorkExperience = () => {
     if (newWorkExperience.company && newWorkExperience.position) {
-      personCases.addWorkExperience({ id: decodedToken?.user.profileId, ...newWorkExperience });
-      setWorkExperiences([...workExperiences, { ...newWorkExperience, id: Date.now().toString() }]);
+      personCases.addWorkExperience({ id: decodedToken?.user.profileId ?? '', payload: newWorkExperience });
       setNewWorkExperience({
-        id: '',
         company: '',
         position: '',
         startDate: '',
@@ -126,38 +125,42 @@ export default function CompleteProfilePage() {
     }
   };
 
-  const removeWorkExperience = (id: string) => {
-    setWorkExperiences(workExperiences.filter(exp => exp.id !== id));
+  const removeWorkExperience = (workExperienceId: string) => {
+    personCases.removeWorkExperience({ id: decodedToken?.user.profileId ?? '', workExperienceId });
   };
 
   const addEducation = () => {
     if (newEducation.institution && newEducation.degree) {
-      setEducations([...educations, { ...newEducation, id: Date.now().toString() }]);
+      personCases.addEducation({ id: decodedToken?.user.profileId ?? '', payload: newEducation });
       setNewEducation({
-        id: '',
         institution: '',
         degree: '',
         fieldOfStudy: '',
         startDate: '',
         endDate: '',
         isCurrent: false,
+        gpa: undefined,
       });
     }
   };
 
-  const removeEducation = (id: string) => {
-    setEducations(educations.filter(edu => edu.id !== id));
+  const removeEducation = (educationId: string) => {
+    personCases.removeEducation({ id: decodedToken?.user.profileId ?? '', educationId });
   };
 
   const addSkill = () => {
-    if (newSkill.name) {
-      setSkills([...skills, { ...newSkill, id: Date.now().toString() }]);
-      setNewSkill({ name: '', level: 'INTERMEDIARIO' });
+    if (newSkill.competenceId) {
+      personCases.addCompetence({ id: decodedToken?.user.profileId ?? '', payload: newSkill });
+      setNewSkill({
+        competenceId: '',
+        level: 'intermediate' as PersonCompetenceLevel,
+        yearsOfExperience: 0,
+      });
     }
   };
 
-  const removeSkill = (id: string) => {
-    setSkills(skills.filter(skill => skill.id !== id));
+  const removeSkill = (competenceId: string) => {
+    personCases.removeCompetence({ id: decodedToken?.user.profileId ?? '', competenceId });
   };
 
   const handleSaveProfile = async () => {
@@ -315,17 +318,18 @@ export default function CompleteProfilePage() {
             {workExperiences.length > 0 && (
               <div className="space-y-3">
                 {workExperiences.map(exp => (
-                  <Card key={exp.id} className="border-2">
+                  <Card key={exp.personId} className="border-2">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
                           <h4 className="font-semibold text-base">{exp.position}</h4>
-                          <p className="text-sm text-gray-600">{exp.company}</p>
+                          <p className="text-sm text-gray-600">{exp.companyName}</p>
                           <p className="text-xs text-gray-500 mt-1">
-                            {exp.startDate} - {exp.isCurrent ? 'Atual' : exp.endDate}
+                            {exp.startDate.toFormat('MM/yyyy')} -{' '}
+                            {exp.isCurrent ? 'Atual' : (exp.endDate?.toFormat('MM/yyyy') ?? '')}
                           </p>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => removeWorkExperience(exp.id)}>
+                        <Button variant="ghost" size="icon" onClick={() => removeWorkExperience(exp.personId)}>
                           <X className="w-4 h-4" />
                         </Button>
                       </div>
@@ -440,25 +444,41 @@ export default function CompleteProfilePage() {
             {/* List of added education */}
             {educations.length > 0 && (
               <div className="space-y-3">
-                {educations.map(edu => (
-                  <Card key={edu.id} className="border-2">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-base">{edu.degree}</h4>
-                          <p className="text-sm text-gray-600">{edu.fieldOfStudy}</p>
-                          <p className="text-sm text-gray-600">{edu.institution}</p>
-                          <p className="text-xs text-gray-500 mt-1">
-                            {edu.startDate} - {edu.isCurrent ? 'Cursando' : edu.endDate}
-                          </p>
+                {educations.map(edu => {
+                  let endDateText = '';
+                  if (edu.isCurrent) {
+                    endDateText = 'Cursando';
+                  } else if (edu.endDate) {
+                    endDateText = new Date(edu.endDate).toLocaleDateString('pt-BR', {
+                      month: '2-digit',
+                      year: 'numeric',
+                    });
+                  }
+
+                  return (
+                    <Card key={edu.id} className="border-2">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-base">{edu.degree}</h4>
+                            <p className="text-sm text-gray-600">{edu.fieldOfStudy}</p>
+                            <p className="text-sm text-gray-600">{edu.institutionName}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {new Date(edu.startDate).toLocaleDateString('pt-BR', {
+                                month: '2-digit',
+                                year: 'numeric',
+                              })}{' '}
+                              - {endDateText}
+                            </p>
+                          </div>
+                          <Button variant="ghost" size="icon" onClick={() => removeEducation(edu.id)}>
+                            <X className="w-4 h-4" />
+                          </Button>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => removeEducation(edu.id)}>
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
 
@@ -552,15 +572,18 @@ export default function CompleteProfilePage() {
             {skills.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-4">
                 {skills.map(skill => (
-                  <Badge key={skill.id} className="bg-blue-100 text-blue-700 px-3 py-2 text-sm flex items-center gap-2">
-                    {skill.name}
+                  <Badge
+                    key={skill.competence_id}
+                    className="bg-blue-100 text-blue-700 px-3 py-2 text-sm flex items-center gap-2"
+                  >
+                    {skill.competence_id}
                     <span className="text-xs px-2 py-0.5 bg-blue-200 rounded">
-                      {skill.level === 'INICIANTE' && 'Iniciante'}
-                      {skill.level === 'INTERMEDIARIO' && 'Intermediário'}
-                      {skill.level === 'AVANCADO' && 'Avançado'}
-                      {skill.level === 'ESPECIALISTA' && 'Especialista'}
+                      {skill.proficiency_level === 'beginner' && 'Iniciante'}
+                      {skill.proficiency_level === 'intermediate' && 'Intermediário'}
+                      {skill.proficiency_level === 'advanced' && 'Avançado'}
+                      {skill.proficiency_level === 'expert' && 'Especialista'}
                     </span>
-                    <button onClick={() => removeSkill(skill.id)} className="hover:text-red-600">
+                    <button onClick={() => removeSkill(skill.competence_id)} className="hover:text-red-600">
                       <X className="w-3 h-3" />
                     </button>
                   </Badge>
@@ -576,8 +599,8 @@ export default function CompleteProfilePage() {
                     <Label htmlFor="skillName">Habilidade *</Label>
                     <Input
                       id="skillName"
-                      value={newSkill.name}
-                      onChange={e => setNewSkill({ ...newSkill, name: e.target.value })}
+                      value={newSkill.competenceId}
+                      onChange={e => setNewSkill({ ...newSkill, competenceId: e.target.value })}
                       placeholder="Ex: React, JavaScript, Gestão de Projetos..."
                     />
                   </div>
@@ -590,14 +613,14 @@ export default function CompleteProfilePage() {
                       onChange={e =>
                         setNewSkill({
                           ...newSkill,
-                          level: e.target.value as 'INICIANTE' | 'INTERMEDIARIO' | 'AVANCADO' | 'ESPECIALISTA',
+                          level: e.target.value as PersonCompetenceLevel,
                         })
                       }
                     >
-                      <option value="INICIANTE">Iniciante</option>
-                      <option value="INTERMEDIARIO">Intermediário</option>
-                      <option value="AVANCADO">Avançado</option>
-                      <option value="ESPECIALISTA">Especialista</option>
+                      <option value="beginner">Iniciante</option>
+                      <option value="intermediate">Intermediário</option>
+                      <option value="advanced">Avançado</option>
+                      <option value="expert">Especialista</option>
                     </select>
                   </div>
                 </div>

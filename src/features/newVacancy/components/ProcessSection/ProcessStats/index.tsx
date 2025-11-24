@@ -1,7 +1,7 @@
 import { Badge, Card, CardContent, CardHeader, CardTitle, Label } from '@shared/index';
 import { BarChart3, Clock, TrendingDown } from 'lucide-react';
 
-interface StageStats {
+interface StepStats {
   id: string;
   name: string;
   candidates: number;
@@ -11,11 +11,11 @@ interface StageStats {
 }
 
 interface ProcessStatsProps {
-  stageStats: StageStats[];
-  totalStages: number;
+  stepStats: StepStats[];
+  totalSteps: number;
 }
 
-export default function ProcessStats({ stageStats, totalStages }: ProcessStatsProps) {
+export default function ProcessStats({ stepStats, totalSteps }: ProcessStatsProps) {
   return (
     <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-purple-50">
       <CardHeader>
@@ -28,25 +28,25 @@ export default function ProcessStats({ stageStats, totalStages }: ProcessStatsPr
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-white rounded-lg p-4 border">
             <div className="text-2xl font-bold text-blue-600">
-              {stageStats.reduce((acc, s) => acc + s.candidates, 0)}
+              {stepStats.reduce((acc, s) => acc + s.candidates, 0)}
             </div>
             <div className="text-xs text-gray-600">Total de Candidatos</div>
           </div>
           <div className="bg-white rounded-lg p-4 border">
             <div className="text-2xl font-bold text-green-600">
-              {Math.round(stageStats.reduce((acc, s) => acc + s.approvalRate, 0) / stageStats.length)}%
+              {Math.round(stepStats.reduce((acc, s) => acc + s.approvalRate, 0) / stepStats.length)}%
             </div>
             <div className="text-xs text-gray-600">Taxa de Aprovação Média</div>
           </div>
           <div className="bg-white rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-purple-600">{totalStages}</div>
+            <div className="text-2xl font-bold text-purple-600">{totalSteps}</div>
             <div className="text-xs text-gray-600">Etapas Totais</div>
           </div>
         </div>
 
         <div className="space-y-2">
           <Label className="text-sm font-semibold">Performance por Etapa</Label>
-          {stageStats.map((stat, index) => (
+          {stepStats.map((stat, index) => (
             <div key={stat.id} className="bg-white rounded-lg p-3 border">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function ProcessStats({ stageStats, totalStages }: ProcessStatsPr
             Principais Gargalos
           </h4>
           <div className="space-y-2">
-            {stageStats
+            {stepStats
               .sort((a, b) => a.approvalRate - b.approvalRate)
               .slice(0, 2)
               .map(stat => (

@@ -1,48 +1,48 @@
 import { Badge, Button, Input, Label, Switch, Textarea } from '@shared/index';
 import { Bell, BellOff, Copy, Edit2, GripVertical, Trash2, User } from 'lucide-react';
-import { Stage } from '../../../types';
+import { Step } from '../../../types';
 
-interface StageListProps {
-  stages: Stage[];
+interface StepListProps {
+  steps: Step[];
   draggedItem: string | null;
-  editingStage: string | null;
+  editingStep: string | null;
   handleDragStart: (e: React.DragEvent, id: string) => void;
   handleDragOver: (e: React.DragEvent) => void;
   handleDrop: (e: React.DragEvent, targetId: string) => void;
   handleDragEnd: () => void;
-  setEditingStage: (id: string | null) => void;
-  updateStage: (id: string, updates: Partial<Stage>) => void;
-  duplicateStage: (stage: Stage) => void;
-  removeStage: (id: string) => void;
-  getStageTypeColor: (type: string) => string;
-  getStageTypeLabel: (type: string) => string;
+  setEditingStep: (id: string | null) => void;
+  updateStep: (id: string, updates: Partial<Step>) => void;
+  duplicateStep: (step: Step) => void;
+  removeStep: (id: string) => void;
+  getStepTypeColor: (type: string) => string;
+  getStepTypeLabel: (type: string) => string;
 }
 
-export default function StageList({
-  stages,
+export default function StepList({
+  steps,
   draggedItem,
-  editingStage,
+  editingStep,
   handleDragStart,
   handleDragOver,
   handleDrop,
   handleDragEnd,
-  setEditingStage,
-  updateStage,
-  duplicateStage,
-  removeStage,
-  getStageTypeColor,
-  getStageTypeLabel,
-}: StageListProps) {
+  setEditingStep,
+  updateStep,
+  duplicateStep,
+  removeStep,
+  getStepTypeColor,
+  getStepTypeLabel,
+}: StepListProps) {
   return (
     <div className="space-y-3">
-      <Label>Etapas Configuradas ({stages.length})</Label>
-      {stages.map((stage, index) => (
+      <Label>Etapas Configuradas ({steps.length})</Label>
+      {steps.map((step, index) => (
         <div
-          key={stage.id}
+          key={step.id}
           draggable
-          onDragStart={e => handleDragStart(e, stage.id)}
+          onDragStart={e => handleDragStart(e, step.id)}
           onDragOver={handleDragOver}
-          onDrop={e => handleDrop(e, stage.id)}
+          onDrop={e => handleDrop(e, step.id)}
           onDragEnd={handleDragEnd}
           role="button"
           tabIndex={0}
@@ -52,50 +52,50 @@ export default function StageList({
             }
           }}
           className={`border rounded-lg bg-white hover:shadow-md transition-all group ${
-            draggedItem === stage.id ? 'opacity-50 scale-95' : ''
+            draggedItem === step.id ? 'opacity-50 scale-95' : ''
           }`}
         >
-          {editingStage === stage.id ? (
+          {editingStep === step.id ? (
             // Modo de Edição
             <div className="p-4 space-y-3">
               <div className="flex items-center justify-between mb-3">
                 <Label className="font-semibold">Editando Etapa</Label>
-                <Button variant="ghost" size="sm" onClick={() => setEditingStage(null)}>
+                <Button variant="ghost" size="sm" onClick={() => setEditingStep(null)}>
                   Cancelar
                 </Button>
               </div>
               <div className="space-y-3">
                 <Input
-                  value={stage.name}
-                  onChange={e => updateStage(stage.id, { name: e.target.value })}
+                  value={step.name}
+                  onChange={e => updateStep(step.id, { name: e.target.value })}
                   placeholder="Nome da etapa"
                 />
                 <Textarea
-                  value={stage.description}
-                  onChange={e => updateStage(stage.id, { description: e.target.value })}
+                  value={step.description}
+                  onChange={e => updateStep(step.id, { description: e.target.value })}
                   placeholder="Descrição"
                   rows={2}
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <Input
-                    value={stage.duration || ''}
-                    onChange={e => updateStage(stage.id, { duration: e.target.value })}
+                    value={step.duration || ''}
+                    onChange={e => updateStep(step.id, { duration: e.target.value })}
                     placeholder="Duração"
                   />
                   <Input
-                    value={stage.responsible || ''}
-                    onChange={e => updateStage(stage.id, { responsible: e.target.value })}
+                    value={step.responsible || ''}
+                    onChange={e => updateStep(step.id, { responsible: e.target.value })}
                     placeholder="Responsável"
                   />
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-2">
-                    {stage.autoNotify ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
+                    {step.autoNotify ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
                     <span className="text-sm">Notificar candidato automaticamente</span>
                   </div>
                   <Switch
-                    checked={stage.autoNotify}
-                    onCheckedChange={checked => updateStage(stage.id, { autoNotify: checked })}
+                    checked={step.autoNotify}
+                    onCheckedChange={checked => updateStep(step.id, { autoNotify: checked })}
                   />
                 </div>
               </div>
@@ -110,24 +110,24 @@ export default function StageList({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <h4 className="font-semibold truncate">{stage.name}</h4>
-                    <Badge variant="outline" className={`text-xs ${getStageTypeColor(stage.type)}`}>
-                      {getStageTypeLabel(stage.type)}
+                    <h4 className="font-semibold truncate">{step.name}</h4>
+                    <Badge variant="outline" className={`text-xs ${getStepTypeColor(step.type)}`}>
+                      {getStepTypeLabel(step.type)}
                     </Badge>
-                    {stage.autoNotify && (
+                    {step.autoNotify && (
                       <Badge variant="outline" className="text-xs bg-green-50 text-green-700">
                         <Bell className="w-3 h-3 mr-1" />
                         Auto-notificação
                       </Badge>
                     )}
                   </div>
-                  {stage.description && <p className="text-sm text-gray-600 line-clamp-2">{stage.description}</p>}
+                  {step.description && <p className="text-sm text-gray-600 line-clamp-2">{step.description}</p>}
                   <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                    {stage.duration && <span>⏱️ {stage.duration}</span>}
-                    {stage.responsible && (
+                    {step.duration && <span>⏱️ {step.duration}</span>}
+                    {step.responsible && (
                       <span className="flex items-center gap-1">
                         <User className="w-3 h-3" />
-                        {stage.responsible}
+                        {step.responsible}
                       </span>
                     )}
                   </div>
@@ -140,7 +140,7 @@ export default function StageList({
                   className="h-8 w-8"
                   onClick={e => {
                     e.stopPropagation();
-                    setEditingStage(stage.id);
+                    setEditingStep(step.id);
                   }}
                 >
                   <Edit2 className="w-4 h-4" />
@@ -151,7 +151,7 @@ export default function StageList({
                   className="h-8 w-8"
                   onClick={e => {
                     e.stopPropagation();
-                    duplicateStage(stage);
+                    duplicateStep(step);
                   }}
                 >
                   <Copy className="w-4 h-4" />
@@ -162,7 +162,7 @@ export default function StageList({
                   className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
                   onClick={e => {
                     e.stopPropagation();
-                    removeStage(stage.id);
+                    removeStep(step.id);
                   }}
                 >
                   <Trash2 className="w-4 h-4" />

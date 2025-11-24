@@ -1,1 +1,1 @@
-export type { VacancyFormData, Stage, ProcessTemplate } from './vacancy';
+export type { VacancyFormData, Step, ProcessTemplate } from './vacancy';

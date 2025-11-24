@@ -1,3 +1,4 @@
+import { Step } from '@features/newVacancy/types';
 import {
   Button,
   Input,
@@ -11,38 +12,32 @@ import {
   Textarea,
 } from '@shared/index';
 import { Bell, Plus } from 'lucide-react';
+import { Dispatch } from 'react';
 
-interface StageFormProps {
-  newStage: {
-    name: string;
-    type: 'screening' | 'interview' | 'test' | 'custom';
-    description: string;
-    duration: string;
-    responsible: string;
-    autoNotify: boolean;
-  };
-  setNewStage: (stage: any) => void;
-  addStage: () => void;
+interface StepFormProps {
+  newStep: Step;
+  setNewStep: Dispatch<React.SetStateAction<Step>>;
+  addStep: () => void;
 }
 
-export default function StageForm({ newStage, setNewStage, addStage }: StageFormProps) {
+export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps) {
   return (
     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 space-y-3">
       <Label className="text-base font-semibold">Adicionar Nova Etapa</Label>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2">
-          <Label htmlFor="stageName">Nome da Etapa *</Label>
+          <Label htmlFor="stepName">Nome da Etapa *</Label>
           <Input
-            id="stageName"
+            id="stepName"
             placeholder="Ex: Entrevista Técnica"
-            value={newStage.name}
-            onChange={e => setNewStage({ ...newStage, name: e.target.value })}
+            value={newStep.name}
+            onChange={e => setNewStep({ ...newStep, name: e.target.value })}
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="stageType">Tipo</Label>
-          <Select value={newStage.type} onValueChange={(v: any) => setNewStage({ ...newStage, type: v })}>
-            <SelectTrigger id="stageType">
+          <Label htmlFor="stepType">Tipo</Label>
+          <Select value={newStep.type} onValueChange={(v: Step['type']) => setNewStep({ ...newStep, type: v })}>
+            <SelectTrigger id="stepType">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -55,32 +50,32 @@ export default function StageForm({ newStage, setNewStage, addStage }: StageForm
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="stageDesc">Descrição (opcional)</Label>
+        <Label htmlFor="stepDesc">Descrição (opcional)</Label>
         <Textarea
-          id="stageDesc"
+          id="stepDesc"
           placeholder="Descreva o que acontece nesta etapa..."
           rows={2}
-          value={newStage.description}
-          onChange={e => setNewStage({ ...newStage, description: e.target.value })}
+          value={newStep.description}
+          onChange={e => setNewStep({ ...newStep, description: e.target.value })}
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2">
-          <Label htmlFor="stageDuration">Duração Estimada</Label>
+          <Label htmlFor="stepDuration">Duração Estimada</Label>
           <Input
-            id="stageDuration"
+            id="stepDuration"
             placeholder="Ex: 1 semana"
-            value={newStage.duration}
-            onChange={e => setNewStage({ ...newStage, duration: e.target.value })}
+            value={newStep.duration}
+            onChange={e => setNewStep({ ...newStep, duration: e.target.value })}
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="stageResponsible">Responsável</Label>
+          <Label htmlFor="stepResponsible">Responsável</Label>
           <Input
-            id="stageResponsible"
+            id="stepResponsible"
             placeholder="Ex: João Silva"
-            value={newStage.responsible}
-            onChange={e => setNewStage({ ...newStage, responsible: e.target.value })}
+            value={newStep.responsible}
+            onChange={e => setNewStep({ ...newStep, responsible: e.target.value })}
           />
         </div>
       </div>
@@ -93,11 +88,11 @@ export default function StageForm({ newStage, setNewStage, addStage }: StageForm
           </div>
         </div>
         <Switch
-          checked={newStage.autoNotify}
-          onCheckedChange={checked => setNewStage({ ...newStage, autoNotify: checked })}
+          checked={newStep.autoNotify}
+          onCheckedChange={checked => setNewStep({ ...newStep, autoNotify: checked })}
         />
       </div>
-      <Button type="button" onClick={addStage} className="w-full" disabled={!newStage.name.trim()}>
+      <Button type="button" onClick={addStep} className="w-full" disabled={!newStep.name.trim()}>
         <Plus className="w-4 h-4 mr-2" />
         Adicionar Etapa
       </Button>
