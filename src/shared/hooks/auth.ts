@@ -20,6 +20,7 @@ import type {
 import { useMemo } from 'react';
 import { SetAuthTokenUseCase } from '@core/application/use-cases/auth/set-auth-token.use-case';
 import { SignOutUseCase } from '@core/application/use-cases/auth/sign-out.use-case';
+import { IToken } from '@shared/types';
 
 export function useAuthCases() {
   const { authGateway, cookieStorage, crypto } = useCase();
@@ -29,7 +30,7 @@ export function useAuthCases() {
       signIn: (input: SignInUseCaseInput) => new SignInUseCase(crypto, cookieStorage).execute(input),
       signUp: (input: SignUpUseCaseInput) => new SignUpUseCase(authGateway).execute(input),
       signOut: () => new SignOutUseCase(cookieStorage).execute(),
-      decodeToken: (input: string) => new DecodeTokenUseCase().execute(input),
+      decodeToken: (input: string) => new DecodeTokenUseCase().execute<IToken>(input),
       validateToken: (input: string) => new ValidateTokenUseCase().execute(input),
       refreshToken: () => new RefreshTokenUseCase(authGateway).execute(),
       forgotPassword: (input: ForgotPasswordUseCaseInput) => new ForgotPasswordUseCase(authGateway).execute(input),

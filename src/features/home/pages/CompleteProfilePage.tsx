@@ -10,6 +10,7 @@ import {
   Label,
   Textarea,
   Badge,
+  useAuthCases,
 } from '@/shared';
 import {
   ArrowLeft,
@@ -29,37 +30,20 @@ import {
   Link as LinkIcon,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
-
-interface WorkExperience {
-  id: string;
-  company: string;
-  position: string;
-  startDate: string;
-  endDate?: string;
-  isCurrent: boolean;
-  description: string;
-}
-
-interface Education {
-  id: string;
-  institution: string;
-  degree: string;
-  fieldOfStudy: string;
-  startDate: string;
-  endDate?: string;
-  isCurrent: boolean;
-}
-
-interface Skill {
-  id: string;
-  name: string;
-  level: 'INICIANTE' | 'INTERMEDIARIO' | 'AVANCADO' | 'ESPECIALISTA';
-}
+import { usePersonCases } from '@shared/hooks/person';
+import { Education, PersonCompetence, WorkExperience } from '@core/domain';
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
+
+  const { getToken, decodeToken } = useAuthCases();
+  const token = getToken();
+  const decodedToken = token ? decodeToken(token) : null;
+  const { useGetPerson, ...personCases } = usePersonCases();
+
+  const { data } = useGetPerson({ input: { id: decodedToken?.user.profileId ?? '' } });
 
   // Personal Information
   const [personalInfo, setPersonalInfo] = useState({
@@ -75,7 +59,7 @@ export default function CompleteProfilePage() {
   });
 
   // Work Experience
-  const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>([]);
+  const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>(data?.person.experiences || []);
   const [newWorkExperience, setNewWorkExperience] = useState<WorkExperience>({
     id: '',
     company: '',
@@ -87,7 +71,7 @@ export default function CompleteProfilePage() {
   });
 
   // Education
-  const [educations, setEducations] = useState<Education[]>([]);
+  const [educations, setEducations] = useState<Education[]>(data?.person.educations || []);
   const [newEducation, setNewEducation] = useState<Education>({
     id: '',
     institution: '',
@@ -99,7 +83,7 @@ export default function CompleteProfilePage() {
   });
 
   // Skills
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const [skills, setSkills] = useState<PersonCompetence[]>(data?.person.competences || []);
   const [newSkill, setNewSkill] = useState({
     name: '',
     level: 'INTERMEDIARIO' as 'INICIANTE' | 'INTERMEDIARIO' | 'AVANCADO' | 'ESPECIALISTA',
@@ -128,6 +112,7 @@ export default function CompleteProfilePage() {
 
   const addWorkExperience = () => {
     if (newWorkExperience.company && newWorkExperience.position) {
+      personCases.addWorkExperience({ id: decodedToken?.user.profileId, ...newWorkExperience });
       setWorkExperiences([...workExperiences, { ...newWorkExperience, id: Date.now().toString() }]);
       setNewWorkExperience({
         id: '',

@@ -24,7 +24,7 @@ import { useMemo } from 'react';
 import { QueryHookOptions } from '..';
 import { useQuery } from '@tanstack/react-query';
 
-export function useCompetenceCases() {
+export function usePersonCases() {
   const { personGateway } = useCase();
 
   const cases = useMemo(
