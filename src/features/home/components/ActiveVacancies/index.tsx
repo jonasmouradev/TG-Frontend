@@ -154,11 +154,29 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
                       onClick={() => handleDeleteClick(job.id)}
-                      className="cursor-pointer text-red-600 flex items-center gap-2 py-1 px-3"
+                      className="cursor-pointer text-red-600 flex items-center gap-2 py-1 px-3 hover:bg-gray-100"
                     >
                       <TrashIcon className="w-4 h-4" />
                       Excluir vaga
                     </DropdownMenuItem>
+                    {job.status === 'draft' && (
+                      <DropdownMenuItem
+                        onClick={async () => {
+                          try {
+                            await vacancy.publish({ id: job.id });
+                            toast.success('Vaga publicada com sucesso!');
+                            onRefresh?.();
+                          } catch (error) {
+                            console.error('Failed to publish vacancy:', error);
+                            toast.error('Erro ao publicar vaga');
+                          }
+                        }}
+                        className="cursor-pointer flex items-center gap-2 py-1 px-3 hover:bg-gray-100"
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                        Publicar vaga
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
