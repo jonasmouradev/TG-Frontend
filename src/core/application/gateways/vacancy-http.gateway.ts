@@ -8,6 +8,7 @@ import {
   VacancyFilters,
   VacancyGateway,
   VacancyList,
+  ReorderVacancyStepsDto,
 } from '@core/domain/gateways/vacancy.gateway';
 import { IHttpClient, PromiseResponse } from '@core/domain/ports/http-client.port';
 
@@ -64,6 +65,13 @@ export class VacancyHttpGateway implements VacancyGateway {
   async findBestCandidate({ vacancyId }: FindBestCandidateDto): PromiseResponse<CandidateVacancyMatch | null> {
     return this.httpClient.get<CandidateVacancyMatch | null>({
       url: `/vacancies/${vacancyId}/best-candidate`,
+    });
+  }
+
+  async reorderSteps({ vacancyId, stepIds }: ReorderVacancyStepsDto): PromiseResponse<void> {
+    return this.httpClient.put<void>({
+      url: `/vacancies/reorder`,
+      payload: { vacancyId, stepIds },
     });
   }
 }

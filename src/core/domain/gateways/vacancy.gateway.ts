@@ -58,6 +58,11 @@ type FindBestCandidates = {
   limit?: number;
 };
 
+type ReorderSteps = {
+  vacancyId: string;
+  stepIds: string[];
+};
+
 type VacancyList = PaginatedList<Vacancy>;
 
 export interface VacancyGateway {
@@ -71,12 +76,14 @@ export interface VacancyGateway {
   close(id: string): PromiseResponse<Vacancy>;
   findBestCandidates(params: FindBestCandidates): PromiseResponse<CandidateVacancyMatch[]>;
   findBestCandidate(params: FindBestCandidate): PromiseResponse<CandidateVacancyMatch | null>;
+  reorderSteps(params: ReorderSteps): PromiseResponse<void>;
 }
 
 export type {
   Filters as VacancyFilters,
   Update as UpdateVacancyDto,
   Create as CreateVacancyDto,
+  ReorderSteps as ReorderVacancyStepsDto,
   FindBestCandidate as FindBestCandidateDto,
   FindBestCandidates as FindBestCandidatesDto,
   VacancyList,
