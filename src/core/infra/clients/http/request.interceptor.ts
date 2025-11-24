@@ -1,12 +1,8 @@
 import { IHttpClient, ICookieStorage, ICrypto, IRequest } from '@core/domain';
 import { links, paths } from '@shared/index';
-import {
-  GetAuthTokenUseCase,
-  GetCompanyIdUseCase,
-  SetAuthTokenUseCase,
-  SignOutUseCase,
-  ValidateTokenUseCase,
-} from '@core/application/use-cases';
+import { GetAuthTokenUseCase, GetCompanyIdUseCase, ValidateTokenUseCase } from '@core/application/use-cases';
+import { SetAuthTokenUseCase } from '@core/application/use-cases/auth/set-auth-token.use-case';
+import { SignOutUseCase } from '@core/application/use-cases/auth/sign-out.use-case';
 
 interface TokenResponse {
   access_token: string;

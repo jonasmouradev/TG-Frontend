@@ -2,7 +2,6 @@ import { useCase } from '@shared/contexts/UseCaseContext';
 import {
   GetCompanyUseCase,
   CreateCompanyUseCase,
-  SetCompanyIdUseCase,
   GetCompanyIdUseCase,
   GetCompanyStatisticsUseCase,
   CreateCompanyUseCaseInput,
@@ -12,6 +11,7 @@ import { GetCompanyInput, GetCompanyOutput } from '@core/application/use-cases/c
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { QueryHookOptions } from '..';
+import { SetCompanyIdUseCase } from '@core/application/use-cases/auth/set-company-id.use-case';
 
 export function useCompanyCases() {
   const { companyGateway, cookieStorage, crypto } = useCase();

@@ -2,14 +2,12 @@ import { useCase } from '@shared/contexts/UseCaseContext';
 import {
   SignInUseCase,
   SignUpUseCase,
-  SignOutUseCase,
   DecodeTokenUseCase,
   ValidateTokenUseCase,
   RefreshTokenUseCase,
   ResetPasswordUseCase,
   ForgotPasswordUseCase,
   AuthenticateUserUseCase,
-  SetAuthTokenUseCase,
   GetAuthTokenUseCase,
 } from '@core/application/use-cases';
 import type {
@@ -20,6 +18,8 @@ import type {
   AuthenticateUserUseCaseInput,
 } from '@core/application/use-cases';
 import { useMemo } from 'react';
+import { SetAuthTokenUseCase } from '@core/application/use-cases/auth/set-auth-token.use-case';
+import { SignOutUseCase } from '@core/application/use-cases/auth/sign-out.use-case';
 
 export function useAuthCases() {
   const { authGateway, cookieStorage, crypto } = useCase();

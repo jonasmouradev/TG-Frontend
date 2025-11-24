@@ -1,6 +1,5 @@
-import { ICookieStorage } from '@core/domain/ports';
+import { IUseCase, ICookieStorage } from '@core/domain';
 import { COOKIES, domainName, paths } from '@shared/index';
-import { IUseCase } from '@core/domain/use-case.interface';
 
 export class SignOutUseCase implements IUseCase<void, void> {
   constructor(private readonly storage: ICookieStorage) {}
