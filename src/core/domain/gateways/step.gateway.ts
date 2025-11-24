@@ -12,11 +12,8 @@ type Create = {
   templateId?: string;
   name: string;
   description?: string;
-  order: number;
   type: StepType;
-  isRequired: boolean;
-  estimatedDuration?: number;
-  config?: Record<string, any>;
+  estimatedDuration?: string;
 };
 
 type Update = {

@@ -12,6 +12,7 @@ export class CreateStepUseCase implements IUseCase<CreateStepUseCaseInput, Creat
   constructor(private readonly gateway: StepGateway) {}
 
   async execute(input: CreateStepUseCaseInput): Promise<CreateStepUseCaseOutput> {
+    console.log(input);
     if (!input.name) {
       throw new Error('Step name is required');
     }

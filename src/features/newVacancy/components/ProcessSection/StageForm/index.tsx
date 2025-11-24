@@ -1,3 +1,4 @@
+import { StepType } from '@core/domain';
 import { Step } from '@features/newVacancy/types';
 import {
   Button,
@@ -20,6 +21,17 @@ interface StepFormProps {
   addStep: () => void;
 }
 
+export const stepOptionsTypes: Record<StepType, string> = {
+  screening: 'Triagem',
+  interview: 'Entrevista',
+  technical_test: 'Teste/Desafio',
+  background_check: 'Verificação de Antecedentes',
+  offer: 'Oferta',
+  onboarding: 'Integração',
+  application: 'Aplicação',
+  custom: 'Personalizado',
+};
+
 export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps) {
   return (
     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 space-y-3">
@@ -41,10 +53,11 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="screening">Triagem</SelectItem>
-              <SelectItem value="interview">Entrevista</SelectItem>
-              <SelectItem value="test">Teste/Desafio</SelectItem>
-              <SelectItem value="custom">Personalizado</SelectItem>
+              {Object.entries(stepOptionsTypes).map(([value, label]) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

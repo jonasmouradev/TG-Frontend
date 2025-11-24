@@ -5,6 +5,7 @@ import { useStepCases } from '@shared/hooks/step';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetStepsUseCase } from '@core/application';
 import { useCase } from '@shared/contexts/UseCaseContext';
+import { stepOptionsTypes } from '../components/ProcessSection/StageForm';
 
 const useNewVacancy = (templateId?: string) => {
   const { useGetSteps, ...stepCases } = useStepCases();
@@ -346,17 +347,7 @@ const useNewVacancy = (templateId?: string) => {
   };
 
   const getStepTypeLabel = (type: string) => {
-    const types: Record<StepType, string> = {
-      screening: 'Triagem',
-      interview: 'Entrevista',
-      technical_test: 'Teste/Desafio',
-      background_check: 'Verificação de Antecedentes',
-      offer: 'Oferta',
-      onboarding: 'Integração',
-      application: 'Aplicação',
-      custom: 'Personalizado',
-    };
-    return types[type as StepType] || type;
+    return stepOptionsTypes[type as StepType] || type;
   };
 
   const getStepTypeColor = (type: string) => {
