@@ -28,7 +28,6 @@ const useNewVacancy = (templateId?: string) => {
   }, [stepsData]);
 
   const mapStepTypeToLocal = (type: string): Step['type'] => {
-    console.log('Mapping step type:', type);
     return StepType[type as keyof typeof StepType] || 'custom';
   };
 
@@ -345,7 +344,6 @@ const useNewVacancy = (templateId?: string) => {
   };
 
   const getStepTypeLabel = (type: string) => {
-    console.log('Getting label for step type:', type);
     return stepOptionsTypes[type as StepType] || type;
   };
 
