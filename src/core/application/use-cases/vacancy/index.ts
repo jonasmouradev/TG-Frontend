@@ -7,6 +7,7 @@ export { GetPublishedVacancyUseCase } from './get-published.use-case';
 export { GetVacanciesUseCase } from './get-vacancies.use-case';
 export { GetBestCandidateUseCase } from './get-best-candidate.use-case';
 export { GetBestCandidatesUseCase } from './get-best-candidates.use-case';
+export { ReorderVacancyStepsUseCase } from './reorder-vacancy-steps.use-case';
 
 export type { GetPublishedVacancyOutput } from './get-published.use-case';
 export type { CreateVacancyInput, CreateVacancyOutput } from './create-vacancy.use-case';
@@ -17,3 +18,4 @@ export type { PublishVacancyInput, PublishVacancyOutput } from './publish-vacanc
 export type { GetVacanciesInput, GetVacanciesOutput } from './get-vacancies.use-case';
 export type { GetBestCandidateInput, GetBestCandidateOutput } from './get-best-candidate.use-case';
 export type { GetBestCandidatesInput, GetBestCandidatesOutput } from './get-best-candidates.use-case';
+export type { ReorderVacancyStepsInput, ReorderVacancyStepsOutput } from './reorder-vacancy-steps.use-case';

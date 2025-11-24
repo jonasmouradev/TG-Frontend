@@ -8,6 +8,7 @@ import {
   GetPublishedVacancyUseCase,
   GetBestCandidateUseCase,
   GetBestCandidatesUseCase,
+  ReorderVacancyStepsUseCase,
 } from '@core/application/use-cases';
 import type {
   GetVacancyInput,
@@ -23,6 +24,7 @@ import type {
   GetPublishedVacancyOutput,
   GetBestCandidateOutput,
   GetBestCandidatesOutput,
+  ReorderVacancyStepsInput,
 } from '@core/application/use-cases';
 import { useCase } from '@shared/contexts/UseCaseContext';
 import { QueryHookOptions } from '@shared/types';
@@ -38,6 +40,7 @@ export function useVacancyCases() {
       update: (input: UpdateVacancyInput) => new UpdateVacancyUseCase(vacancyGateway).execute(input),
       delete: (input: DeleteVacancyInput) => new DeleteVacancyUseCase(vacancyGateway).execute(input),
       publish: (input: PublishVacancyInput) => new PublishVacancyUseCase(vacancyGateway).execute(input),
+      reorder: (input: ReorderVacancyStepsInput) => new ReorderVacancyStepsUseCase(vacancyGateway).execute(input),
     }),
     [vacancyGateway],
   );
