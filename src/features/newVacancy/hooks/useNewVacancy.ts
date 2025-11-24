@@ -54,12 +54,6 @@ const useNewVacancy = (templateId?: string) => {
     return typeMap[type];
   };
 
-  const parseDuration = (duration: string): number | undefined => {
-    if (!duration) return undefined;
-    const match = duration.match(/\d+/);
-    return match ? parseInt(match[0], 10) : undefined;
-  };
-
   const createStepMutation = useMutation({
     mutationFn: stepCases.create,
     onSuccess: () => {
@@ -140,9 +134,7 @@ const useNewVacancy = (templateId?: string) => {
           name: newStep.name,
           type: mapLocalTypeToStepType(newStep.type),
           description: newStep.description,
-          order: steps.length,
-          isRequired: false,
-          estimatedDuration: parseDuration(newStep.duration || ''),
+          estimatedDuration: newStep.duration || '',
         });
         setNewStep({
           id: '',
@@ -190,9 +182,7 @@ const useNewVacancy = (templateId?: string) => {
           name: `${step.name} (cópia)`,
           type: mapLocalTypeToStepType(step.type),
           description: step.description,
-          order: steps.length,
-          isRequired: false,
-          estimatedDuration: step.duration ? parseDuration(step.duration) : undefined,
+          estimatedDuration: step.duration || '',
         });
       } catch (error) {
         console.error('Erro ao duplicar step:', error);
@@ -216,7 +206,7 @@ const useNewVacancy = (templateId?: string) => {
             name: updates.name,
             type: updates.type ? mapLocalTypeToStepType(updates.type) : undefined,
             description: updates.description,
-            estimatedDuration: updates.duration ? parseDuration(updates.duration) : undefined,
+            estimatedDuration: updates.duration ? updates.duration : undefined,
           },
         });
         setEditingStep(null);
