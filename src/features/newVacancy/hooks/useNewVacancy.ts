@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Step } from '../types';
-import { ProcessTemplateDto, StepType } from '@core/domain';
+import { ProcessTemplateDto, Step, StepType } from '@core/domain';
 import { useStepCases } from '@shared/hooks/step';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetStepsUseCase } from '@core/application';
 import { useCase } from '@shared/contexts/UseCaseContext';
 import { stepOptionsTypes } from '../components/ProcessSection/StageForm';
+import { DateTime } from 'luxon';
 
 const useNewVacancy = (templateId?: string) => {
   const { useGetSteps, ...stepCases } = useStepCases();
@@ -23,20 +23,12 @@ const useNewVacancy = (templateId?: string) => {
 
   useEffect(() => {
     if (stepsData?.data?.data) {
-      const mappedSteps: Step[] = stepsData.data.data.map(step => ({
-        id: step.id,
-        name: step.name,
-        type: mapStepTypeToLocal(step.type),
-        description: step.description || '',
-        duration: step.estimatedDuration ? `${step.estimatedDuration} dias` : '',
-        responsible: '',
-        autoNotify: false,
-      }));
-      setSteps(mappedSteps);
+      setSteps(stepsData.data.data);
     }
   }, [stepsData]);
 
   const mapStepTypeToLocal = (type: string): Step['type'] => {
+    console.log('Mapping step type:', type);
     return StepType[type as keyof typeof StepType] || 'custom';
   };
 
@@ -97,15 +89,20 @@ const useNewVacancy = (templateId?: string) => {
       });
     },
   });
-  const [newStep, setNewStep] = useState<Step>({
-    id: '',
-    name: '',
-    type: StepType.INTERVIEW,
-    description: '',
-    duration: '',
-    responsible: '',
-    autoNotify: false,
-  });
+  const [newStep, setNewStep] = useState<Step>(
+    new Step({
+      id: '',
+      name: '',
+      type: StepType.INTERVIEW,
+      description: '',
+      estimatedDuration: '',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      templateId: null,
+      // responsible: '',
+      // autoNotify: false,
+    }),
+  );
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
   const [editingStep, setEditingStep] = useState<string | null>(null);
@@ -134,43 +131,54 @@ const useNewVacancy = (templateId?: string) => {
           name: newStep.name,
           type: mapLocalTypeToStepType(newStep.type),
           description: newStep.description,
-          estimatedDuration: newStep.duration || '',
+          estimatedDuration: newStep.estimatedDuration || '',
         });
-        setNewStep({
-          id: '',
-          name: '',
-          type: 'interview',
-          description: '',
-          duration: '',
-          responsible: '',
-          autoNotify: false,
-        });
+        setNewStep(
+          new Step({
+            id: '',
+            name: '',
+            type: StepType.INTERVIEW,
+            description: '',
+            estimatedDuration: '',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            templateId: null,
+            // responsible: '',
+            // autoNotify: false,
+          }),
+        );
       } catch (error) {
         console.error('Erro ao adicionar step:', error);
       }
     } else {
       // Fallback para modo local (sem templateId)
-      setSteps([
-        ...steps,
-        {
-          id: Date.now().toString(),
-          name: newStep.name,
-          type: newStep.type,
-          description: newStep.description,
-          duration: newStep.duration,
-          responsible: newStep.responsible,
-          autoNotify: newStep.autoNotify,
-        },
-      ]);
-      setNewStep({
-        id: '',
-        name: '',
-        type: 'interview',
-        description: '',
-        duration: '',
-        responsible: '',
-        autoNotify: false,
+      const step = new Step({
+        id: Date.now().toString(),
+        name: newStep.name,
+        type: newStep.type,
+        description: newStep.description,
+        estimatedDuration: newStep.estimatedDuration,
+        templateId: null,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        // responsible: newStep.responsible,
+        // autoNotify: newStep.autoNotify,
       });
+      setSteps([...steps, step]);
+      setNewStep(
+        new Step({
+          id: '',
+          name: '',
+          type: StepType.INTERVIEW,
+          description: '',
+          estimatedDuration: '',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          templateId: null,
+          // responsible: '',
+          // autoNotify: false,
+        }),
+      );
     }
   };
 
@@ -182,17 +190,20 @@ const useNewVacancy = (templateId?: string) => {
           name: `${step.name} (cópia)`,
           type: mapLocalTypeToStepType(step.type),
           description: step.description,
-          estimatedDuration: step.duration || '',
+          estimatedDuration: step.estimatedDuration || '',
         });
       } catch (error) {
         console.error('Erro ao duplicar step:', error);
       }
     } else {
-      const newStep = {
-        ...step,
+      const newStep = new Step({
+        templateId: null,
+        type: step.type,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
         id: Date.now().toString(),
         name: `${step.name} (cópia)`,
-      };
+      });
       setSteps([...steps, newStep]);
     }
   };
@@ -206,7 +217,7 @@ const useNewVacancy = (templateId?: string) => {
             name: updates.name,
             type: updates.type ? mapLocalTypeToStepType(updates.type) : undefined,
             description: updates.description,
-            estimatedDuration: updates.duration ? updates.duration : undefined,
+            estimatedDuration: updates.estimatedDuration ? updates.estimatedDuration : undefined,
           },
         });
         setEditingStep(null);
@@ -214,7 +225,6 @@ const useNewVacancy = (templateId?: string) => {
         console.error('Erro ao atualizar step:', error);
       }
     } else {
-      setSteps(steps.map(s => (s.id === id ? { ...s, ...updates } : s)));
       setEditingStep(null);
     }
   };
@@ -310,33 +320,32 @@ const useNewVacancy = (templateId?: string) => {
 
         if (result?.data?.data) {
           const stepsArray = Array.isArray(result.data.data) ? result.data.data : [];
-          const mappedSteps: Step[] = stepsArray.map(step => ({
-            id: step.id,
-            name: step.name,
-            type: mapStepTypeToLocal(step.type),
-            description: step.description || '',
-            duration: step.estimatedDuration ? `${step.estimatedDuration} dias` : '',
-            responsible: '',
-            autoNotify: false,
-          }));
+          const mappedSteps = stepsArray.map(
+            step =>
+              new Step({
+                id: step.id,
+                name: step.name,
+                type: mapStepTypeToLocal(step.type),
+                description: step.description,
+                estimatedDuration: step.estimatedDuration || '',
+                templateId: step.templateId,
+                createdAt: step.createdAt,
+                updatedAt: step.updatedAt,
+              }),
+          );
           setSteps(mappedSteps);
         }
       } catch (error) {
         console.error('Erro ao buscar steps do template:', error);
       }
     } else if (template.stages) {
-      // Fallback para templates locais sem ID
-      setSteps(
-        template.stages.map(step => ({
-          ...step,
-          id: Date.now().toString() + Math.random(),
-        })),
-      );
+      setSteps(template.stages);
     }
     setShowTemplates(false);
   };
 
   const getStepTypeLabel = (type: string) => {
+    console.log('Getting label for step type:', type);
     return stepOptionsTypes[type as StepType] || type;
   };
 

@@ -19,11 +19,8 @@ type Create = {
 type Update = {
   name?: string;
   description?: string;
-  order?: number;
   type?: StepType;
-  isRequired?: boolean;
-  estimatedDuration?: number;
-  config?: Record<string, any>;
+  estimatedDuration?: string;
 };
 
 type StepList = PaginatedList<Step>;

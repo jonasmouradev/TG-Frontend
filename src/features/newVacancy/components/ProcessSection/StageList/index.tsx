@@ -1,6 +1,8 @@
-import { Badge, Button, Input, Label, Switch, Textarea } from '@shared/index';
-import { Bell, BellOff, Copy, Edit2, GripVertical, Trash2, User } from 'lucide-react';
-import { Step } from '../../../types';
+import { Step } from '@core/domain';
+import { Badge, Button, Input, Label, Textarea } from '@shared/index';
+// import { Switch } from '@shared/index';
+import { Copy, Edit2, GripVertical, Trash2 } from 'lucide-react';
+// import { Bell, BellOff, User } from 'lucide-react';
 
 interface StepListProps {
   steps: Step[];
@@ -78,17 +80,19 @@ export default function StepList({
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <Input
-                    value={step.duration || ''}
-                    onChange={e => updateStep(step.id, { duration: e.target.value })}
+                    value={step.estimatedDuration || ''}
+                    onChange={e => updateStep(step.id, { estimatedDuration: e.target.value })}
                     placeholder="Duração"
                   />
-                  <Input
+                  {/* TODO: enable when integrate responsible */}
+                  {/* <Input
                     value={step.responsible || ''}
                     onChange={e => updateStep(step.id, { responsible: e.target.value })}
                     placeholder="Responsável"
-                  />
+                  /> */}
                 </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
+                {/* TODO: enable when has notifications */}
+                {/* <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-2">
                     {step.autoNotify ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
                     <span className="text-sm">Notificar candidato automaticamente</span>
@@ -97,7 +101,7 @@ export default function StepList({
                     checked={step.autoNotify}
                     onCheckedChange={checked => updateStep(step.id, { autoNotify: checked })}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           ) : (
@@ -114,22 +118,22 @@ export default function StepList({
                     <Badge variant="outline" className={`text-xs ${getStepTypeColor(step.type)}`}>
                       {getStepTypeLabel(step.type)}
                     </Badge>
-                    {step.autoNotify && (
+                    {/* {step.autoNotify && (
                       <Badge variant="outline" className="text-xs bg-green-50 text-green-700">
                         <Bell className="w-3 h-3 mr-1" />
                         Auto-notificação
                       </Badge>
-                    )}
+                    )} */}
                   </div>
                   {step.description && <p className="text-sm text-gray-600 line-clamp-2">{step.description}</p>}
                   <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                    {step.duration && <span>⏱️ {step.duration}</span>}
-                    {step.responsible && (
+                    {step.estimatedDuration && <span>⏱️ {step.estimatedDuration}</span>}
+                    {/* {step.responsible && (
                       <span className="flex items-center gap-1">
                         <User className="w-3 h-3" />
                         {step.responsible}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

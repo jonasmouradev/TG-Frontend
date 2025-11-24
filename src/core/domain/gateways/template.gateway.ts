@@ -1,24 +1,14 @@
 import { PromiseResponse } from '@core/domain/ports/http-client.port';
+import { Step } from '../entities';
 
 // Domain DTOs for Templates
-export interface ProcessStageDto {
-  id?: string;
-  name: string;
-  type: 'screening' | 'interview' | 'test' | 'custom';
-  description: string;
-  duration?: string;
-  responsible?: string;
-  autoNotify?: boolean;
-  order?: number;
-}
-
 export interface ProcessTemplateDto {
   id: string;
   name: string;
   description: string;
   category?: string;
   isDefault?: boolean;
-  stages: ProcessStageDto[];
+  stages: Step[];
   companyId?: string;
   createdBy?: string;
   createdAt?: string;
@@ -29,7 +19,7 @@ export interface CreateTemplateDto {
   name: string;
   description: string;
   category?: string;
-  stages: Omit<ProcessStageDto, 'id'>[];
+  stages: Omit<Step, 'id'>[];
   companyId?: string;
 }
 
@@ -37,7 +27,7 @@ export interface UpdateTemplateDto {
   name?: string;
   description?: string;
   category?: string;
-  stages?: ProcessStageDto[];
+  stages?: Step[];
 }
 
 export interface TemplateFilters {
