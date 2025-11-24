@@ -18,6 +18,7 @@ const Profile = lazy(() => import('@features/profile'));
 const Scheduling = lazy(() => import('@features/scheduling'));
 const CandidateRegistration = lazy(() => import('@features/candidateRegistration'));
 const VacancyApplication = lazy(() => import('@features/vacancyApplication'));
+const VacancyDetail = lazy(() => import('@features/vacancyDetail'));
 
 export const router = createBrowserRouter([
   {
@@ -106,6 +107,10 @@ export const router = createBrowserRouter([
       {
         path: paths.VACANCY_APPLICATION,
         element: <VacancyApplication />,
+      },
+      {
+        path: paths.VACANCY_DETAIL,
+        element: <VacancyDetail />,
       },
       {
         path: '*',

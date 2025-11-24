@@ -19,3 +19,4 @@ export * from './Sidebar';
 export * from './Checkbox';
 export * from './DropdownMenu';
 export * from './Dialog';
+export * from './Tabs';

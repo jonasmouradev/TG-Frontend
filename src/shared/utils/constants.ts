@@ -18,6 +18,7 @@ export const paths = {
   SCHEDULING: '/vacancies/scheduling',
   CANDIDATE_REGISTRATION: '/candidates/registration',
   VACANCY_APPLICATION: '/vacancy/:id/application',
+  VACANCY_DETAIL: '/vacancy/:id/detail',
 } as const;
 
 export type Paths = keyof typeof paths;

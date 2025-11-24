@@ -22,7 +22,7 @@ export interface SelectOption {
   value: string;
 }
 
-export interface IToken {
+export interface IToken extends IUser {
   exp: number;
   iat: number;
   iss: string;
@@ -30,7 +30,6 @@ export interface IToken {
   nbf: number;
   prv: string;
   sub: string;
-  user: IUser;
 }
 
 export interface IUser {

@@ -1,5 +1,4 @@
-import { StepType } from '@core/domain';
-import { Step } from '@features/newVacancy/types';
+import { Step, StepType } from '@core/domain';
 import {
   Button,
   Input,

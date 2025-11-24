@@ -4,7 +4,7 @@ import Section from '../Section';
 import ProcessTemplates from './ProcessTemplates';
 import ProcessStats from './ProcessStats';
 import StepList from './StageList';
-import StepForm from './StageForm';
+import StepForm from './StepForm';
 import ExportTemplateModal from './ExportTemplateModal';
 import { useNewVacancy } from '../../hooks';
 
@@ -93,7 +93,16 @@ export default function ProcessSection() {
           )}
 
           {/* Estatísticas */}
-          {showStats && steps.length > 0 && <ProcessStats stepStats={stepStats} totalSteps={steps.length} />}
+          {showStats && steps.length > 0 && (
+            <ProcessStats
+              stepStats={stepStats.map((stat, index) => ({
+                ...stat,
+                id: steps[index]?.id || index.toString(),
+                name: steps[index]?.name || `Etapa ${index + 1}`,
+              }))}
+              totalSteps={steps.length}
+            />
+          )}
 
           {showTemplates && <ProcessTemplates />}
         </div>

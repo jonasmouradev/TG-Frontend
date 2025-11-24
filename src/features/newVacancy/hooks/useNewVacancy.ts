@@ -4,7 +4,7 @@ import { useStepCases } from '@shared/hooks/step';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetStepsUseCase } from '@core/application';
 import { useCase } from '@shared/contexts/UseCaseContext';
-import { stepOptionsTypes } from '../components/ProcessSection/StageForm';
+import { stepOptionsTypes } from '../components/ProcessSection/StepForm';
 import { DateTime } from 'luxon';
 
 const useNewVacancy = (templateId?: string) => {

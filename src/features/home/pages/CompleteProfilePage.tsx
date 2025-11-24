@@ -41,12 +41,13 @@ export default function CompleteProfilePage() {
   const { getToken, decodeToken } = useAuthCases();
   const token = getToken();
   const decodedToken = token ? decodeToken(token) : null;
+  console.log('Decoded Token:', decodedToken);
   const { useGetPerson, ...personCases } = usePersonCases();
 
-  const { data } = useGetPerson({ input: { id: decodedToken?.user.profileId ?? '' } });
+  const { data } = useGetPerson({ input: { id: decodedToken?.profileId ?? '' } });
 
   const workExperiences = data?.person.experiences ?? [];
-  const educations = data?.person.educations ?? [];
+  const educations = data?.person.formations ?? [];
   const skills = data?.person.competences ?? [];
 
   // Personal Information
@@ -113,7 +114,7 @@ export default function CompleteProfilePage() {
 
   const addWorkExperience = () => {
     if (newWorkExperience.company && newWorkExperience.position) {
-      personCases.addWorkExperience({ id: decodedToken?.user.profileId ?? '', payload: newWorkExperience });
+      personCases.addWorkExperience({ id: decodedToken?.profileId ?? '', payload: newWorkExperience });
       setNewWorkExperience({
         company: '',
         position: '',
@@ -126,12 +127,12 @@ export default function CompleteProfilePage() {
   };
 
   const removeWorkExperience = (workExperienceId: string) => {
-    personCases.removeWorkExperience({ id: decodedToken?.user.profileId ?? '', workExperienceId });
+    personCases.removeWorkExperience({ id: decodedToken?.profileId ?? '', workExperienceId });
   };
 
   const addEducation = () => {
     if (newEducation.institution && newEducation.degree) {
-      personCases.addEducation({ id: decodedToken?.user.profileId ?? '', payload: newEducation });
+      personCases.addEducation({ id: decodedToken?.profileId ?? '', payload: newEducation });
       setNewEducation({
         institution: '',
         degree: '',
@@ -145,12 +146,12 @@ export default function CompleteProfilePage() {
   };
 
   const removeEducation = (educationId: string) => {
-    personCases.removeEducation({ id: decodedToken?.user.profileId ?? '', educationId });
+    personCases.removeEducation({ id: decodedToken?.profileId ?? '', educationId });
   };
 
   const addSkill = () => {
     if (newSkill.competenceId) {
-      personCases.addCompetence({ id: decodedToken?.user.profileId ?? '', payload: newSkill });
+      personCases.addCompetence({ id: decodedToken?.profileId ?? '', payload: newSkill });
       setNewSkill({
         competenceId: '',
         level: 'intermediate' as PersonCompetenceLevel,
@@ -160,7 +161,7 @@ export default function CompleteProfilePage() {
   };
 
   const removeSkill = (competenceId: string) => {
-    personCases.removeCompetence({ id: decodedToken?.user.profileId ?? '', competenceId });
+    personCases.removeCompetence({ id: decodedToken?.profileId ?? '', competenceId });
   };
 
   const handleSaveProfile = async () => {
