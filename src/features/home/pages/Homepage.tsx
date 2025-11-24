@@ -5,7 +5,6 @@ import PersonHome from '../entities/person';
 const HomePage = () => {
   const { user } = useProfile();
   const userType = user?.type;
-  console.log('User type in HomePage:', userType);
   const options = { COMPANY: <CompanyHome />, PERSON: <PersonHome /> };
   return options[userType as keyof typeof options] || <div>Tipo de usuário desconhecido</div>;
 };
