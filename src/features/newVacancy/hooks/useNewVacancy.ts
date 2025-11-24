@@ -7,14 +7,14 @@ import { GetStepsUseCase } from '@core/application';
 import { useCase } from '@shared/contexts/UseCaseContext';
 
 const useNewVacancy = (templateId?: string) => {
-  const stepCases = useStepCases();
+  const { useGetSteps, ...stepCases } = useStepCases();
   const queryClient = useQueryClient();
   const { stepGateway } = useCase();
 
   // Buscar steps existentes do template
-  const { data: stepsData, isLoading } = stepCases.useGetSteps({
+  const { data: stepsData, isLoading } = useGetSteps({
     input: { filters: templateId ? { templateId } : undefined },
-    enabled: !!templateId,
+    enabled: true,
   });
 
   const [skills, setSkills] = useState<string[]>([]);
@@ -71,28 +71,45 @@ const useNewVacancy = (templateId?: string) => {
   const createStepMutation = useMutation({
     mutationFn: stepCases.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: GetStepsUseCase.queryKey({}) });
+      // Invalida a query com os mesmos parâmetros usados no useGetSteps
+      queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
     },
   });
 
   const updateStepMutation = useMutation({
     mutationFn: stepCases.update,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['step', 'getSteps'] });
+      queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
     },
   });
 
   const deleteStepMutation = useMutation({
     mutationFn: stepCases.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['step', 'getSteps'] });
+      queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
     },
   });
 
   const reorderStepsMutation = useMutation({
     mutationFn: stepCases.reorder,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['step', 'getSteps'] });
+      queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
     },
   });
   const [newStep, setNewStep] = useState({
@@ -349,7 +366,7 @@ const useNewVacancy = (templateId?: string) => {
     setNewSkill,
     addSkill,
     removeSkill,
-    steps,
+    stepsData,
     stages: steps, // Alias para compatibilidade
     newStep,
     newStage: newStep, // Alias para compatibilidade
