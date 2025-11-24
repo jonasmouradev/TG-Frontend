@@ -17,7 +17,7 @@ import {
   useVacancyCases,
 } from '@/shared';
 import { DeleteVacancyInput } from '@core/application/use-cases';
-import { Vacancy, VacancyStatus } from '@core/domain';
+import { ExperienceLevel, Vacancy, VacancyStatus } from '@core/domain';
 import {
   Plus,
   Search,
@@ -32,6 +32,7 @@ import {
   Edit,
   TrashIcon,
 } from 'lucide-react';
+import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -81,6 +82,19 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
     };
     return labels[status as keyof typeof labels];
   };
+
+  const getJobLabel = (job: Vacancy) => {
+    const labels = {
+      [ExperienceLevel.JUNIOR]: 'Júnior',
+      [ExperienceLevel.MID]: 'Pleno',
+      [ExperienceLevel.SENIOR]: 'Sênior',
+      [ExperienceLevel.ENTRY]: 'Estágio',
+      [ExperienceLevel.LEAD]: 'Líder',
+    };
+    return labels[job.level as keyof typeof labels];
+  };
+
+  console.log(recentJobs);
 
   return (
     <div className="lg:col-span-2 space-y-4">
@@ -134,15 +148,22 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
                   <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
                       <Building2 className="w-4 h-4" />
-                      {job.level}
+                      {getJobLabel(job)}
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
                       {job.location}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />5 dias aberta
-                    </span>
+                    {job.publicationDate && (
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        {DateTime.now()
+                          .diff(DateTime.fromISO(job.publicationDate), 'days')
+                          .toObject()
+                          .days?.toFixed(0)}{' '}
+                        dias aberta
+                      </span>
+                    )}
                   </div>
                 </div>
                 <DropdownMenu>

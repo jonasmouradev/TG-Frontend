@@ -73,8 +73,8 @@ type VacancyProps = {
     };
   };
   status: VacancyStatus;
-  publicationDate: DateTime | null;
-  expirationDate: DateTime | null;
+  publicationDate: string | null;
+  expirationDate: string | null;
   createdAt: DateTime;
   updatedAt: DateTime;
 };
@@ -146,11 +146,11 @@ export class Vacancy {
     return this.props.status;
   }
 
-  get publicationDate(): DateTime | null {
+  get publicationDate(): string | null {
     return this.props.publicationDate;
   }
 
-  get expirationDate(): DateTime | null {
+  get expirationDate(): string | null {
     return this.props.expirationDate;
   }
 
