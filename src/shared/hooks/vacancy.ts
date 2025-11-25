@@ -26,6 +26,7 @@ import type {
   GetBestCandidatesOutput,
   ReorderVacancyStepsInput,
 } from '@core/application/use-cases';
+import { CloseVacancyInput, CloseVacancyUseCase } from '@core/application/use-cases/vacancy/close-vacancy.use-case';
 import { useCase } from '@shared/contexts/UseCaseContext';
 import { QueryHookOptions } from '@shared/types';
 import { useQuery } from '@tanstack/react-query';
@@ -40,6 +41,7 @@ export function useVacancyCases() {
       update: (input: UpdateVacancyInput) => new UpdateVacancyUseCase(vacancyGateway).execute(input),
       delete: (input: DeleteVacancyInput) => new DeleteVacancyUseCase(vacancyGateway).execute(input),
       publish: (input: PublishVacancyInput) => new PublishVacancyUseCase(vacancyGateway).execute(input),
+      close: (input: CloseVacancyInput) => new CloseVacancyUseCase(vacancyGateway).execute(input),
       reorder: (input: ReorderVacancyStepsInput) => new ReorderVacancyStepsUseCase(vacancyGateway).execute(input),
     }),
     [vacancyGateway],
@@ -55,7 +57,7 @@ export function useVacancyCases() {
 
   function useGetVacancies({ input, ...options }: QueryHookOptions<GetVacanciesInput, GetVacanciesOutput>) {
     return useQuery({
-      queryKey: GetVacanciesUseCase.queryKey(input || {}),
+      queryKey: GetVacanciesUseCase.queryKey(input),
       queryFn: () => new GetVacanciesUseCase(vacancyGateway).execute(input || {}),
       ...options,
     });

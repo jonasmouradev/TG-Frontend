@@ -16,6 +16,7 @@ import {
   useVacancyCases,
   useApplicationCases,
   MINUTE_IN_MILLISECONDS,
+  paths,
 } from '@/shared';
 
 import {
@@ -28,7 +29,6 @@ import {
   Eye,
   CheckCircle2,
   Download,
-  Plus,
   Search,
   Filter,
   MessageSquare,
@@ -39,10 +39,13 @@ import {
   MoreVertical,
   Target,
 } from 'lucide-react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { DateTime } from 'luxon';
 import { ApplicationStatus } from '@core/domain';
-import { getExperienceLabel } from '@features/home';
+import { getExperienceLabel, getStatusLabel } from '@features/home';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
+import { GetVacancyUseCase } from '@core/application';
 
 export const getApplicationLabel = (status: ApplicationStatus) => {
   const labels: Record<ApplicationStatus, string> = {
@@ -62,8 +65,10 @@ export default function VacancyDetail() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStage, setSelectedStage] = useState<ApplicationStatus | 'all'>('all');
 
-  const { useGetVacancy } = useVacancyCases();
+  const { useGetVacancy, close } = useVacancyCases();
   const { useGetApplications } = useApplicationCases();
+  const navigate = useNavigate();
+  const query = useQueryClient();
 
   const { data: { vacancy } = {} } = useGetVacancy({
     input: { id },
@@ -156,7 +161,9 @@ export default function VacancyDetail() {
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <h1 className="text-2xl font-bold">{vacancy?.title}</h1>
-                  <Badge className="bg-green-100 text-green-700">Ativa</Badge>
+                  <Badge className={getStatusColor(vacancy?.status ?? 'closed')}>
+                    {getStatusLabel(vacancy?.status ?? 'closed')}
+                  </Badge>
                 </div>
 
                 <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
@@ -212,9 +219,17 @@ export default function VacancyDetail() {
               </div>
 
               <div className="flex lg:flex-col gap-2">
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Adicionar Candidato
+                <Button
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  disabled={vacancy?.status === 'closed'}
+                  onClick={() => {
+                    close({ id: vacancy?.id || '' });
+                    toast.success('Vaga encerrada com sucesso!');
+                    navigate(paths.HOME);
+                    query.invalidateQueries({ queryKey: GetVacancyUseCase.queryKey({ id: vacancy?.id || '' }) });
+                  }}
+                >
+                  Encerrar
                 </Button>
                 <Button variant="outline">
                   <Download className="w-4 h-4 mr-2" />
