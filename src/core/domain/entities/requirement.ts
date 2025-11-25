@@ -1,6 +1,6 @@
-export interface Benefit {
+export interface Requirement {
   vacancyId: string;
-  benefit: string;
+  requirement: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon';
 import { Application } from './application';
 import { CandidateMatch } from './candidateMatch';
+import { Benefit } from './benefit';
+import { Requirement } from './requirement';
 
 export const VacancyType = {
   FULL_TIME: 'full_time',
@@ -58,8 +60,8 @@ type VacancyProps = {
   type: VacancyType;
   level: ExperienceLevel;
   remote: boolean;
-  benefits?: string[];
-  requirements: { requirement: string }[];
+  benefits?: Benefit[];
+  requirements: Requirement[];
   responsibilities: string[];
   applications: Application[];
   steps: {
@@ -135,7 +137,7 @@ export class Vacancy {
     return this.props.remote;
   }
 
-  get benefits(): string[] | undefined {
+  get benefits(): Benefit[] | undefined {
     return this.props.benefits;
   }
 
@@ -143,8 +145,8 @@ export class Vacancy {
     return this.props.applications;
   }
 
-  get requirements(): string[] {
-    return this.props.requirements.map(r => r.requirement);
+  get requirements(): Requirement[] {
+    return this.props.requirements;
   }
 
   get responsibilities(): string[] {
