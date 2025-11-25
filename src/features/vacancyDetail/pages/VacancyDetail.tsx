@@ -467,7 +467,7 @@ export default function VacancyDetail() {
                     <div>
                       <h3 className="font-semibold mb-2">Requisitos:</h3>
                       <ul className="space-y-1">
-                        {vacancy?.requirements.map((item: any, idx) => (
+                        {vacancy?.requirements.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
                             <Target className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                             {item.requirement}
