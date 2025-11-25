@@ -30,7 +30,7 @@ export default function ProcessTemplates() {
                 </h4>
                 <p className="text-sm text-gray-600 mb-2">{template.description}</p>
                 <div className="flex flex-wrap gap-1">
-                  {template.stages.map((stage, idx) => (
+                  {template.stages?.map((stage, idx) => (
                     <Badge key={idx} variant="outline" className="text-xs">
                       {stage.name}
                     </Badge>
@@ -59,12 +59,8 @@ export default function ProcessTemplates() {
               <div
                 key={template.id}
                 className="border-2 border-green-200 rounded-lg p-4 hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer group"
-                onClick={() => applyTemplate(template)}
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center flex-shrink-0">
-                    {/* <Icon className="w-6 h-6 text-white" /> */}
-                  </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="font-semibold text-lg group-hover:text-green-600 transition-colors">
@@ -76,14 +72,19 @@ export default function ProcessTemplates() {
                     </div>
                     <p className="text-sm text-gray-600 mb-2">{template.description}</p>
                     <div className="flex flex-wrap gap-1">
-                      {template.stages.map((stage, idx) => (
+                      {template.stages?.map((stage, idx) => (
                         <Badge key={idx} variant="outline" className="text-xs">
                           {stage.name}
                         </Badge>
                       ))}
                     </div>
                   </div>
-                  <Button size="sm" variant="outline" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => applyTemplate(template)}
+                  >
                     Aplicar
                   </Button>
                 </div>

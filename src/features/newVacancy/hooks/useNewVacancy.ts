@@ -6,6 +6,7 @@ import { GetStepsUseCase } from '@core/application';
 import { useCase } from '@shared/contexts/UseCaseContext';
 import { stepOptionsTypes } from '../components/ProcessSection/StepForm';
 import { DateTime } from 'luxon';
+import { useTemplateCases } from '@shared/hooks';
 
 const useNewVacancy = (templateId?: string) => {
   const { useGetSteps, ...stepCases } = useStepCases();
@@ -47,8 +48,13 @@ const useNewVacancy = (templateId?: string) => {
 
   const createStepMutation = useMutation({
     mutationFn: stepCases.create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
         queryKey: GetStepsUseCase.queryKey({
           filters: templateId ? { templateId } : undefined,
         }),
@@ -58,8 +64,13 @@ const useNewVacancy = (templateId?: string) => {
 
   const updateStepMutation = useMutation({
     mutationFn: stepCases.update,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
         queryKey: GetStepsUseCase.queryKey({
           filters: templateId ? { templateId } : undefined,
         }),
@@ -69,8 +80,13 @@ const useNewVacancy = (templateId?: string) => {
 
   const deleteStepMutation = useMutation({
     mutationFn: stepCases.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
         queryKey: GetStepsUseCase.queryKey({
           filters: templateId ? { templateId } : undefined,
         }),
@@ -80,8 +96,13 @@ const useNewVacancy = (templateId?: string) => {
 
   const reorderStepsMutation = useMutation({
     mutationFn: stepCases.reorder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
         queryKey: GetStepsUseCase.queryKey({
           filters: templateId ? { templateId } : undefined,
         }),
@@ -109,7 +130,14 @@ const useNewVacancy = (templateId?: string) => {
   const [showExportModal, setShowExportModal] = useState(false);
   const [templateName, setTemplateName] = useState('');
   const [templateDescription, setTemplateDescription] = useState('');
-  const [savedTemplates, setSavedTemplates] = useState<ProcessTemplateDto[]>([]);
+
+  const { useGetProcessTemplates } = useTemplateCases();
+  const { data: processTemplates } = useGetProcessTemplates({
+    input: {},
+    enabled: true,
+  });
+
+  const savedTemplates = processTemplates?.templates || [];
 
   const addSkill = () => {
     if (newSkill.trim() && !skills.includes(newSkill.trim())) {
@@ -123,47 +151,18 @@ const useNewVacancy = (templateId?: string) => {
   };
 
   const addStep = async () => {
-    if (newStep.name.trim()) {
-      try {
-        await createStepMutation.mutateAsync({
-          templateId: '',
-          name: newStep.name,
-          type: mapLocalTypeToStepType(newStep.type),
-          description: newStep.description,
-          estimatedDuration: newStep.estimatedDuration || '',
-        });
-        setNewStep(
-          new Step({
-            id: '',
-            name: '',
-            type: StepType.INTERVIEW,
-            description: '',
-            estimatedDuration: '',
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-            templateId: null,
-            // responsible: '',
-            // autoNotify: false,
-          }),
-        );
-      } catch (error) {
-        console.error('Erro ao adicionar step:', error);
-      }
-    } else {
-      // Fallback para modo local (sem templateId)
-      const step = new Step({
-        id: Date.now().toString(),
+    if (!newStep.name || !newStep.name.trim()) {
+      return;
+    }
+
+    try {
+      await createStepMutation.mutateAsync({
+        templateId: templateId || '',
         name: newStep.name,
-        type: newStep.type,
+        type: mapLocalTypeToStepType(newStep.type),
         description: newStep.description,
-        estimatedDuration: newStep.estimatedDuration,
-        templateId: null,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        // responsible: newStep.responsible,
-        // autoNotify: newStep.autoNotify,
+        estimatedDuration: newStep.estimatedDuration || '',
       });
-      setSteps([...steps, step]);
       setNewStep(
         new Step({
           id: '',
@@ -178,6 +177,8 @@ const useNewVacancy = (templateId?: string) => {
           // autoNotify: false,
         }),
       );
+    } catch (error) {
+      console.error('Erro ao adicionar step:', error);
     }
   };
 
@@ -228,20 +229,23 @@ const useNewVacancy = (templateId?: string) => {
     }
   };
 
-  const exportAsTemplate = () => {
+  const { createProcess } = useTemplateCases();
+  const exportAsTemplate = async () => {
     if (!templateName.trim() || steps.length === 0) return;
 
-    const newTemplate: ProcessTemplateDto = {
-      id: Date.now().toString(),
-      name: templateName,
-      description: templateDescription || 'Template personalizado',
-      stages: steps.map(step => step),
-    };
+    try {
+      await createProcess({
+        name: templateName,
+        description: templateDescription || 'Template personalizado',
+        stages: steps,
+      });
 
-    setSavedTemplates([...savedTemplates, newTemplate]);
-    setShowExportModal(false);
-    setTemplateName('');
-    setTemplateDescription('');
+      setShowExportModal(false);
+      setTemplateName('');
+      setTemplateDescription('');
+    } catch (error) {
+      console.error('Erro ao exportar template:', error);
+    }
   };
 
   // Estatísticas simuladas - em produção viriam do backend

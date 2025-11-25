@@ -1,5 +1,5 @@
 import { Button, Label } from '@shared/index';
-import { BarChart3, Download, GitBranch, Sparkles } from 'lucide-react';
+import { BarChart3, GitBranch, Sparkles, Upload } from 'lucide-react';
 import Section from '../Section';
 import ProcessTemplates from './ProcessTemplates';
 import ProcessStats from './ProcessStats';
@@ -65,7 +65,7 @@ export default function ProcessSection() {
                 onClick={() => setShowExportModal(true)}
                 disabled={steps.length === 0}
               >
-                <Download className="w-4 h-4 mr-2" />
+                <Upload className="w-4 h-4 mr-2" />
                 Exportar como Template
               </Button>
               <Button variant="ghost" size="sm" onClick={() => setShowTemplates(!showTemplates)}>

@@ -40,15 +40,41 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           <Input
             id="stepName"
             placeholder="Ex: Entrevista Técnica"
-            value={newStep.name}
-            onChange={e => setNewStep({ ...newStep, name: e.target.value } as Step)}
+            value={newStep.name || ''}
+            onChange={e =>
+              setNewStep(
+                new Step({
+                  id: newStep.id,
+                  name: e.target.value,
+                  type: newStep.type,
+                  description: newStep.description,
+                  estimatedDuration: newStep.estimatedDuration,
+                  createdAt: newStep.createdAt,
+                  updatedAt: newStep.updatedAt,
+                  templateId: newStep.templateId,
+                }),
+              )
+            }
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="stepType">Tipo</Label>
           <Select
             value={newStep.type}
-            onValueChange={(v: Step['type']) => setNewStep(new Step({ ...newStep, type: v } as Step))}
+            onValueChange={(v: Step['type']) =>
+              setNewStep(
+                new Step({
+                  id: newStep.id,
+                  name: newStep.name,
+                  type: v,
+                  description: newStep.description,
+                  estimatedDuration: newStep.estimatedDuration,
+                  createdAt: newStep.createdAt,
+                  updatedAt: newStep.updatedAt,
+                  templateId: newStep.templateId,
+                }),
+              )
+            }
           >
             <SelectTrigger id="stepType">
               <SelectValue />
@@ -69,8 +95,21 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           id="stepDesc"
           placeholder="Descreva o que acontece nesta etapa..."
           rows={2}
-          value={newStep.description}
-          onChange={e => setNewStep(new Step({ ...newStep, description: e.target.value } as Step))}
+          value={newStep.description || ''}
+          onChange={e =>
+            setNewStep(
+              new Step({
+                id: newStep.id,
+                name: newStep.name,
+                type: newStep.type,
+                description: e.target.value,
+                estimatedDuration: newStep.estimatedDuration,
+                createdAt: newStep.createdAt,
+                updatedAt: newStep.updatedAt,
+                templateId: newStep.templateId,
+              }),
+            )
+          }
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -79,8 +118,21 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           <Input
             id="stepDuration"
             placeholder="Ex: 1 semana"
-            value={newStep.estimatedDuration}
-            onChange={e => setNewStep(new Step({ ...newStep, estimatedDuration: e.target.value } as Step))}
+            value={newStep.estimatedDuration || ''}
+            onChange={e =>
+              setNewStep(
+                new Step({
+                  id: newStep.id,
+                  name: newStep.name,
+                  type: newStep.type,
+                  description: newStep.description,
+                  estimatedDuration: e.target.value,
+                  createdAt: newStep.createdAt,
+                  updatedAt: newStep.updatedAt,
+                  templateId: newStep.templateId,
+                }),
+              )
+            }
           />
         </div>
         {/* <div className="space-y-2">
@@ -106,7 +158,7 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           onCheckedChange={checked => setNewStep({ ...newStep, autoNotify: checked })}
         />
       </div> */}
-      <Button type="button" onClick={addStep} className="w-full" disabled={!newStep.name.trim()}>
+      <Button type="button" onClick={addStep} className="w-full" disabled={!newStep.name || !newStep.name.trim()}>
         <Plus className="w-4 h-4 mr-2" />
         Adicionar Etapa
       </Button>

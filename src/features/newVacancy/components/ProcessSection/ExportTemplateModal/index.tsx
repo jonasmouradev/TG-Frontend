@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label, Textarea } from '@shared/index';
-import { Download } from 'lucide-react';
+import { Download, Upload } from 'lucide-react';
 
 interface ExportTemplateModalProps {
   templateName: string;
@@ -25,7 +25,7 @@ export default function ExportTemplateModal({
       <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Download className="w-5 h-5" />
+            <Upload className="w-5 h-5" />
             Exportar como Template
           </CardTitle>
         </CardHeader>
