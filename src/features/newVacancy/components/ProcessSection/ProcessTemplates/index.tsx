@@ -62,7 +62,7 @@ export default function ProcessTemplates() {
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 pt-2">
                       <h4 className="font-semibold text-lg group-hover:text-green-600 transition-colors">
                         {template.name}
                       </h4>

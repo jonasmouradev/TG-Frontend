@@ -499,21 +499,6 @@ export default function SignupScreen() {
                 ))}
               </CardContent>
             </Card>
-
-            <Card className="border-2 bg-gradient-to-br from-green-50 to-teal-50">
-              <CardContent className="p-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-3xl font-bold text-green-600">1</div>
-                    <div className="text-xs">Empresas</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-green-600">0</div>
-                    <div className="text-xs">Candidatos</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
             <div className="text-sm text-center text-gray-600">
               Já possui uma conta?{' '}
               <Button

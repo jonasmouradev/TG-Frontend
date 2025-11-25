@@ -219,7 +219,7 @@ export default function VacancyDetail() {
 
               <div className="flex lg:flex-col gap-2">
                 <Button
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="bg-blue-600"
                   disabled={vacancy?.status === 'closed'}
                   onClick={() => {
                     close({ id: vacancy?.id || '' });
