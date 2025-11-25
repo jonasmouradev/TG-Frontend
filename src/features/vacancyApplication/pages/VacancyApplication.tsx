@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, Button, Badge, Textarea } from '@/shared';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Button,
+  Badge,
+  Textarea,
+  useApplicationCases,
+  useAuthCases,
+} from '@/shared';
 
 import {
   ArrowLeft,
   Briefcase,
   MapPin,
-  Building2,
   DollarSign,
   Clock,
   Users,
@@ -24,9 +33,21 @@ import {
   Info,
 } from 'lucide-react';
 import { useDashboard } from '@features/home/hooks';
+import { toast } from 'sonner';
+import { VacancyType } from '@core/domain';
+
+export const getJobLabel = (type: string) => {
+  const labels: Record<VacancyType, string> = {
+    full_time: 'Tempo Integral',
+    part_time: 'Meio Período',
+    contract: 'Contrato',
+    internship: 'Estágio',
+    temporary: 'Temporário',
+  };
+  return labels[type as VacancyType] || 'Outro';
+};
 
 export default function VacancyApplication() {
-  // Capturar o ID da vaga da URL
   const { id } = useParams<{ id: string }>();
 
   const [isSaved, setIsSaved] = useState(false);
@@ -36,6 +57,8 @@ export default function VacancyApplication() {
 
   const { publishedVacancies } = useDashboard();
   const job = publishedVacancies?.data.find(vacancy => vacancy.id === id);
+  const { create } = useApplicationCases();
+  const decodedToken = useAuthCases().getDecodedToken();
 
   if (!job) {
     return (
@@ -60,12 +83,15 @@ export default function VacancyApplication() {
   };
 
   const confirmApplication = () => {
-    // Simular envio
-    alert('Candidatura enviada com sucesso! Você receberá atualizações por email.');
+    create({
+      vacancyId: job.id,
+      applicantId: decodedToken?.profileId || '',
+      coverLetter: coverLetter,
+      resumeUrl: selectedResume,
+    });
     setShowApplicationModal(false);
+    toast.success('Candidatura enviada com sucesso!');
   };
-
-  // const vacancyItem = useVacancyCases().findOne(job);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -92,7 +118,7 @@ export default function VacancyApplication() {
                       </span>
                       <span className="flex items-center gap-1 text-gray-600">
                         <Briefcase className="w-4 h-4" />
-                        {job.type}
+                        {getJobLabel(job.type)}
                       </span>
                       <span className="flex items-center gap-1 text-gray-600">
                         <DollarSign className="w-4 h-4" />
@@ -220,8 +246,9 @@ export default function VacancyApplication() {
               </CardContent>
             </Card>
 
+            {/* TODO: uncomment when backend supports it */}
             {/* About Company */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building2 className="w-5 h-5" />
@@ -231,7 +258,7 @@ export default function VacancyApplication() {
               <CardContent>
                 <p className="text-gray-700 leading-relaxed">job.aboutCompany</p>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
 
           {/* Sidebar */}
@@ -312,7 +339,13 @@ export default function VacancyApplication() {
             <CardHeader className="border-b">
               <div className="flex items-center justify-between">
                 <CardTitle>Confirmar Candidatura</CardTitle>
-                <Button variant="ghost" size="icon" onClick={() => setShowApplicationModal(false)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    setShowApplicationModal(false);
+                  }}
+                >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
@@ -327,9 +360,9 @@ export default function VacancyApplication() {
                 </Avatar> */}
                 <div>
                   <h3 className="font-semibold">{job.title}</h3>
-                  <p className="text-sm text-gray-600">job.company</p>
+                  <p className="text-sm text-gray-600">{job.company.user.name}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    {job.location} • {job.type}
+                    {job.location} • {getJobLabel(job.type)}
                   </p>
                 </div>
               </div>

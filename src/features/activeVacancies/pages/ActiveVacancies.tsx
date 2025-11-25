@@ -22,6 +22,7 @@ import {
   BarChart3,
   Download,
 } from 'lucide-react';
+import { getJobLabel } from '@features/vacancyApplication/pages';
 
 interface Job {
   id: string;
@@ -291,7 +292,7 @@ export default function ActiveVacancies() {
                         </span>
                         <span className="flex items-center gap-1">
                           <Briefcase className="w-3 h-3" />
-                          {job.type}
+                          {getJobLabel(job.type)}
                         </span>
                         {job.salary && (
                           <span className="flex items-center gap-1">

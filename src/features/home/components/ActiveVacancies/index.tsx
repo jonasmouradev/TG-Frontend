@@ -56,7 +56,7 @@ export const getStatusLabel = (status: VacancyStatus) => {
   return labels[status as keyof typeof labels];
 };
 
-export const getJobLabel = (level: ExperienceLevel) => {
+export const getExperienceLabel = (level: ExperienceLevel) => {
   const labels = {
     [ExperienceLevel.JUNIOR]: 'Júnior',
     [ExperienceLevel.MID]: 'Pleno',
@@ -147,7 +147,7 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
                   <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
                       <Building2 className="w-4 h-4" />
-                      {getJobLabel(job.level)}
+                      {getExperienceLabel(job.level)}
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />

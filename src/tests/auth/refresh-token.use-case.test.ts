@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { RefreshTokenUseCase } from '@core/application/use-cases/auth/refresh-token.use-case';
+import { RefreshTokenUseCase } from '@core/application/use-cases/token/refresh-token.use-case';
 import { AuthGateway } from '@core/domain/gateways/auth.gateway';
 
 describe('RefreshTokenUseCase', () => {

@@ -40,9 +40,7 @@ export default function CompleteProfilePage() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
 
-  const { getToken, decodeToken } = useAuthCases();
-  const token = getToken();
-  const decodedToken = token ? decodeToken(token) : null;
+  const decodedToken = useAuthCases().getDecodedToken();
   const { useGetPerson, ...personCases } = usePersonCases();
   const queryClient = useQueryClient();
 

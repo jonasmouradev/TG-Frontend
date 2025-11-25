@@ -9,6 +9,7 @@ import {
   ForgotPasswordUseCase,
   AuthenticateUserUseCase,
   GetAuthTokenUseCase,
+  GetDecodedTokenUseCase,
 } from '@core/application/use-cases';
 import type {
   SignInUseCaseInput,
@@ -18,7 +19,7 @@ import type {
   AuthenticateUserUseCaseInput,
 } from '@core/application/use-cases';
 import { useMemo } from 'react';
-import { SetAuthTokenUseCase } from '@core/application/use-cases/auth/set-auth-token.use-case';
+import { SetAuthTokenUseCase } from '@core/application/use-cases/token/set-auth-token.use-case';
 import { SignOutUseCase } from '@core/application/use-cases/auth/sign-out.use-case';
 import { IToken } from '@shared/types';
 
@@ -39,6 +40,7 @@ export function useAuthCases() {
         new AuthenticateUserUseCase(authGateway).execute(input),
       setToken: (input: string) => new SetAuthTokenUseCase(crypto, cookieStorage).execute(input),
       getToken: () => new GetAuthTokenUseCase(crypto, cookieStorage).execute(),
+      getDecodedToken: () => new GetDecodedTokenUseCase(crypto, cookieStorage).execute(),
     }),
     [authGateway, cookieStorage, crypto],
   );

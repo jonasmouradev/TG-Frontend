@@ -22,6 +22,7 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { useDashboard } from '@features/home/hooks';
+import { getJobLabel } from '@features/vacancyApplication/pages/VacancyApplication';
 
 export default function PersonHome() {
   const navigate = useNavigate();
@@ -245,7 +246,7 @@ export default function PersonHome() {
                             </span>
                             <span className="flex items-center gap-1">
                               <Briefcase className="w-4 h-4 flex-shrink-0" />
-                              {job.type}
+                              {getJobLabel(job.type)}
                             </span>
                             <span className="flex items-center gap-1">
                               <DollarSign className="w-4 h-4 flex-shrink-0" />
