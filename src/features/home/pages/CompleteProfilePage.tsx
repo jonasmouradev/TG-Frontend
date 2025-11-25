@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -32,6 +32,8 @@ import {
 import { useNavigate } from 'react-router';
 import { usePersonCases } from '@shared/hooks/person';
 import { PersonCompetenceLevel } from '@core/domain';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { GetPersonUseCase } from '@core/application/use-cases';
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
@@ -41,8 +43,8 @@ export default function CompleteProfilePage() {
   const { getToken, decodeToken } = useAuthCases();
   const token = getToken();
   const decodedToken = token ? decodeToken(token) : null;
-  console.log('Decoded Token:', decodedToken);
   const { useGetPerson, ...personCases } = usePersonCases();
+  const queryClient = useQueryClient();
 
   const { data } = useGetPerson({ input: { id: decodedToken?.profileId ?? '' } });
 
@@ -62,6 +64,23 @@ export default function CompleteProfilePage() {
     githubProfile: '',
     portfolioUrl: '',
   });
+
+  // Populate personalInfo from backend data
+  useEffect(() => {
+    if (data?.person) {
+      setPersonalInfo({
+        firstName: data.person.firstName || '',
+        lastName: data.person.lastName || '',
+        dateOfBirth: data.person.dateOfBirth || '',
+        phone: data.person.phone || '',
+        location: '',
+        bio: data.person.bio || '',
+        linkedinProfile: data.person.linkedinProfile || '',
+        githubProfile: data.person.githubProfile || '',
+        portfolioUrl: data.person.portfolioUrl || '',
+      });
+    }
+  }, [data]);
 
   // Work Experience
   const [newWorkExperience, setNewWorkExperience] = useState({
@@ -112,9 +131,10 @@ export default function CompleteProfilePage() {
     return Math.round((completedFields / totalFields) * 100);
   };
 
-  const addWorkExperience = () => {
-    if (newWorkExperience.company && newWorkExperience.position) {
-      personCases.addWorkExperience({ id: decodedToken?.profileId ?? '', payload: newWorkExperience });
+  const addWorkExperienceMutation = useMutation({
+    mutationFn: personCases.addWorkExperience,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
       setNewWorkExperience({
         company: '',
         position: '',
@@ -123,16 +143,30 @@ export default function CompleteProfilePage() {
         isCurrent: false,
         description: '',
       });
+    },
+  });
+
+  const addWorkExperience = () => {
+    if (newWorkExperience.company && newWorkExperience.position) {
+      addWorkExperienceMutation.mutate({ id: decodedToken?.profileId ?? '', payload: newWorkExperience });
     }
   };
 
+  const removeWorkExperienceMutation = useMutation({
+    mutationFn: personCases.removeWorkExperience,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
+    },
+  });
+
   const removeWorkExperience = (workExperienceId: string) => {
-    personCases.removeWorkExperience({ id: decodedToken?.profileId ?? '', workExperienceId });
+    removeWorkExperienceMutation.mutate({ id: decodedToken?.profileId ?? '', workExperienceId });
   };
 
-  const addEducation = () => {
-    if (newEducation.institution && newEducation.degree) {
-      personCases.addEducation({ id: decodedToken?.profileId ?? '', payload: newEducation });
+  const addEducationMutation = useMutation({
+    mutationFn: personCases.addEducation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
       setNewEducation({
         institution: '',
         degree: '',
@@ -142,40 +176,79 @@ export default function CompleteProfilePage() {
         isCurrent: false,
         gpa: undefined,
       });
+    },
+  });
+
+  const addEducation = () => {
+    if (newEducation.institution && newEducation.degree) {
+      addEducationMutation.mutate({ id: decodedToken?.profileId ?? '', payload: newEducation });
     }
   };
 
+  const removeEducationMutation = useMutation({
+    mutationFn: personCases.removeEducation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
+    },
+  });
+
   const removeEducation = (educationId: string) => {
-    personCases.removeEducation({ id: decodedToken?.profileId ?? '', educationId });
+    removeEducationMutation.mutate({ id: decodedToken?.profileId ?? '', educationId });
   };
 
-  const addSkill = () => {
-    if (newSkill.competenceId) {
-      personCases.addCompetence({ id: decodedToken?.profileId ?? '', payload: newSkill });
+  const addSkillMutation = useMutation({
+    mutationFn: personCases.addCompetence,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
       setNewSkill({
         competenceId: '',
         level: 'intermediate' as PersonCompetenceLevel,
         yearsOfExperience: 0,
       });
+    },
+  });
+
+  const addSkill = () => {
+    if (newSkill.competenceId) {
+      addSkillMutation.mutate({ id: decodedToken?.profileId ?? '', payload: newSkill });
     }
   };
 
+  const removeSkillMutation = useMutation({
+    mutationFn: personCases.removeCompetence,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
+    },
+  });
+
   const removeSkill = (competenceId: string) => {
-    personCases.removeCompetence({ id: decodedToken?.profileId ?? '', competenceId });
+    removeSkillMutation.mutate({ id: decodedToken?.profileId ?? '', competenceId });
   };
 
+  const updatePersonMutation = useMutation({
+    mutationFn: personCases.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GetPersonUseCase.queryKey({ id: decodedToken?.profileId ?? '' }) });
+      navigate('/home');
+    },
+  });
+
   const handleSaveProfile = async () => {
-    // TODO: Integrate with use case to save profile
-    console.log('Saving profile...', {
-      personalInfo,
-      workExperiences,
-      educations,
-      skills,
-      professionalSummary,
-      desiredPosition,
-      desiredSalary,
-    });
-    navigate('/home');
+    if (decodedToken?.profileId) {
+      await updatePersonMutation.mutateAsync({
+        id: decodedToken.profileId,
+        payload: {
+          firstName: personalInfo.firstName,
+          lastName: personalInfo.lastName,
+          dateOfBirth: personalInfo.dateOfBirth,
+          phone: personalInfo.phone,
+          bio: personalInfo.bio,
+          linkedinProfile: personalInfo.linkedinProfile,
+          githubProfile: personalInfo.githubProfile,
+          portfolioUrl: personalInfo.portfolioUrl,
+        },
+      });
+    }
   };
 
   const getStepIcon = (step: number) => {
