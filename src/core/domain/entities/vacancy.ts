@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import { Application } from './application';
+import { CandidateMatch } from './candidateMatch';
 
 export const VacancyType = {
   FULL_TIME: 'full_time',
@@ -49,6 +50,7 @@ type VacancyProps = {
   title: string;
   description: string;
   companyId: string;
+  area: string;
   location: string;
   salaryMin?: number;
   salaryMax?: number;
@@ -79,6 +81,7 @@ type VacancyProps = {
   expirationDate: string | null;
   createdAt: DateTime;
   updatedAt: DateTime;
+  candidateMatches?: CandidateMatch[];
 };
 
 export class Vacancy {
@@ -152,6 +155,10 @@ export class Vacancy {
     return this.props.status;
   }
 
+  get area(): string {
+    return this.props.area;
+  }
+
   get publicationDate(): string | null {
     return this.props.publicationDate;
   }
@@ -166,6 +173,10 @@ export class Vacancy {
 
   get steps(): { id: string; order: number; step: { name: string; description: string } }[] {
     return this.props.steps;
+  }
+
+  get candidateMatches(): CandidateMatch[] | undefined {
+    return this.props.candidateMatches;
   }
 
   get createdAt(): DateTime {

@@ -8,10 +8,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Switch,
   Textarea,
 } from '@shared/index';
-import { Bell, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Dispatch } from 'react';
 
 interface StepFormProps {
@@ -42,12 +41,15 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
             id="stepName"
             placeholder="Ex: Entrevista Técnica"
             value={newStep.name}
-            onChange={e => setNewStep({ ...newStep, name: e.target.value })}
+            onChange={e => setNewStep({ ...newStep, name: e.target.value } as Step)}
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="stepType">Tipo</Label>
-          <Select value={newStep.type} onValueChange={(v: Step['type']) => setNewStep({ ...newStep, type: v })}>
+          <Select
+            value={newStep.type}
+            onValueChange={(v: Step['type']) => setNewStep(new Step({ ...newStep, type: v } as Step))}
+          >
             <SelectTrigger id="stepType">
               <SelectValue />
             </SelectTrigger>
@@ -68,7 +70,7 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           placeholder="Descreva o que acontece nesta etapa..."
           rows={2}
           value={newStep.description}
-          onChange={e => setNewStep({ ...newStep, description: e.target.value })}
+          onChange={e => setNewStep(new Step({ ...newStep, description: e.target.value } as Step))}
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -77,21 +79,21 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           <Input
             id="stepDuration"
             placeholder="Ex: 1 semana"
-            value={newStep.duration}
-            onChange={e => setNewStep({ ...newStep, duration: e.target.value })}
+            value={newStep.estimatedDuration}
+            onChange={e => setNewStep(new Step({ ...newStep, estimatedDuration: e.target.value } as Step))}
           />
         </div>
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="stepResponsible">Responsável</Label>
           <Input
             id="stepResponsible"
             placeholder="Ex: João Silva"
             value={newStep.responsible}
-            onChange={e => setNewStep({ ...newStep, responsible: e.target.value })}
+            onChange={e => setNewStep(new Step({ ...newStep, responsible: e.target.value }))}
           />
-        </div>
+        </div> */}
       </div>
-      <div className="flex items-center justify-between p-3 border rounded-lg">
+      {/* <div className="flex items-center justify-between p-3 border rounded-lg">
         <div className="flex items-center gap-2">
           <Bell className="w-4 h-4 text-gray-600" />
           <div>
@@ -103,7 +105,7 @@ export default function StepForm({ newStep, setNewStep, addStep }: StepFormProps
           checked={newStep.autoNotify}
           onCheckedChange={checked => setNewStep({ ...newStep, autoNotify: checked })}
         />
-      </div>
+      </div> */}
       <Button type="button" onClick={addStep} className="w-full" disabled={!newStep.name.trim()}>
         <Plus className="w-4 h-4 mr-2" />
         Adicionar Etapa

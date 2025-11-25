@@ -1,3 +1,4 @@
+import { Step } from '@core/domain';
 import { TemplateGateway } from '@core/domain/gateways/template.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
 
@@ -8,16 +9,7 @@ export interface GetDefaultTemplatesUseCaseOutput {
     description: string;
     category?: string;
     isDefault?: boolean;
-    stages: Array<{
-      id?: string;
-      name: string;
-      type: 'screening' | 'interview' | 'test' | 'custom';
-      description: string;
-      duration?: string;
-      responsible?: string;
-      autoNotify?: boolean;
-      order?: number;
-    }>;
+    stages: Step[];
     companyId?: string;
     createdBy?: string;
     createdAt?: string;

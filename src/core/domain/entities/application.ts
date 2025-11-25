@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { Person } from './person';
 
 interface ApplicationProps {
   id: string;
@@ -7,8 +8,9 @@ interface ApplicationProps {
   status: ApplicationStatus;
   resume?: string;
   coverLetter?: string;
+  person?: Person;
   appliedAt: DateTime;
-  createdAt: DateTime;
+  createdAt: string;
   updatedAt: DateTime;
 }
 
@@ -57,12 +59,16 @@ export class Application {
     return this.props.appliedAt;
   }
 
-  get createdAt(): DateTime {
+  get createdAt(): string {
     return this.props.createdAt;
   }
 
   get updatedAt(): DateTime {
     return this.props.updatedAt;
+  }
+
+  get person(): Person | undefined {
+    return this.props.person;
   }
 
   toJSON() {
@@ -74,7 +80,7 @@ export class Application {
       resume: this.resume,
       coverLetter: this.coverLetter,
       appliedAt: this.appliedAt.toISO(),
-      createdAt: this.createdAt.toISO(),
+      createdAt: this.createdAt,
       updatedAt: this.updatedAt.toISO(),
     };
   }

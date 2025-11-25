@@ -13,6 +13,9 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  useVacancyCases,
+  useApplicationCases,
+  MINUTE_IN_MILLISECONDS,
 } from '@/shared';
 
 import {
@@ -36,146 +39,61 @@ import {
   MoreVertical,
   Target,
 } from 'lucide-react';
-
-interface Candidate {
-  id: string;
-  name: string;
-  avatar: string;
-  email: string;
-  phone: string;
-  location: string;
-  experience: string;
-  stage: string;
-  status: 'new' | 'review' | 'interview' | 'offer' | 'rejected' | 'hired';
-  match: number;
-  appliedDate: string;
-  rating?: number;
-  notes?: string;
-}
+import { useParams } from 'react-router';
+import { DateTime } from 'luxon';
+import { getJobLabel } from '@features/home/components/ActiveVacancies';
+import { ApplicationStatus } from '@core/domain';
 
 export default function VacancyDetail() {
+  const { id = '' } = useParams();
   const [selectedTab, setSelectedTab] = useState('candidates');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedStage, setSelectedStage] = useState('all');
+  const [selectedStage, setSelectedStage] = useState<ApplicationStatus | 'all'>('all');
 
-  const job = {
-    id: '1',
-    title: 'Desenvolvedor Front-end Sênior',
-    department: 'Tecnologia',
-    location: 'São Paulo, SP - Híbrido',
-    type: 'CLT',
-    salary: 'R$ 10.000 - R$ 14.000',
-    status: 'active',
-    createdAt: '15/01/2024',
-    daysOpen: 5,
-    views: 234,
-    applicationsRate: 19.2,
-    description:
-      'Buscamos um desenvolvedor Front-end experiente para integrar nosso time de produto. Você será responsável por criar interfaces modernas e responsivas, trabalhando com React, TypeScript e Next.js.',
-    responsibilities: [
-      'Desenvolver e manter componentes React reutilizáveis',
-      'Colaborar com designers para implementar UI/UX de alta qualidade',
-      'Otimizar aplicações para máxima performance',
-      'Participar de code reviews e discussões técnicas',
-      'Mentorar desenvolvedores júnior da equipe',
-    ],
-    requirements: [
-      '5+ anos de experiência com React',
-      'Forte conhecimento em TypeScript',
-      'Experiência com Next.js e SSR',
-      'Conhecimento em testes (Jest, Testing Library)',
-      'Familiaridade com Git e metodologias ágeis',
-    ],
-    benefits: [
-      'Plano de saúde e odontológico',
-      'Vale refeição/alimentação',
-      'Gympass',
-      'Auxílio educação',
-      'Stock options',
-      'Trabalho híbrido (3x presencial)',
-    ],
-  };
+  const { useGetVacancy } = useVacancyCases();
+  const { useGetApplications } = useApplicationCases();
 
-  const candidates: Candidate[] = [
-    {
-      id: '1',
-      name: 'Ana Silva Santos',
-      avatar: 'AS',
-      email: 'ana.silva@email.com',
-      phone: '(11) 98765-4321',
-      location: 'São Paulo, SP',
-      experience: '6 anos',
-      stage: 'Entrevista Técnica',
-      status: 'interview',
-      match: 95,
-      appliedDate: '18/01/2024',
-      rating: 5,
-      notes: 'Excelente portfólio. Forte em React e TypeScript.',
-    },
-    {
-      id: '2',
-      name: 'Pedro Oliveira Costa',
-      avatar: 'PO',
-      email: 'pedro.oliveira@email.com',
-      phone: '(11) 99876-5432',
-      location: 'São Paulo, SP',
-      experience: '7 anos',
-      stage: 'Análise de Currículo',
-      status: 'review',
-      match: 92,
-      appliedDate: '17/01/2024',
-      rating: 4,
-    },
-    {
-      id: '3',
-      name: 'Mariana Costa Lima',
-      avatar: 'MC',
-      email: 'mariana.costa@email.com',
-      phone: '(11) 97654-3210',
-      location: 'Campinas, SP',
-      experience: '5 anos',
-      stage: 'Novo',
-      status: 'new',
-      match: 88,
-      appliedDate: '19/01/2024',
-    },
-    {
-      id: '4',
-      name: 'Lucas Rodrigues',
-      avatar: 'LR',
-      email: 'lucas.rodrigues@email.com',
-      phone: '(11) 96543-2109',
-      location: 'São Paulo, SP',
-      experience: '8 anos',
-      stage: 'Proposta Enviada',
-      status: 'offer',
-      match: 96,
-      appliedDate: '16/01/2024',
-      rating: 5,
-      notes: 'Candidato ideal. Experiência sólida e fit cultural excelente.',
-    },
-    {
-      id: '5',
-      name: 'Juliana Ferreira',
-      avatar: 'JF',
-      email: 'juliana.ferreira@email.com',
-      phone: '(11) 95432-1098',
-      location: 'Santos, SP',
-      experience: '4 anos',
-      stage: 'Não Selecionado',
-      status: 'rejected',
-      match: 72,
-      appliedDate: '15/01/2024',
-    },
-  ];
+  const { data: { vacancy } = {} } = useGetVacancy({
+    input: { id },
+    staleTime: MINUTE_IN_MILLISECONDS,
+  });
 
-  const stages = [
-    { name: 'all', label: 'Todos', count: candidates.length },
-    { name: 'new', label: 'Novos', count: candidates.filter(c => c.status === 'new').length },
-    { name: 'review', label: 'Em Análise', count: candidates.filter(c => c.status === 'review').length },
-    { name: 'interview', label: 'Entrevista', count: candidates.filter(c => c.status === 'interview').length },
-    { name: 'offer', label: 'Proposta', count: candidates.filter(c => c.status === 'offer').length },
-    { name: 'rejected', label: 'Rejeitados', count: candidates.filter(c => c.status === 'rejected').length },
+  const { data: { applications } = {} } = useGetApplications({
+    input: { vacancyId: id, status: selectedStage === 'all' ? undefined : selectedStage },
+    staleTime: MINUTE_IN_MILLISECONDS,
+  });
+
+  const stages: {
+    name: ApplicationStatus | 'all';
+    label: string;
+    count: number | undefined;
+  }[] = [
+    { name: 'all', label: 'Todos', count: applications?.length },
+    {
+      name: 'pending',
+      label: 'Pendentes',
+      count: applications?.filter(c => c.status === ApplicationStatus.PENDING).length,
+    },
+    {
+      name: 'reviewing',
+      label: 'Em Análise',
+      count: applications?.filter(c => c.status === ApplicationStatus.REVIEWING).length,
+    },
+    {
+      name: 'interview',
+      label: 'Entrevista',
+      count: applications?.filter(c => c.status === ApplicationStatus.INTERVIEW).length,
+    },
+    {
+      name: 'approved',
+      label: 'Aprovados',
+      count: applications?.filter(c => c.status === ApplicationStatus.APPROVED).length,
+    },
+    {
+      name: 'rejected',
+      label: 'Rejeitados',
+      count: applications?.filter(c => c.status === ApplicationStatus.REJECTED).length,
+    },
   ];
 
   const analytics = {
@@ -208,12 +126,12 @@ export default function VacancyDetail() {
       hired: 'bg-teal-100 text-teal-700',
     })[status] || 'bg-gray-100 text-gray-700';
 
-  const filteredCandidates = candidates.filter(
+  const filteredCandidates = applications?.filter(
     candidate =>
       (selectedStage === 'all' || candidate.status === selectedStage) &&
       (searchQuery === '' ||
-        candidate.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        candidate.email.toLowerCase().includes(searchQuery.toLowerCase())),
+        candidate?.person?.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        candidate?.person?.user?.email.toLowerCase().includes(searchQuery.toLowerCase())),
   );
 
   return (
@@ -225,49 +143,54 @@ export default function VacancyDetail() {
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <h1 className="text-2xl font-bold">{job.title}</h1>
+                  <h1 className="text-2xl font-bold">{vacancy?.title}</h1>
                   <Badge className="bg-green-100 text-green-700">Ativa</Badge>
                 </div>
 
                 <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
                   <span className="flex items-center gap-1">
                     <Building2 className="w-4 h-4" />
-                    {job.department}
+                    {vacancy?.area}
                   </span>
                   <span className="flex items-center gap-1">
                     <MapPin className="w-4 h-4" />
-                    {job.location}
+                    {vacancy?.location}
                   </span>
                   <span className="flex items-center gap-1">
                     <Briefcase className="w-4 h-4" />
-                    {job.type}
+                    {getJobLabel(vacancy?.level || 'entry')}
                   </span>
                   <span className="flex items-center gap-1">
                     <DollarSign className="w-4 h-4" />
-                    {job.salary}
+                    {vacancy?.salaryMin}-{vacancy?.salaryMax}
                   </span>
                   <span className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
-                    Criada em {job.createdAt}
+                    Publicada em {DateTime.fromISO(vacancy?.publicationDate ?? '').toLocaleString(DateTime.DATE_MED)}
                   </span>
                 </div>
 
                 {/* Quick Stats */}
                 <div className="flex flex-wrap gap-6 text-sm">
                   <div>
-                    <div className="text-2xl font-bold text-blue-600">{candidates.length}</div>
+                    <div className="text-2xl font-bold text-blue-600">{applications?.length}</div>
                     <div className="text-xs text-gray-600">Candidatos</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-purple-600">{job.views}</div>
+                    <div className="text-2xl font-bold text-purple-600">{0}</div>
                     <div className="text-xs text-gray-600">Visualizações</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-green-600">{job.applicationsRate}%</div>
+                    <div className="text-2xl font-bold text-green-600">{0}%</div>
                     <div className="text-xs text-gray-600">Taxa de Conversão</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-orange-600">{job.daysOpen}</div>
+                    <div className="text-2xl font-bold text-orange-600">
+                      {DateTime.now()
+                        .diff(DateTime.fromISO(vacancy?.publicationDate ?? ''), 'days')
+                        .toObject()
+                        .days?.toFixed(0)}
+                    </div>
                     <div className="text-xs text-gray-600">Dias Aberta</div>
                   </div>
                 </div>
@@ -290,7 +213,7 @@ export default function VacancyDetail() {
         {/* Tabs */}
         <Tabs value={selectedTab} onValueChange={setSelectedTab}>
           <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-flex mb-6">
-            <TabsTrigger value="candidates">Candidatos ({candidates.length})</TabsTrigger>
+            <TabsTrigger value="candidates">Candidatos ({applications?.length})</TabsTrigger>
             <TabsTrigger value="description">Descrição</TabsTrigger>
             <TabsTrigger value="analytics">Análises</TabsTrigger>
           </TabsList>
@@ -353,28 +276,38 @@ export default function VacancyDetail() {
                       </tr>
                     </thead>
                     <tbody className="divide-y">
-                      {filteredCandidates.map(candidate => (
+                      {filteredCandidates?.map(candidate => (
                         <tr key={candidate.id} className="hover:bg-gray-50 transition-colors">
                           {/* Candidate */}
                           <td className="p-3">
                             <div className="flex items-center gap-3">
                               <Avatar className="w-10 h-10 flex-shrink-0">
                                 <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-blue-700 font-bold text-sm">
-                                  {candidate.avatar}
+                                  {candidate?.person?.user.name
+                                    .split(' ')
+                                    .map(n => n[0])
+                                    .join('')
+                                    .toUpperCase()}
                                 </AvatarFallback>
                               </Avatar>
                               <div className="min-w-0">
-                                <div className="font-semibold text-sm truncate">{candidate.name}</div>
+                                <div className="font-semibold text-sm truncate">{candidate?.person?.user.name}</div>
                                 <div className="text-xs text-gray-600 truncate">
-                                  {candidate.location} • {candidate.experience}
+                                  {candidate?.person?.user?.address?.street} •{' '}
+                                  {candidate?.person?.experiences[0]?.position}
                                 </div>
-                                {candidate.rating && (
+                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                  ?.matchScore && (
                                   <div className="flex items-center gap-0.5 mt-1">
                                     {Array.from({ length: 5 }).map((_, i) => (
                                       <Star
                                         key={i}
                                         className={`w-3 h-3 ${
-                                          i < candidate.rating! ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'
+                                          i <
+                                          (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                            ?.matchScore ?? 0)
+                                            ? 'text-yellow-500 fill-yellow-500'
+                                            : 'text-gray-300'
                                         }`}
                                       />
                                     ))}
@@ -389,11 +322,11 @@ export default function VacancyDetail() {
                             <div className="text-sm space-y-0.5">
                               <div className="flex items-center gap-1 text-gray-600">
                                 <Mail className="w-3 h-3" />
-                                <span className="truncate max-w-[200px]">{candidate.email}</span>
+                                <span className="truncate max-w-[200px]">{candidate?.person?.user.email}</span>
                               </div>
                               <div className="flex items-center gap-1 text-gray-600">
                                 <Phone className="w-3 h-3" />
-                                <span>{candidate.phone}</span>
+                                <span>{candidate?.person?.user.phone?.number}</span>
                               </div>
                             </div>
                           </td>
@@ -404,29 +337,40 @@ export default function VacancyDetail() {
                               <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[80px]">
                                 <div
                                   className={`h-full rounded-full ${
-                                    candidate.match >= 90
+                                    (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                      ?.matchScore ?? 0 >= 90)
                                       ? 'bg-green-500'
-                                      : candidate.match >= 80
+                                      : (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                            ?.matchScore ?? 0 >= 80)
                                         ? 'bg-blue-500'
                                         : 'bg-yellow-500'
                                   }`}
-                                  style={{ width: `${candidate.match}%` }}
+                                  style={{
+                                    width: `$${
+                                      vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                        ?.matchScore ?? 0
+                                    }%`,
+                                  }}
                                 />
                               </div>
-                              <span className="text-sm font-semibold text-gray-700">{candidate.match}%</span>
+                              <span className="text-sm font-semibold text-gray-700">
+                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                  ?.matchScore ?? 0}
+                                %
+                              </span>
                             </div>
                           </td>
 
                           {/* Status */}
                           <td className="p-3">
                             <Badge className={`${getStatusColor(candidate.status)} text-xs whitespace-nowrap`}>
-                              {candidate.stage}
+                              {candidate.status}
                             </Badge>
                           </td>
 
                           {/* Applied Date */}
                           <td className="p-3 hidden sm:table-cell">
-                            <span className="text-sm text-gray-600">{candidate.appliedDate}</span>
+                            <span className="text-sm text-gray-600">{candidate.createdAt}</span>
                           </td>
 
                           {/* Actions */}
@@ -453,7 +397,7 @@ export default function VacancyDetail() {
                 </div>
 
                 {/* Empty State */}
-                {filteredCandidates.length === 0 && (
+                {filteredCandidates?.length === 0 && (
                   <div className="p-12 text-center">
                     <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-semibold mb-2">Nenhum candidato encontrado</h3>
@@ -466,7 +410,7 @@ export default function VacancyDetail() {
             {/* Pagination/Stats */}
             <div className="flex items-center justify-between text-sm text-gray-600">
               <span>
-                Mostrando {filteredCandidates.length} de {candidates.length} candidatos
+                Mostrando {filteredCandidates?.length} de {applications?.length} candidatos
               </span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" disabled>
@@ -488,12 +432,12 @@ export default function VacancyDetail() {
                     <CardTitle>Descrição da Vaga</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-gray-700">{job.description}</p>
+                    <p className="text-gray-700">{vacancy?.description}</p>
 
                     <div>
                       <h3 className="font-semibold mb-2">Responsabilidades:</h3>
                       <ul className="space-y-1">
-                        {job.responsibilities.map((item, idx) => (
+                        {vacancy?.responsibilities.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
                             <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                             {item}
@@ -505,7 +449,7 @@ export default function VacancyDetail() {
                     <div>
                       <h3 className="font-semibold mb-2">Requisitos:</h3>
                       <ul className="space-y-1">
-                        {job.requirements.map((item, idx) => (
+                        {vacancy?.requirements.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
                             <Target className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                             {item}
@@ -524,7 +468,7 @@ export default function VacancyDetail() {
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2">
-                      {job.benefits.map((benefit, idx) => (
+                      {vacancy?.benefits?.map((benefit, idx) => (
                         <li key={idx} className="flex items-center gap-2 text-sm">
                           <CheckCircle2 className="w-4 h-4 text-green-600" />
                           {benefit}
@@ -540,7 +484,7 @@ export default function VacancyDetail() {
           {/* Analytics Tab */}
           <TabsContent value="analytics">
             <div className="grid lg:grid-cols-2 gap-6">
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle className="text-base">Fontes de Candidatos</CardTitle>
                 </CardHeader>
@@ -564,7 +508,7 @@ export default function VacancyDetail() {
                     ))}
                   </div>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               <Card>
                 <CardHeader>

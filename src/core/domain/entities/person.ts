@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { User } from './user';
 
 export type Gender = 'male' | 'female' | 'other' | 'prefer_not_to_say';
 export type MaritalStatus = 'single' | 'married' | 'divorced' | 'widowed' | 'other';
@@ -63,7 +64,7 @@ export type Education = {
   location: string | null;
   createdAt: DateTime;
   updatedAt: DateTime;
-  deletedAt: Date | null;
+  deletedAt: DateTime | null;
 };
 
 export type Person = {
@@ -71,8 +72,6 @@ export type Person = {
   userId: string;
   firstName: string;
   lastName: string;
-  email: string;
-  phone?: string;
   dateOfBirth?: string;
   gender?: Gender;
   nationality?: string;
@@ -85,6 +84,7 @@ export type Person = {
   experiences: WorkExperience[];
   formations: Education[];
   competences: PersonCompetence[];
+  user: User;
   createdAt: string;
   updatedAt: string;
 };

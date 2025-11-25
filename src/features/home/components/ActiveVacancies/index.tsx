@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
   useVacancyCases,
+  paths,
 } from '@/shared';
 import { DeleteVacancyInput } from '@core/application/use-cases';
 import { ExperienceLevel, Vacancy, VacancyStatus } from '@core/domain';
@@ -36,6 +37,35 @@ import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+
+export const getStatusColor = (status: VacancyStatus) => {
+  const colors = {
+    [VacancyStatus.PUBLISHED]: 'bg-green-100 text-green-700 border-green-200',
+    [VacancyStatus.DRAFT]: 'bg-gray-100 text-gray-700 border-gray-200',
+    [VacancyStatus.CLOSED]: 'bg-red-100 text-red-700 border-red-200',
+  };
+  return colors[status as keyof typeof colors];
+};
+
+export const getStatusLabel = (status: VacancyStatus) => {
+  const labels = {
+    [VacancyStatus.PUBLISHED]: 'Ativa',
+    [VacancyStatus.DRAFT]: 'Rascunho',
+    [VacancyStatus.CLOSED]: 'Fechada',
+  };
+  return labels[status as keyof typeof labels];
+};
+
+export const getJobLabel = (level: ExperienceLevel) => {
+  const labels = {
+    [ExperienceLevel.JUNIOR]: 'Júnior',
+    [ExperienceLevel.MID]: 'Pleno',
+    [ExperienceLevel.SENIOR]: 'Sênior',
+    [ExperienceLevel.ENTRY]: 'Estágio',
+    [ExperienceLevel.LEAD]: 'Líder',
+  };
+  return labels[level as keyof typeof labels];
+};
 
 const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onRefresh?: () => void }) => {
   const navigate = useNavigate();
@@ -64,37 +94,6 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
       toast.error('Erro ao excluir vaga');
     }
   };
-
-  const getStatusColor = (status: VacancyStatus) => {
-    const colors = {
-      [VacancyStatus.PUBLISHED]: 'bg-green-100 text-green-700 border-green-200',
-      [VacancyStatus.DRAFT]: 'bg-gray-100 text-gray-700 border-gray-200',
-      [VacancyStatus.CLOSED]: 'bg-red-100 text-red-700 border-red-200',
-    };
-    return colors[status as keyof typeof colors];
-  };
-
-  const getStatusLabel = (status: VacancyStatus) => {
-    const labels = {
-      [VacancyStatus.PUBLISHED]: 'Ativa',
-      [VacancyStatus.DRAFT]: 'Rascunho',
-      [VacancyStatus.CLOSED]: 'Fechada',
-    };
-    return labels[status as keyof typeof labels];
-  };
-
-  const getJobLabel = (job: Vacancy) => {
-    const labels = {
-      [ExperienceLevel.JUNIOR]: 'Júnior',
-      [ExperienceLevel.MID]: 'Pleno',
-      [ExperienceLevel.SENIOR]: 'Sênior',
-      [ExperienceLevel.ENTRY]: 'Estágio',
-      [ExperienceLevel.LEAD]: 'Líder',
-    };
-    return labels[job.level as keyof typeof labels];
-  };
-
-  console.log(recentJobs);
 
   return (
     <div className="lg:col-span-2 space-y-4">
@@ -148,7 +147,7 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
                   <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
                       <Building2 className="w-4 h-4" />
-                      {getJobLabel(job)}
+                      {getJobLabel(job.level)}
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
@@ -223,7 +222,11 @@ const ActiveVacancies = ({ recentJobs, onRefresh }: { recentJobs: Vacancy[]; onR
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate(paths.VACANCY_DETAIL.replace(':id', job.id))}
+                  >
                     <Eye className="w-4 h-4 sm:mr-2" />
                     <span className="hidden sm:inline">Ver</span>
                   </Button>

@@ -1,3 +1,6 @@
+import { Address } from './address';
+import { Phone } from './phone';
+
 export type UserType = 'COMPANY' | 'PERSON';
 
 export type UserConfig = {
@@ -17,6 +20,8 @@ export type UserProps = {
   username: string;
   name: string;
   config: UserConfig;
+  phone?: Phone;
+  address?: Address;
 };
 
 export class User {
@@ -52,5 +57,13 @@ export class User {
 
   get config() {
     return this.props.config;
+  }
+
+  get phone(): Phone | undefined {
+    return this.props.phone;
+  }
+
+  get address(): Address | undefined {
+    return this.props.address;
   }
 }

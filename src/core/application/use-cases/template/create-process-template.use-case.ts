@@ -1,3 +1,4 @@
+import { Step } from '@core/domain';
 import { TemplateGateway } from '@core/domain/gateways/template.gateway';
 import { IUseCase } from '@core/domain/use-case.interface';
 
@@ -5,14 +6,7 @@ export interface CreateProcessTemplateUseCaseInput {
   name: string;
   description: string;
   category?: string;
-  stages: Array<{
-    name: string;
-    type: 'screening' | 'interview' | 'test' | 'custom';
-    description: string;
-    duration?: string;
-    responsible?: string;
-    autoNotify?: boolean;
-  }>;
+  stages: Step[];
   companyId?: string;
 }
 
@@ -22,16 +16,7 @@ export interface CreateProcessTemplateUseCaseOutput {
   description: string;
   category?: string;
   isDefault?: boolean;
-  stages: Array<{
-    id?: string;
-    name: string;
-    type: 'screening' | 'interview' | 'test' | 'custom';
-    description: string;
-    duration?: string;
-    responsible?: string;
-    autoNotify?: boolean;
-    order?: number;
-  }>;
+  stages: Step[];
   companyId?: string;
   createdBy?: string;
   createdAt?: string;
@@ -59,8 +44,14 @@ export class CreateProcessTemplateUseCase
       category: input.category,
       companyId: input.companyId,
       stages: input.stages.map((stage, index) => ({
-        ...stage,
+        templateId: stage.templateId,
+        name: stage.name,
+        description: stage.description,
         order: index + 1,
+        type: stage.type,
+        estimatedDuration: stage.estimatedDuration,
+        createdAt: stage.createdAt,
+        updatedAt: stage.updatedAt,
       })),
     };
 
