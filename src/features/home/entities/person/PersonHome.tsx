@@ -11,6 +11,7 @@ import {
   Badge,
   paths,
   usePersonCases,
+  useAuthCases,
 } from '@/shared';
 import {
   Briefcase,
@@ -36,9 +37,11 @@ import { useDashboard } from '@features/home/hooks';
 import { getJobLabel } from '@features/vacancyApplication/pages/VacancyApplication';
 import { Vacancy } from '@core/domain';
 import useUserContext from '@shared/contexts/UserContext';
+import { DateTime } from 'luxon';
 
 export default function PersonHome() {
   const navigate = useNavigate();
+  const token = useAuthCases().getDecodedToken();
   const [searchQuery, setSearchQuery] = useState('');
   const [savedJobs, setSavedJobs] = useState<string[]>(['1', '3']);
   const user = useUserContext();
@@ -278,6 +281,10 @@ export default function PersonHome() {
               <div className="space-y-4">
                 {publishedVacancies?.data.map(job => {
                   const matchPercentage = calculateMatch(job);
+                  const applicantMatch = job.applications.find(ap => ap.applicantId === token?.profileId);
+                  // const matchPercentage = job
+                  //   ? job.candidateMatches?.find(cm => cm.personId === token?.profileId)?.matchScore
+                  //   : undefined;
                   return (
                     <Card key={job.id} className="border-2 hover:shadow-lg transition-all">
                       <CardContent className="p-4 sm:p-5 lg:p-6">
@@ -300,6 +307,14 @@ export default function PersonHome() {
                                 <Star className="w-3 h-3" />
                                 {matchPercentage}% match
                               </Badge>
+                              {/* {matchPercentage !== undefined && (
+                                <Badge
+                                  className={`${getMatchBadgeColor(50)} flex items-center gap-1 flex-shrink-0 self-start`}
+                                >
+                                  <Star className="w-3 h-3" />
+                                  {matchPercentage}% match
+                                </Badge> 
+                              )}*/}
                             </div>
 
                             <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-600 mb-4">
@@ -319,8 +334,14 @@ export default function PersonHome() {
 
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t">
                               <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-500">
-                                <span>{job.publicationDate?.toLocaleString()}</span>
-                                <span>5 candidatos</span>
+                                <span>
+                                  {DateTime.fromISO(job.publicationDate ?? '').toLocaleString(DateTime.DATE_MED)}
+                                </span>
+                                <span>
+                                  {job.applications.length === 0
+                                    ? 'Nenhum candidato'
+                                    : `${job.applications.length} candidatos`}{' '}
+                                </span>
                               </div>
                               <div className="flex gap-2">
                                 <Button
@@ -338,7 +359,7 @@ export default function PersonHome() {
                                   className="bg-blue-600 hover:bg-blue-700"
                                   onClick={() => navigate(paths.VACANCY_APPLICATION.replace(':id', job.id))}
                                 >
-                                  Candidatar-se
+                                  {applicantMatch ? 'Ver Candidatura' : 'Candidatar-se'}
                                 </Button>
                               </div>
                             </div>

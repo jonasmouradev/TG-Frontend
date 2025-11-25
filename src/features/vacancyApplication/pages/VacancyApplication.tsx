@@ -22,7 +22,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Star,
-  Heart,
   FileText,
   Upload,
   Send,
@@ -38,6 +37,8 @@ import { VacancyType } from '@core/domain';
 import { DateTime } from 'luxon';
 import { Benefit } from '@core/domain/entities/benefit';
 import { Requirement } from '@core/domain/entities/requirement';
+import { useQueryClient } from '@tanstack/react-query';
+import { GetPublishedVacancyUseCase } from '@core/application';
 
 export const getJobLabel = (type: VacancyType) => {
   const labels = {
@@ -73,8 +74,9 @@ export const getBenefitLabel = (benefit: string) => {
 
 export default function VacancyApplication() {
   const { id } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
 
-  const [isSaved, setIsSaved] = useState(false);
+  // const [isSaved, setIsSaved] = useState(false);
   const [showApplicationModal, setShowApplicationModal] = useState(false);
   const [coverLetter, setCoverLetter] = useState('');
   const [selectedResume, setSelectedResume] = useState('current');
@@ -102,6 +104,9 @@ export default function VacancyApplication() {
     );
   }
 
+  const applicantMatch = false;
+  const matchPercentage = job.candidateMatches?.find(cm => cm.personId === decodedToken?.profileId)?.matchScore;
+
   const handleApply = () => {
     setShowApplicationModal(true);
   };
@@ -115,6 +120,7 @@ export default function VacancyApplication() {
     });
     setShowApplicationModal(false);
     toast.success('Candidatura enviada com sucesso!');
+    queryClient.invalidateQueries({ queryKey: GetPublishedVacancyUseCase.queryKey() });
   };
 
   return (
@@ -153,10 +159,12 @@ export default function VacancyApplication() {
                 </div>
 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
-                    <Star className="w-3 h-3" />
-                    50% de compatibilidade
-                  </Badge>
+                  {matchPercentage && (
+                    <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
+                      <Star className="w-3 h-3" />
+                      {matchPercentage}% de compatibilidade
+                    </Badge>
+                  )}
                   <Badge variant="outline" className="text-gray-600">
                     <Clock className="w-3 h-3 mr-1" />
                     {DateTime.fromISO(job.publicationDate ?? '').toLocaleString(DateTime.DATE_MED)}
@@ -169,10 +177,17 @@ export default function VacancyApplication() {
 
                 <Button
                   className="w-full bg-blue-600 hover:from-blue-700 hover:to-purple-700 h-12 text-base"
+                  disabled={!!applicantMatch}
                   onClick={handleApply}
                 >
-                  <Send className="w-5 h-5 mr-2" />
-                  Candidatar-se Agora
+                  {applicantMatch ? (
+                    'Você já se candidatou'
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 mr-2" />
+                      Candidatar-se Agora
+                    </>
+                  )}
                 </Button>
               </CardContent>
             </Card>
@@ -289,14 +304,21 @@ export default function VacancyApplication() {
           {/* Sidebar */}
           <div className="space-y-4">
             {/* Quick Apply */}
-            <Card className="border-2 border-blue-200 sticky top-20">
+            {/* <Card className="border-2 border-blue-200 sticky top-20">
               <CardContent className="p-4">
                 <Button
-                  className="w-full bg-blue-600 hover:from-blue-700 hover:to-purple-700 mb-3"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 mb-3"
+                  disabled={!!applicantMatch}
                   onClick={handleApply}
                 >
-                  <Send className="w-4 h-4 mr-2" />
-                  Candidatar-se
+                  {applicantMatch ? (
+                    'Já é candidato'
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />
+                      Candidatar-se
+                    </>
+                  )}
                 </Button>
                 <Button
                   variant="outline"
@@ -307,7 +329,7 @@ export default function VacancyApplication() {
                   {isSaved ? 'Salva' : 'Salvar Vaga'}
                 </Button>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Process */}
             <Card>
