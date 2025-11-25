@@ -41,8 +41,20 @@ import {
 } from 'lucide-react';
 import { useParams } from 'react-router';
 import { DateTime } from 'luxon';
-import { getJobLabel } from '@features/vacancyApplication/pages';
 import { ApplicationStatus } from '@core/domain';
+import { getExperienceLabel } from '@features/home';
+
+export const getApplicationLabel = (status: ApplicationStatus) => {
+  const labels: Record<ApplicationStatus, string> = {
+    pending: 'Pendente',
+    reviewing: 'Em Análise',
+    interview: 'Entrevista',
+    approved: 'Aprovado',
+    rejected: 'Rejeitado',
+    withdrawn: 'Retirado',
+  };
+  return labels[status] || 'Desconhecido';
+};
 
 export default function VacancyDetail() {
   const { id = '' } = useParams();
@@ -160,7 +172,7 @@ export default function VacancyDetail() {
                   </span>
                   <span className="flex items-center gap-1">
                     <Briefcase className="w-4 h-4" />
-                    {getJobLabel(vacancy?.level || 'entry')}
+                    {getExperienceLabel(vacancy?.level || 'entry')}
                   </span>
                   <span className="flex items-center gap-1">
                     <DollarSign className="w-4 h-4" />
@@ -367,13 +379,15 @@ export default function VacancyDetail() {
                           {/* Status */}
                           <td className="p-3">
                             <Badge className={`${getStatusColor(candidate.status)} text-xs whitespace-nowrap`}>
-                              {candidate.status}
+                              {getApplicationLabel(candidate.status)}
                             </Badge>
                           </td>
 
                           {/* Applied Date */}
                           <td className="p-3 hidden sm:table-cell">
-                            <span className="text-sm text-gray-600">{candidate.createdAt}</span>
+                            <span className="text-sm text-gray-600">
+                              {DateTime.fromISO(candidate.createdAt).toLocaleString(DateTime.DATE_MED)}
+                            </span>
                           </td>
 
                           {/* Actions */}

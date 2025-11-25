@@ -37,7 +37,7 @@ import { toast } from 'sonner';
 import { VacancyType } from '@core/domain';
 import { DateTime } from 'luxon';
 
-export const getJobLabel = (type: string) => {
+export const getJobLabel = (type: VacancyType) => {
   const labels: Record<VacancyType, string> = {
     full_time: 'Tempo Integral',
     part_time: 'Meio Período',
