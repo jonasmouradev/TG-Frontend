@@ -59,7 +59,7 @@ type VacancyProps = {
   level: ExperienceLevel;
   remote: boolean;
   benefits?: string[];
-  requirements: string[];
+  requirements: { requirement: string }[];
   responsibilities: string[];
   applications: Application[];
   steps: {
@@ -144,7 +144,7 @@ export class Vacancy {
   }
 
   get requirements(): string[] {
-    return this.props.requirements;
+    return this.props.requirements.map(r => r.requirement);
   }
 
   get responsibilities(): string[] {

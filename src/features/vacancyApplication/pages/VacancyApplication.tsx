@@ -201,10 +201,10 @@ export default function VacancyApplication() {
                     Requisitos Obrigatórios
                   </h3>
                   <ul className="space-y-2">
-                    {job.requirements.map((item, idx) => (
+                    {job.requirements.map((item: any, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-gray-700">
                         <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span>{item}</span>
+                        <span>{item.requirement}</span>
                       </li>
                     ))}
                   </ul>
@@ -216,10 +216,10 @@ export default function VacancyApplication() {
                     Diferenciais
                   </h3>
                   <ul className="space-y-2">
-                    {job.requirements.map((item, idx) => (
+                    {job.requirements.map((item: any, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-gray-700">
                         <span className="text-yellow-600 flex-shrink-0">+</span>
-                        <span>{item}</span>
+                        <span>{item.requirement}</span>
                       </li>
                     ))}
                   </ul>
@@ -237,10 +237,10 @@ export default function VacancyApplication() {
               </CardHeader>
               <CardContent>
                 <div className="grid sm:grid-cols-2 gap-2">
-                  {job.benefits?.map((benefit, idx) => (
+                  {job.benefits?.map((benefit: any, idx) => (
                     <div key={idx} className="flex items-center gap-2 text-sm">
                       <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
-                      <span>{benefit}</span>
+                      <span>{benefit.benefit}</span>
                     </div>
                   ))}
                 </div>
