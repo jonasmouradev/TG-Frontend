@@ -183,7 +183,8 @@ export default function VacancyApplication() {
                 <p className="text-gray-700 leading-relaxed">{job.description}</p>
 
                 <div>
-                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  {/* TODO: uncomment this when frontend sends to backend */}
+                  {/* <h3 className="font-semibold mb-3 flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600" />
                     Responsabilidades
                   </h3>
@@ -194,7 +195,7 @@ export default function VacancyApplication() {
                         <span>{item}</span>
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
                 </div>
 
                 <div>
