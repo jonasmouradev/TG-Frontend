@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import { Person } from './person';
+import { Vacancy } from './vacancy';
 
 interface ApplicationProps {
   id: string;
@@ -8,7 +9,8 @@ interface ApplicationProps {
   status: ApplicationStatus;
   resume?: string;
   coverLetter?: string;
-  person?: Person;
+  applicant?: Person;
+  vacancy?: Vacancy;
   appliedAt: DateTime;
   createdAt: string;
   updatedAt: DateTime;
@@ -67,8 +69,12 @@ export class Application {
     return this.props.updatedAt;
   }
 
-  get person(): Person | undefined {
-    return this.props.person;
+  get applicant(): Person | undefined {
+    return this.props.applicant;
+  }
+
+  get vacancy(): Vacancy | undefined {
+    return this.props.vacancy;
   }
 
   toJSON() {

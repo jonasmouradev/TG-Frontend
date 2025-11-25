@@ -58,7 +58,7 @@ export default function VacancyDetail() {
     staleTime: MINUTE_IN_MILLISECONDS,
   });
 
-  const { data: { applications } = {} } = useGetApplications({
+  const { data: { data: applications } = {} } = useGetApplications({
     input: { vacancyId: id, status: selectedStage === 'all' ? undefined : selectedStage },
     staleTime: MINUTE_IN_MILLISECONDS,
   });
@@ -130,9 +130,11 @@ export default function VacancyDetail() {
     candidate =>
       (selectedStage === 'all' || candidate.status === selectedStage) &&
       (searchQuery === '' ||
-        candidate?.person?.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        candidate?.person?.user?.email.toLowerCase().includes(searchQuery.toLowerCase())),
+        candidate?.applicant?.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        candidate?.applicant?.user?.email.toLowerCase().includes(searchQuery.toLowerCase())),
   );
+
+  console.log(applications);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -283,7 +285,7 @@ export default function VacancyDetail() {
                             <div className="flex items-center gap-3">
                               <Avatar className="w-10 h-10 flex-shrink-0">
                                 <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 text-blue-700 font-bold text-sm">
-                                  {candidate?.person?.user.name
+                                  {candidate?.applicant?.user.name
                                     .split(' ')
                                     .map(n => n[0])
                                     .join('')
@@ -291,12 +293,12 @@ export default function VacancyDetail() {
                                 </AvatarFallback>
                               </Avatar>
                               <div className="min-w-0">
-                                <div className="font-semibold text-sm truncate">{candidate?.person?.user.name}</div>
+                                <div className="font-semibold text-sm truncate">{candidate?.applicant?.user.name}</div>
                                 <div className="text-xs text-gray-600 truncate">
-                                  {candidate?.person?.user?.address?.street} •{' '}
-                                  {candidate?.person?.experiences[0]?.position}
+                                  {candidate?.applicant?.user?.address?.street} •{' '}
+                                  {candidate?.applicant?.experiences[0]?.position}
                                 </div>
-                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
                                   ?.matchScore && (
                                   <div className="flex items-center gap-0.5 mt-1">
                                     {Array.from({ length: 5 }).map((_, i) => (
@@ -304,8 +306,9 @@ export default function VacancyDetail() {
                                         key={i}
                                         className={`w-3 h-3 ${
                                           i <
-                                          (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
-                                            ?.matchScore ?? 0)
+                                          (vacancy?.candidateMatches?.find(
+                                            cm => cm.personId === candidate?.applicant?.id,
+                                          )?.matchScore ?? 0)
                                             ? 'text-yellow-500 fill-yellow-500'
                                             : 'text-gray-300'
                                         }`}
@@ -322,11 +325,11 @@ export default function VacancyDetail() {
                             <div className="text-sm space-y-0.5">
                               <div className="flex items-center gap-1 text-gray-600">
                                 <Mail className="w-3 h-3" />
-                                <span className="truncate max-w-[200px]">{candidate?.person?.user.email}</span>
+                                <span className="truncate max-w-[200px]">{candidate?.applicant?.user.email}</span>
                               </div>
                               <div className="flex items-center gap-1 text-gray-600">
                                 <Phone className="w-3 h-3" />
-                                <span>{candidate?.person?.user.phone?.number}</span>
+                                <span>{candidate?.applicant?.user.phone?.number}</span>
                               </div>
                             </div>
                           </td>
@@ -337,24 +340,24 @@ export default function VacancyDetail() {
                               <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[80px]">
                                 <div
                                   className={`h-full rounded-full ${
-                                    (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                    (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
                                       ?.matchScore ?? 0 >= 90)
                                       ? 'bg-green-500'
-                                      : (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                      : (vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
                                             ?.matchScore ?? 0 >= 80)
                                         ? 'bg-blue-500'
                                         : 'bg-yellow-500'
                                   }`}
                                   style={{
                                     width: `$${
-                                      vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                      vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
                                         ?.matchScore ?? 0
                                     }%`,
                                   }}
                                 />
                               </div>
                               <span className="text-sm font-semibold text-gray-700">
-                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.person?.id)
+                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
                                   ?.matchScore ?? 0}
                                 %
                               </span>
