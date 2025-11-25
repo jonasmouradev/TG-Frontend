@@ -67,8 +67,8 @@ export default function CompleteProfilePage() {
   useEffect(() => {
     if (data?.person) {
       setPersonalInfo({
-        firstName: data.person.firstName || '',
-        lastName: data.person.lastName || '',
+        firstName: data.person.user.name.split(' ')[0] || '',
+        lastName: data.person.user.name.split(' ')[1] || '',
         dateOfBirth: data.person.dateOfBirth || '',
         phone: data.person?.user?.phone?.number || '',
         location: data.person?.user?.address?.city || '',
@@ -291,7 +291,7 @@ export default function CompleteProfilePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+              {/* <div>
                 <Label htmlFor="dateOfBirth">Data de Nascimento</Label>
                 <Input
                   id="dateOfBirth"
@@ -299,7 +299,7 @@ export default function CompleteProfilePage() {
                   value={personalInfo.dateOfBirth}
                   onChange={e => setPersonalInfo({ ...personalInfo, dateOfBirth: e.target.value })}
                 />
-              </div>
+              </div> */}
               <div>
                 <Label htmlFor="phone">Telefone *</Label>
                 <Input
@@ -309,23 +309,23 @@ export default function CompleteProfilePage() {
                   placeholder="(00) 00000-0000"
                 />
               </div>
-            </div>
 
-            <div>
-              <Label htmlFor="location">Localização</Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <Input
-                  id="location"
-                  className="pl-10"
-                  value={personalInfo.location}
-                  onChange={e => setPersonalInfo({ ...personalInfo, location: e.target.value })}
-                  placeholder="Cidade, Estado"
-                />
+              <div>
+                <Label htmlFor="location">Localização</Label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    id="location"
+                    className="pl-10"
+                    value={personalInfo.location}
+                    onChange={e => setPersonalInfo({ ...personalInfo, location: e.target.value })}
+                    placeholder="Cidade, Estado"
+                  />
+                </div>
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <Label htmlFor="bio">Bio / Resumo Profissional *</Label>
               <Textarea
                 id="bio"
@@ -336,11 +336,11 @@ export default function CompleteProfilePage() {
                 maxLength={500}
               />
               <p className="text-xs text-gray-500 mt-1">{personalInfo.bio.length}/500 caracteres</p>
-            </div>
+            </div> */}
 
             <div className="space-y-3">
               <Label>Links Profissionais</Label>
-              <div className="relative">
+              {/* <div className="relative">
                 <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
                   className="pl-10"
@@ -357,7 +357,7 @@ export default function CompleteProfilePage() {
                   onChange={e => setPersonalInfo({ ...personalInfo, githubProfile: e.target.value })}
                   placeholder="GitHub (https://github.com/...)"
                 />
-              </div>
+              </div> */}
               <div className="relative">
                 <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
@@ -440,7 +440,7 @@ export default function CompleteProfilePage() {
                       <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <Input
                         id="startDate"
-                        type="month"
+                        type="date"
                         className="pl-10"
                         value={newWorkExperience.startDate}
                         onChange={e => setNewWorkExperience({ ...newWorkExperience, startDate: e.target.value })}
@@ -453,7 +453,7 @@ export default function CompleteProfilePage() {
                       <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <Input
                         id="endDate"
-                        type="month"
+                        type="date"
                         className="pl-10"
                         value={newWorkExperience.endDate}
                         onChange={e => setNewWorkExperience({ ...newWorkExperience, endDate: e.target.value })}
@@ -660,7 +660,7 @@ export default function CompleteProfilePage() {
             <Card className="border-2 border-dashed border-blue-300">
               <CardContent className="p-4 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="md:col-span-2">
+                  <div className="md:col-span-1">
                     <Label htmlFor="skillName">Habilidade *</Label>
                     <Input
                       id="skillName"
@@ -687,6 +687,15 @@ export default function CompleteProfilePage() {
                       <option value="advanced">Avançado</option>
                       <option value="expert">Especialista</option>
                     </select>
+                  </div>
+                  <div className="md:col-span-1">
+                    <Label htmlFor="skillName">Anos de experiência</Label>
+                    <Input
+                      id="skillName"
+                      value={newSkill.competenceId}
+                      onChange={e => setNewSkill({ ...newSkill, competenceId: e.target.value })}
+                      placeholder="Ex: React, JavaScript, Gestão de Projetos..."
+                    />
                   </div>
                 </div>
 

@@ -3,6 +3,8 @@ import { Phone } from './phone';
 
 export type UserType = 'COMPANY' | 'PERSON';
 
+export type UserStatus = 'ACTIVE' | 'BLOCKED' | 'PENDING';
+
 export type UserConfig = {
   auth2f: boolean;
   default_interface: 'LIGHT' | 'DARK';
@@ -19,9 +21,15 @@ export type UserProps = {
   type: UserType;
   username: string;
   name: string;
-  config: UserConfig;
-  phone?: Phone;
-  address?: Address;
+  password?: string;
+  status: UserStatus;
+  isVerified: boolean;
+  config?: UserConfig;
+  phone?: Phone | null;
+  address?: Address | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
 };
 
 export class User {
@@ -55,15 +63,35 @@ export class User {
     return this.props.name;
   }
 
+  get status(): UserStatus {
+    return this.props.status;
+  }
+
+  get isVerified(): boolean {
+    return this.props.isVerified;
+  }
+
   get config() {
     return this.props.config;
   }
 
-  get phone(): Phone | undefined {
+  get phone(): Phone | null | undefined {
     return this.props.phone;
   }
 
-  get address(): Address | undefined {
+  get address(): Address | null | undefined {
     return this.props.address;
+  }
+
+  get createdAt(): string {
+    return this.props.createdAt;
+  }
+
+  get updatedAt(): string {
+    return this.props.updatedAt;
+  }
+
+  get deletedAt(): string | null {
+    return this.props.deletedAt;
   }
 }

@@ -69,9 +69,8 @@ export type Education = {
 
 export type Person = {
   id: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
+  cpf: string;
+  user_id: string;
   dateOfBirth?: string;
   gender?: Gender;
   nationality?: string;
@@ -87,6 +86,7 @@ export type Person = {
   user: User;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
 };
 
 export type CreatePersonDto = {

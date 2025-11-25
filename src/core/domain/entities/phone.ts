@@ -2,15 +2,17 @@ export type PhoneType = 'mobile' | 'landline' | 'work' | 'fax';
 
 export type Phone = {
   id: string;
+  userId: string;
+  user_id: string;
   number: string;
   countryCode?: string;
   areaCode?: string;
   type: PhoneType;
   isPrimary: boolean;
-  isVerified: boolean;
-  personId: string;
+  isVerified?: boolean;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
 };
 
 export type CreatePhoneDto = {
