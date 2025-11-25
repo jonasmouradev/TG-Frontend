@@ -489,7 +489,7 @@ export default function VacancyDetail() {
                       {vacancy?.benefits?.map((benefit, idx) => (
                         <li key={idx} className="flex items-center gap-2 text-sm">
                           <CheckCircle2 className="w-4 h-4 text-green-600" />
-                          {benefit}
+                          {benefit.benefit}
                         </li>
                       ))}
                     </ul>
