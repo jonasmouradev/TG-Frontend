@@ -41,7 +41,7 @@ import {
 } from 'lucide-react';
 import { useParams } from 'react-router';
 import { DateTime } from 'luxon';
-import { getJobLabel } from '@features/home/components/ActiveVacancies';
+import { getJobLabel } from '@features/vacancyApplication/pages';
 import { ApplicationStatus } from '@core/domain';
 
 export default function VacancyDetail() {
