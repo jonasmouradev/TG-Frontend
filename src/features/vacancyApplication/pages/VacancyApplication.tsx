@@ -104,7 +104,7 @@ export default function VacancyApplication() {
     );
   }
 
-  const applicantMatch = false;
+  const applicantMatch = job.applications.find(ap => ap.applicantId === decodedToken?.profileId);
   const matchPercentage = job.candidateMatches?.find(cm => cm.personId === decodedToken?.profileId)?.matchScore;
 
   const handleApply = () => {

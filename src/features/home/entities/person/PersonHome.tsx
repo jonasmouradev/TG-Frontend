@@ -10,7 +10,6 @@ import {
   Input,
   Badge,
   paths,
-  usePersonCases,
   useAuthCases,
 } from '@/shared';
 import {
@@ -35,8 +34,6 @@ import {
 } from 'lucide-react';
 import { useDashboard } from '@features/home/hooks';
 import { getJobLabel } from '@features/vacancyApplication/pages/VacancyApplication';
-import { Vacancy } from '@core/domain';
-import useUserContext from '@shared/contexts/UserContext';
 import { DateTime } from 'luxon';
 
 export default function PersonHome() {
@@ -44,53 +41,6 @@ export default function PersonHome() {
   const token = useAuthCases().getDecodedToken();
   const [searchQuery, setSearchQuery] = useState('');
   const [savedJobs, setSavedJobs] = useState<string[]>(['1', '3']);
-  const user = useUserContext();
-  const { useGetPerson } = usePersonCases();
-
-  // Buscar dados da pessoa logada
-  const { data: personData } = useGetPerson({
-    input: { id: user.id },
-    enabled: !!user.id,
-  });
-
-  // Função para calcular o match entre requisitos da vaga e competências do usuário
-  const calculateMatch = (vacancy: Vacancy): number => {
-    if (!personData?.person || !personData.person.competences || personData.person.competences.length === 0) {
-      return 0;
-    }
-
-    const requirements = vacancy.requirements || [];
-    if (requirements.length === 0) {
-      return 0;
-    }
-
-    // Extrair IDs das competências do usuário
-    const userCompetenceIds = personData.person.competences.map(c => c.competence_id);
-
-    // Contar quantos requisitos o usuário atende
-    // Aqui estamos assumindo que requirements contém texto com nomes/palavras-chave
-    // e comparando com os IDs das competências do usuário
-    let matchingCount = 0;
-
-    requirements.forEach(req => {
-      const reqText = req.requirement?.toLowerCase() || '';
-
-      // Verificar se alguma competência do usuário está relacionada ao requisito
-      const hasMatch = userCompetenceIds.some(compId => {
-        const compIdLower = compId?.toLowerCase() || '';
-        // Comparação bidirecional: requisito contém competência OU competência contém requisito
-        return reqText.includes(compIdLower) || compIdLower.includes(reqText);
-      });
-
-      if (hasMatch) {
-        matchingCount++;
-      }
-    });
-
-    // Calcular percentual de match
-    const matchPercentage = Math.round((matchingCount / requirements.length) * 100);
-    return matchPercentage;
-  };
 
   const stats = {
     profileCompletionRate: 65,
@@ -280,11 +230,10 @@ export default function PersonHome() {
 
               <div className="space-y-4">
                 {publishedVacancies?.data.map(job => {
-                  const matchPercentage = calculateMatch(job);
                   const applicantMatch = job.applications.find(ap => ap.applicantId === token?.profileId);
-                  // const matchPercentage = job
-                  //   ? job.candidateMatches?.find(cm => cm.personId === token?.profileId)?.matchScore
-                  //   : undefined;
+                  const matchPercentage = job
+                    ? job.candidateMatches?.find(cm => cm.personId === token?.profileId)?.matchScore
+                    : undefined;
                   return (
                     <Card key={job.id} className="border-2 hover:shadow-lg transition-all">
                       <CardContent className="p-4 sm:p-5 lg:p-6">
@@ -301,20 +250,14 @@ export default function PersonHome() {
                                 <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">{job.title}</h4>
                                 <p className="text-sm text-gray-600 mb-2">{job.title}</p>
                               </div>
-                              <Badge
-                                className={`${getMatchBadgeColor(matchPercentage)} flex items-center gap-1 flex-shrink-0 self-start`}
-                              >
-                                <Star className="w-3 h-3" />
-                                {matchPercentage}% match
-                              </Badge>
-                              {/* {matchPercentage !== undefined && (
+                              {matchPercentage !== undefined && (
                                 <Badge
-                                  className={`${getMatchBadgeColor(50)} flex items-center gap-1 flex-shrink-0 self-start`}
+                                  className={`${getMatchBadgeColor(matchPercentage)} flex items-center gap-1 flex-shrink-0 self-start`}
                                 >
                                   <Star className="w-3 h-3" />
                                   {matchPercentage}% match
-                                </Badge> 
-                              )}*/}
+                                </Badge>
+                              )}
                             </div>
 
                             <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-600 mb-4">
