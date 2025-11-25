@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle, Badge, Button } from '@/shared';
 import {
-  ArrowLeft,
   TrendingUp,
   Users,
   Clock,
@@ -14,8 +12,6 @@ import {
   Award,
   AlertCircle,
   Filter,
-  Download,
-  RefreshCw,
 } from 'lucide-react';
 
 interface ProcessMetric {
@@ -41,7 +37,6 @@ interface StageMetric {
 }
 
 export default function MetricsPage() {
-  const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState('30days');
   const [selectedProcess, setSelectedProcess] = useState<string | null>(null);
 
@@ -190,33 +185,6 @@ export default function MetricsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white w-screen border-b sticky top-0 z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" onClick={() => navigate('/home')}>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Button>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">Métricas e Analytics</h1>
-                <p className="text-xs text-gray-500">Acompanhe o desempenho dos processos seletivos</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <Download className="w-4 h-4 mr-2" />
-                Exportar
-              </Button>
-              <Button variant="outline" size="sm">
-                <RefreshCw className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Period Selector */}
         <div className="flex items-center justify-between mb-6">

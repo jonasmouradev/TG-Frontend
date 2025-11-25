@@ -718,22 +718,6 @@ export default function CompleteProfilePage() {
 
   return (
     <div className="min-h-screen w-screen bg-white">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Button variant="ghost" onClick={() => navigate('/home')}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar
-            </Button>
-            <div className="flex items-center gap-2">
-              <div className="text-sm text-gray-600">Progresso:</div>
-              <Badge className="bg-blue-600">{calculateProgress()}%</Badge>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Steps */}
         <div className="mb-8">

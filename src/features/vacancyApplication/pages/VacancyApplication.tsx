@@ -14,7 +14,6 @@ import {
   AlertCircle,
   Star,
   Heart,
-  Share2,
   FileText,
   Upload,
   Send,
@@ -46,7 +45,7 @@ export default function VacancyApplication() {
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2">Vaga não encontrada</h2>
             <p className="text-gray-600 mb-4">A vaga que você está procurando não existe ou foi removida.</p>
-            <Button onClick={() => window.history.back()}>
+            <Button onClick={() => globalThis.history.back()}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar
             </Button>
@@ -70,28 +69,6 @@ export default function VacancyApplication() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`h-8 w-8 ${isSaved ? 'text-orange-600' : ''}`}
-              onClick={() => setIsSaved(!isSaved)}
-            >
-              <Heart className={`w-4 h-4 ${isSaved ? 'fill-orange-600' : ''}`} />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Share2 className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
