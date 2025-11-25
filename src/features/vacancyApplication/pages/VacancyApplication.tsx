@@ -35,6 +35,7 @@ import {
 import { useDashboard } from '@features/home/hooks';
 import { toast } from 'sonner';
 import { VacancyType } from '@core/domain';
+import { DateTime } from 'luxon';
 
 export const getJobLabel = (type: string) => {
   const labels: Record<VacancyType, string> = {
@@ -135,11 +136,11 @@ export default function VacancyApplication() {
                   </Badge>
                   <Badge variant="outline" className="text-gray-600">
                     <Clock className="w-3 h-3 mr-1" />
-                    {job.publicationDate?.toLocaleString()}
+                    {DateTime.fromISO(job.publicationDate ?? '').toLocaleString(DateTime.DATE_MED)}
                   </Badge>
                   <Badge variant="outline" className="text-gray-600">
                     <Users className="w-3 h-3 mr-1" />
-                    15 candidatos
+                    {job.applications.length === 0 ? 'Nenhum candidato' : `${job.applications.length} candidatos`}
                   </Badge>
                 </div>
 
