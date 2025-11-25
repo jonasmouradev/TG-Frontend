@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { Card, CardContent, Button, Input, Badge, Avatar, AvatarFallback } from '@/shared';
+import { Card, CardContent, Button, Input, Badge } from '@/shared';
 import {
   Briefcase,
   Search,
   Filter,
   MapPin,
   Building2,
-  Bell,
-  Settings,
   Users,
   Clock,
   MoreVertical,
@@ -23,7 +21,6 @@ import {
   AlertCircle,
   BarChart3,
   Download,
-  ArrowLeft,
 } from 'lucide-react';
 
 interface Job {
@@ -153,36 +150,6 @@ export default function ActiveVacancies() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                <Building2 className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="font-bold text-sm">TechCorp</h1>
-                <p className="text-xs text-gray-500">Vagas Ativas</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="relative h-8 w-8">
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full" />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Settings className="w-4 h-4" />
-            </Button>
-            <Avatar className="w-8 h-8">
-              <AvatarFallback className="bg-blue-100 text-blue-700 text-xs">TC</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </header>
 
       <div className="w-screen max-w-7xl mx-auto px-4 py-6">
         {/* Page Header */}

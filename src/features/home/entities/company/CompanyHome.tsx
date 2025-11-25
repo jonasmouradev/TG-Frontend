@@ -1,7 +1,6 @@
 import { Button } from '@/shared';
 import { RefreshCw } from 'lucide-react';
 import { useDashboard } from '../../hooks';
-import HomeHeader from '../../components/HomeHeader';
 import WelcomeSection from '../../components/WelcomeSection';
 import StatsCards from '../../components/StatsCards';
 import ActiveVacancies from '../../components/ActiveVacancies';
@@ -33,7 +32,6 @@ export default function CompanyHome() {
 
   return (
     <div className="min-h-screen bg-white">
-      <HomeHeader />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <WelcomeSection />
         <StatsCards dashboardStats={dashboardStats} />

@@ -36,7 +36,6 @@ import {
   MoreVertical,
   Target,
 } from 'lucide-react';
-import HomeHeader from '@features/home/components/HomeHeader';
 
 interface Candidate {
   id: string;
@@ -219,9 +218,6 @@ export default function VacancyDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <HomeHeader />
-
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Job Header */}
         <Card className="mb-6 border-2">

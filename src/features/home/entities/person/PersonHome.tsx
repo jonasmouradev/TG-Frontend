@@ -21,7 +21,6 @@ import {
   Star,
   BarChart3,
 } from 'lucide-react';
-import HomeHeader from '@features/home/components/HomeHeader';
 import { useDashboard } from '@features/home/hooks';
 
 export default function PersonHome() {
@@ -92,8 +91,6 @@ export default function PersonHome() {
 
   return (
     <div className="min-h-screen bg-white">
-      <HomeHeader />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section */}
         <div className="mb-6 sm:mb-8">
