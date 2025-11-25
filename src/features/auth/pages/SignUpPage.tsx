@@ -131,7 +131,7 @@ export default function SignupScreen() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg">
               <Building2 className="w-7 h-7 text-white" />
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold bg-blue-600 bg-clip-text text-transparent">Seleto</h1>
@@ -146,9 +146,7 @@ export default function SignupScreen() {
                 <div className={`flex items-center gap-2 ${step >= s ? 'opacity-100' : 'opacity-40'}`}>
                   <div
                     className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
-                      step >= s
-                        ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-lg'
-                        : 'bg-white border-2 border-gray-300 text-gray-400'
+                      step >= s ? 'bg-blue-600 text-white shadow-lg' : 'bg-white border-2 border-gray-300 text-gray-400'
                     }`}
                   >
                     {step > s ? <Check className="w-5 h-5" /> : s}

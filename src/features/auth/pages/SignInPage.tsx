@@ -73,7 +73,7 @@ export default function LoginScreen() {
           {/* Logo & Title */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg">
                 <Building2 className="w-8 h-8 text-white" />
               </div>
               <div>
@@ -129,7 +129,7 @@ export default function LoginScreen() {
         <div className="flex flex-col items-center">
           {/* Mobile Logo */}
           <div className="lg:hidden mb-8 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg mx-auto mb-4">
+            <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg mx-auto mb-4">
               <Building2 className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-2xl font-bold bg-blue-600 bg-clip-text text-transparent">Seleto</h1>

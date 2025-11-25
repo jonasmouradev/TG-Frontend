@@ -533,7 +533,7 @@ export default function VacancyDetail() {
                         </div>
                         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-blue-600 to-purple-600"
+                            className="h-full bg-blue-600"
                             style={{ width: `${source.percentage}%` }}
                           />
                         </div>

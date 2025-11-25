@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Input, Badge, paths } from '@/shared';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  Button,
+  Input,
+  Badge,
+  paths,
+  usePersonCases,
+} from '@/shared';
 import {
   Briefcase,
   Search,
@@ -23,11 +34,60 @@ import {
 } from 'lucide-react';
 import { useDashboard } from '@features/home/hooks';
 import { getJobLabel } from '@features/vacancyApplication/pages/VacancyApplication';
+import { Vacancy } from '@core/domain';
+import useUserContext from '@shared/contexts/UserContext';
 
 export default function PersonHome() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [savedJobs, setSavedJobs] = useState<string[]>(['1', '3']);
+  const user = useUserContext();
+  const { useGetPerson } = usePersonCases();
+
+  // Buscar dados da pessoa logada
+  const { data: personData } = useGetPerson({
+    input: { id: user.id },
+    enabled: !!user.id,
+  });
+
+  // Função para calcular o match entre requisitos da vaga e competências do usuário
+  const calculateMatch = (vacancy: Vacancy): number => {
+    if (!personData?.person || !personData.person.competences || personData.person.competences.length === 0) {
+      return 0;
+    }
+
+    const requirements = vacancy.requirements || [];
+    if (requirements.length === 0) {
+      return 0;
+    }
+
+    // Extrair IDs das competências do usuário
+    const userCompetenceIds = personData.person.competences.map(c => c.competence_id);
+
+    // Contar quantos requisitos o usuário atende
+    // Aqui estamos assumindo que requirements contém texto com nomes/palavras-chave
+    // e comparando com os IDs das competências do usuário
+    let matchingCount = 0;
+
+    requirements.forEach(req => {
+      const reqText = req.requirement?.toLowerCase() || '';
+
+      // Verificar se alguma competência do usuário está relacionada ao requisito
+      const hasMatch = userCompetenceIds.some(compId => {
+        const compIdLower = compId?.toLowerCase() || '';
+        // Comparação bidirecional: requisito contém competência OU competência contém requisito
+        return reqText.includes(compIdLower) || compIdLower.includes(reqText);
+      });
+
+      if (hasMatch) {
+        matchingCount++;
+      }
+    });
+
+    // Calcular percentual de match
+    const matchPercentage = Math.round((matchingCount / requirements.length) * 100);
+    return matchPercentage;
+  };
 
   const stats = {
     profileCompletionRate: 65,
@@ -85,8 +145,9 @@ export default function PersonHome() {
   };
 
   const getMatchBadgeColor = (match: number) => {
-    if (match >= 90) return 'bg-green-100 text-green-700';
-    if (match >= 80) return 'bg-blue-100 text-blue-700';
+    if (match >= 70) return 'bg-green-100 text-green-700';
+    if (match >= 50) return 'bg-blue-100 text-blue-700';
+    if (match >= 30) return 'bg-yellow-100 text-yellow-700';
     return 'bg-gray-100 text-gray-700';
   };
 
@@ -215,75 +276,78 @@ export default function PersonHome() {
               </div>
 
               <div className="space-y-4">
-                {publishedVacancies?.data.map(job => (
-                  <Card key={job.id} className="border-2 hover:shadow-lg transition-all">
-                    <CardContent className="p-4 sm:p-5 lg:p-6">
-                      <div className="flex flex-col sm:flex-row items-start gap-4">
-                        {/* <Avatar className="w-12 h-12 border-2 border-gray-200 flex-shrink-0">
+                {publishedVacancies?.data.map(job => {
+                  const matchPercentage = calculateMatch(job);
+                  return (
+                    <Card key={job.id} className="border-2 hover:shadow-lg transition-all">
+                      <CardContent className="p-4 sm:p-5 lg:p-6">
+                        <div className="flex flex-col sm:flex-row items-start gap-4">
+                          {/* <Avatar className="w-12 h-12 border-2 border-gray-200 flex-shrink-0">
                           <AvatarFallback className="bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-700 font-bold text-sm">
                             {job.logo}
                           </AvatarFallback>
                         </Avatar> */}
 
-                        <div className="flex-1 w-full min-w-0">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                            <div className="flex-1 min-w-0">
-                              <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">{job.title}</h4>
-                              <p className="text-sm text-gray-600 mb-2">{job.title}</p>
-                            </div>
-                            <Badge
-                              className={`${getMatchBadgeColor(50)} flex items-center gap-1 flex-shrink-0 self-start`}
-                            >
-                              <Star className="w-3 h-3" />
-                              50% match
-                            </Badge>
-                          </div>
-
-                          <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-600 mb-4">
-                            <span className="flex items-center gap-1">
-                              <MapPin className="w-4 h-4 flex-shrink-0" />
-                              {job.location}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Briefcase className="w-4 h-4 flex-shrink-0" />
-                              {getJobLabel(job.type)}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <DollarSign className="w-4 h-4 flex-shrink-0" />
-                              {job.salaryMax}
-                            </span>
-                          </div>
-
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t">
-                            <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-500">
-                              <span>{job.publicationDate?.toLocaleString()}</span>
-                              <span>5 candidatos</span>
-                            </div>
-                            <div className="flex gap-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => toggleSaveJob(job.id)}
-                                className={savedJobs.includes(job.id) ? 'text-orange-600' : ''}
+                          <div className="flex-1 w-full min-w-0">
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                              <div className="flex-1 min-w-0">
+                                <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">{job.title}</h4>
+                                <p className="text-sm text-gray-600 mb-2">{job.title}</p>
+                              </div>
+                              <Badge
+                                className={`${getMatchBadgeColor(matchPercentage)} flex items-center gap-1 flex-shrink-0 self-start`}
                               >
-                                <Bookmark
-                                  className={`w-4 h-4 ${savedJobs.includes(job.id) ? 'fill-orange-600' : ''}`}
-                                />
-                              </Button>
-                              <Button
-                                size="sm"
-                                className="bg-blue-600 hover:bg-blue-700"
-                                onClick={() => navigate(paths.VACANCY_APPLICATION.replace(':id', job.id))}
-                              >
-                                Candidatar-se
-                              </Button>
+                                <Star className="w-3 h-3" />
+                                {matchPercentage}% match
+                              </Badge>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-600 mb-4">
+                              <span className="flex items-center gap-1">
+                                <MapPin className="w-4 h-4 flex-shrink-0" />
+                                {job.location}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Briefcase className="w-4 h-4 flex-shrink-0" />
+                                {getJobLabel(job.type)}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <DollarSign className="w-4 h-4 flex-shrink-0" />
+                                {job.salaryMax}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t">
+                              <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-500">
+                                <span>{job.publicationDate?.toLocaleString()}</span>
+                                <span>5 candidatos</span>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => toggleSaveJob(job.id)}
+                                  className={savedJobs.includes(job.id) ? 'text-orange-600' : ''}
+                                >
+                                  <Bookmark
+                                    className={`w-4 h-4 ${savedJobs.includes(job.id) ? 'fill-orange-600' : ''}`}
+                                  />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  className="bg-blue-600 hover:bg-blue-700"
+                                  onClick={() => navigate(paths.VACANCY_APPLICATION.replace(':id', job.id))}
+                                >
+                                  Candidatar-se
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
 
               <Button variant="outline" className="w-full mt-5">

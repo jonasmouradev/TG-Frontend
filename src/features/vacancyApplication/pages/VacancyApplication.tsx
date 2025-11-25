@@ -40,14 +40,35 @@ import { Benefit } from '@core/domain/entities/benefit';
 import { Requirement } from '@core/domain/entities/requirement';
 
 export const getJobLabel = (type: VacancyType) => {
-  const labels: Record<VacancyType, string> = {
-    full_time: 'Tempo Integral',
-    part_time: 'Meio Período',
-    contract: 'Contrato',
-    internship: 'Estágio',
-    temporary: 'Temporário',
+  const labels = {
+    [VacancyType.FULL_TIME]: 'Tempo Integral',
+    [VacancyType.PART_TIME]: 'Meio Período',
+    [VacancyType.CONTRACT]: 'Contrato',
+    [VacancyType.INTERNSHIP]: 'Estágio',
+    [VacancyType.TEMPORARY]: 'Temporário',
   };
-  return labels[type] || 'Outro';
+  return labels[type as VacancyType] || 'Outro';
+};
+
+export const getBenefitLabel = (benefit: string) => {
+  const labels: Record<string, string> = {
+    health: 'Plano de Saúde',
+    dental_insurance: 'Plano Odontológico',
+    life_insurance: 'Seguro de Vida',
+    meal_voucher: 'Vale Refeição',
+    food_voucher: 'Vale Alimentação',
+    transportation_voucher: 'Vale Transporte',
+    gym_membership: 'Academia',
+    home_office: 'Home Office',
+    flexible_hours: 'Horário Flexível',
+    profit_sharing: 'Participação nos Lucros',
+    stock_options: 'Stock Options',
+    education_assistance: 'Auxílio Educação',
+    daycare_assistance: 'Auxílio Creche',
+    parking: 'Estacionamento',
+    remote: 'Trabalho Remoto',
+  };
+  return labels[benefit] || benefit;
 };
 
 export default function VacancyApplication() {
@@ -147,7 +168,7 @@ export default function VacancyApplication() {
                 </div>
 
                 <Button
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 h-12 text-base"
+                  className="w-full bg-blue-600 hover:from-blue-700 hover:to-purple-700 h-12 text-base"
                   onClick={handleApply}
                 >
                   <Send className="w-5 h-5 mr-2" />
@@ -201,7 +222,7 @@ export default function VacancyApplication() {
                 <div>
                   <h3 className="font-semibold mb-3 flex items-center gap-2">
                     <Target className="w-5 h-5 text-blue-600" />
-                    Requisitos Obrigatórios
+                    Requisitos
                   </h3>
                   <ul className="space-y-2">
                     {job.requirements.map((item: Requirement, idx) => (
@@ -212,7 +233,7 @@ export default function VacancyApplication() {
                     ))}
                   </ul>
                 </div>
-
+                {/* 
                 <div>
                   <h3 className="font-semibold mb-3 flex items-center gap-2">
                     <Star className="w-5 h-5 text-yellow-600" />
@@ -226,7 +247,7 @@ export default function VacancyApplication() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
 
@@ -243,7 +264,7 @@ export default function VacancyApplication() {
                   {job.benefits?.map((benefit: Benefit, idx) => (
                     <div key={idx} className="flex items-center gap-2 text-sm">
                       <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
-                      <span>{benefit.benefit}</span>
+                      <span>{getBenefitLabel(benefit.benefit)}</span>
                     </div>
                   ))}
                 </div>
@@ -271,7 +292,7 @@ export default function VacancyApplication() {
             <Card className="border-2 border-blue-200 sticky top-20">
               <CardContent className="p-4">
                 <Button
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 mb-3"
+                  className="w-full bg-blue-600 hover:from-blue-700 hover:to-purple-700 mb-3"
                   onClick={handleApply}
                 >
                   <Send className="w-4 h-4 mr-2" />
@@ -434,7 +455,7 @@ export default function VacancyApplication() {
                   Cancelar
                 </Button>
                 <Button
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="flex-1 bg-blue-600 hover:from-blue-700 hover:to-purple-700"
                   onClick={confirmApplication}
                 >
                   <Send className="w-4 h-4 mr-2" />

@@ -8,3 +8,4 @@ export * from './activity';
 export * from './competence';
 export * from './dashboard';
 export * from './template';
+export * from './person';
