@@ -23,13 +23,14 @@ import {
   Download,
 } from 'lucide-react';
 import { getJobLabel } from '@features/vacancyApplication/pages';
+import { VacancyType } from '@core/domain';
 
 interface Job {
   id: string;
   title: string;
   department: string;
   location: string;
-  type: string;
+  type: VacancyType;
   status: 'active' | 'draft' | 'paused';
   candidates: number;
   newCandidates: number;
@@ -51,7 +52,7 @@ export default function ActiveVacancies() {
       title: 'Desenvolvedor Front-end Sênior',
       department: 'Tecnologia',
       location: 'São Paulo, SP',
-      type: 'CLT',
+      type: VacancyType.FULL_TIME,
       status: 'active',
       candidates: 45,
       newCandidates: 12,
