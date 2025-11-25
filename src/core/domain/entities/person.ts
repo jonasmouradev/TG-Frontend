@@ -42,8 +42,8 @@ export type WorkExperience = {
   companyName: string;
   position: string;
   description: string | null;
-  startDate: DateTime;
-  endDate: DateTime | null;
+  startDate: string;
+  endDate: string | null;
   isCurrent: boolean;
   location: string | null;
   createdAt: DateTime;

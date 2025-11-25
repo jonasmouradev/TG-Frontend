@@ -21,6 +21,11 @@ describe('GetUserUseCase', () => {
         layout_name: 'default',
         master: false,
       },
+      createdAt: Date.now().toLocaleString(),
+      updatedAt: Date.now().toLocaleString(),
+      deletedAt: null,
+      isVerified: true,
+      status: 'ACTIVE',
     });
 
     const mockUserGateway: UserGateway = {

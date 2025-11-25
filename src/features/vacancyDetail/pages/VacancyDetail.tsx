@@ -146,8 +146,6 @@ export default function VacancyDetail() {
         candidate?.applicant?.user?.email.toLowerCase().includes(searchQuery.toLowerCase())),
   );
 
-  console.log(applications);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -180,7 +178,10 @@ export default function VacancyDetail() {
                   </span>
                   <span className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
-                    Publicada em {DateTime.fromISO(vacancy?.publicationDate ?? '').toLocaleString(DateTime.DATE_MED)}
+                    Publicada em{' '}
+                    {DateTime.fromISO(vacancy?.publicationDate ?? DateTime.now().toISO()).toLocaleString(
+                      DateTime.DATE_MED,
+                    )}
                   </span>
                 </div>
 

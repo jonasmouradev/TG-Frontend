@@ -11,6 +11,10 @@ import {
   Textarea,
   Badge,
   useAuthCases,
+  Select,
+  SelectTrigger,
+  SelectItem,
+  SelectContent,
 } from '@/shared';
 import {
   ArrowLeft,
@@ -34,6 +38,20 @@ import { usePersonCases } from '@shared/hooks/person';
 import { PersonCompetenceLevel } from '@core/domain';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetPersonUseCase } from '@core/application/use-cases';
+import { DateTime } from 'luxon';
+
+export enum DegreeType {
+  HIGH_SCHOOL = 'HIGH_SCHOOL',
+  TECHNICAL = 'TECHNICAL',
+  ASSOCIATE = 'ASSOCIATE',
+  BACHELOR = 'BACHELOR',
+  MASTER = 'MASTER',
+  DOCTORATE = 'DOCTORATE',
+  POSTGRADUATE = 'POSTGRADUATE',
+  MBA = 'MBA',
+  CERTIFICATE = 'CERTIFICATE',
+  OTHER = 'OTHER',
+}
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
@@ -390,8 +408,12 @@ export default function CompleteProfilePage() {
                           <h4 className="font-semibold text-base">{exp.position}</h4>
                           <p className="text-sm text-gray-600">{exp.companyName}</p>
                           <p className="text-xs text-gray-500 mt-1">
-                            {exp.startDate.toFormat('MM/yyyy')} -{' '}
-                            {exp.isCurrent ? 'Atual' : (exp.endDate?.toFormat('MM/yyyy') ?? '')}
+                            {DateTime.fromISO(exp.startDate).toFormat('MM/yyyy')} -{' '}
+                            {exp.isCurrent
+                              ? 'Atual'
+                              : exp.endDate
+                                ? DateTime.fromISO(exp.endDate).toFormat('MM/yyyy')
+                                : 'Não informado'}
                           </p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => removeWorkExperience(exp.personId)}>
@@ -563,12 +585,24 @@ export default function CompleteProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="degree">Grau *</Label>
-                    <Input
-                      id="degree"
+                    <Select
                       value={newEducation.degree}
-                      onChange={e => setNewEducation({ ...newEducation, degree: e.target.value })}
-                      placeholder="Ex: Bacharelado, Tecnólogo, Mestrado..."
-                    />
+                      onValueChange={value => setNewEducation({ ...newEducation, degree: value })}
+                    >
+                      <SelectTrigger id="contract">Selecione o grau</SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={DegreeType.HIGH_SCHOOL}>Ensino Médio</SelectItem>
+                        <SelectItem value={DegreeType.TECHNICAL}>Técnico</SelectItem>
+                        <SelectItem value={DegreeType.ASSOCIATE}>Tecnólogo</SelectItem>
+                        <SelectItem value={DegreeType.BACHELOR}>Bacharelado</SelectItem>
+                        <SelectItem value={DegreeType.MASTER}>Mestrado</SelectItem>
+                        <SelectItem value={DegreeType.DOCTORATE}>Doutorado</SelectItem>
+                        <SelectItem value={DegreeType.POSTGRADUATE}>Pós-graduação</SelectItem>
+                        <SelectItem value={DegreeType.MBA}>MBA</SelectItem>
+                        <SelectItem value={DegreeType.CERTIFICATE}>Certificado</SelectItem>
+                        <SelectItem value={DegreeType.OTHER}>Outro</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="fieldOfStudy">Área de Estudo *</Label>
@@ -586,7 +620,7 @@ export default function CompleteProfilePage() {
                     <Label htmlFor="eduStartDate">Data de Início</Label>
                     <Input
                       id="eduStartDate"
-                      type="month"
+                      type="date"
                       value={newEducation.startDate}
                       onChange={e => setNewEducation({ ...newEducation, startDate: e.target.value })}
                     />
@@ -595,7 +629,7 @@ export default function CompleteProfilePage() {
                     <Label htmlFor="eduEndDate">Data de Término</Label>
                     <Input
                       id="eduEndDate"
-                      type="month"
+                      type="date"
                       value={newEducation.endDate}
                       onChange={e => setNewEducation({ ...newEducation, endDate: e.target.value })}
                       disabled={newEducation.isCurrent}
@@ -671,14 +705,12 @@ export default function CompleteProfilePage() {
                   </div>
                   <div>
                     <Label htmlFor="skillLevel">Nível *</Label>
-                    <select
-                      id="skillLevel"
-                      className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white text-sm"
+                    <Select
                       value={newSkill.level}
-                      onChange={e =>
+                      onValueChange={value =>
                         setNewSkill({
                           ...newSkill,
-                          level: e.target.value as PersonCompetenceLevel,
+                          level: value as PersonCompetenceLevel,
                         })
                       }
                     >
@@ -686,14 +718,14 @@ export default function CompleteProfilePage() {
                       <option value="intermediate">Intermediário</option>
                       <option value="advanced">Avançado</option>
                       <option value="expert">Especialista</option>
-                    </select>
+                    </Select>
                   </div>
                   <div className="md:col-span-1">
                     <Label htmlFor="skillName">Anos de experiência</Label>
                     <Input
                       id="skillName"
-                      value={newSkill.competenceId}
-                      onChange={e => setNewSkill({ ...newSkill, competenceId: e.target.value })}
+                      value={newSkill.yearsOfExperience}
+                      onChange={e => setNewSkill({ ...newSkill, yearsOfExperience: Number(e.target.value) })}
                       placeholder="Ex: React, JavaScript, Gestão de Projetos..."
                     />
                   </div>

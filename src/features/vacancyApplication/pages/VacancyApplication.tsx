@@ -45,7 +45,7 @@ export const getJobLabel = (type: VacancyType) => {
     internship: 'Estágio',
     temporary: 'Temporário',
   };
-  return labels[type as VacancyType] || 'Outro';
+  return labels[type] || 'Outro';
 };
 
 export default function VacancyApplication() {

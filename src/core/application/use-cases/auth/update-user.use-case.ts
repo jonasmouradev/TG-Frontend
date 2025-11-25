@@ -18,6 +18,11 @@ export class UpdateUserSessionUseCase implements IUseCase<User, void> {
       type: user.type,
       username: user.username,
       name: user.name,
+      isVerified: user.isVerified,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      deletedAt: user.deletedAt,
+      status: user.status,
     };
     const encodedUser = this.crypto.encode(JSON.stringify(userCookie));
     this.storage.set(COOKIES.USER, encodedUser, { expires: 7, domain: domainName });
