@@ -30,12 +30,11 @@ export default function SignupScreen() {
     password: '',
     confirmPassword: '',
     terms: false,
-    companyName: '',
+    fullName: '',
     cnpj: '',
     companySize: '',
     industry: '',
     phone: '',
-    fullName: '',
     cpf: '',
     birthDate: '',
   });
@@ -256,12 +255,12 @@ export default function SignupScreen() {
                     {accountType === 'COMPANY' ? (
                       <>
                         <div className="space-y-2">
-                          <Label htmlFor="companyName">Nome da Empresa</Label>
+                          <Label htmlFor="fullName">Nome da Empresa</Label>
                           <Input
-                            id="companyName"
+                            id="fullName"
                             placeholder="Ex: Tech Solutions Ltda"
-                            value={formData.companyName}
-                            onChange={e => updateFormData('companyName', e.target.value)}
+                            value={formData.fullName}
+                            onChange={e => updateFormData('fullName', e.target.value)}
                           />
                         </div>
 

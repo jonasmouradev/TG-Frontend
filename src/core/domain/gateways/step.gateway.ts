@@ -9,7 +9,7 @@ type Filters = {
 };
 
 type Create = {
-  templateId?: string;
+  templateId?: string | null;
   name: string;
   description?: string;
   type: StepType;

@@ -43,10 +43,10 @@ export default function PersonHome() {
   const [savedJobs, setSavedJobs] = useState<string[]>(['1', '3']);
 
   const stats = {
-    profileCompletionRate: 65,
-    applications: 12,
-    interviews: 3,
-    savedJobs: 8,
+    profileCompletionRate: 0,
+    applications: 0,
+    interviews: 0,
+    savedJobs: 0,
   };
 
   const { publishedVacancies } = useDashboard();

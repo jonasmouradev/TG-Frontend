@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ProcessTemplateDto, Step, StepType } from '@core/domain';
 import { useStepCases } from '@shared/hooks/step';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GetStepsUseCase } from '@core/application';
+import { GetStepsUseCase, GetProcessTemplatesUseCase } from '@core/application';
 import { useCase } from '@shared/contexts/UseCaseContext';
 import { stepOptionsTypes } from '../components/ProcessSection/StepForm';
 import { DateTime } from 'luxon';
@@ -50,9 +50,10 @@ const useNewVacancy = (templateId?: string) => {
     mutationFn: stepCases.create,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: GetStepsUseCase.queryKey({
-          filters: templateId ? { templateId } : undefined,
-        }),
+        queryKey: GetStepsUseCase.queryKey({}),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: GetProcessTemplatesUseCase.queryKey({}),
       });
       await queryClient.refetchQueries({
         queryKey: GetStepsUseCase.queryKey({
@@ -157,7 +158,7 @@ const useNewVacancy = (templateId?: string) => {
 
     try {
       await createStepMutation.mutateAsync({
-        templateId: templateId || '',
+        templateId: templateId || null,
         name: newStep.name,
         type: mapLocalTypeToStepType(newStep.type),
         description: newStep.description,

@@ -94,14 +94,14 @@ export default function LoginScreen() {
           </div>
 
           {/* Stats */}
-          <div className="flex gap-8 py-6 border-y border-gray-200">
+          {/* <div className="flex gap-8 py-6 border-y border-gray-200">
             {stats.map((stat, index) => (
               <div key={index} className="space-y-1">
                 <div className="text-3xl font-bold bg-blue-600 bg-clip-text text-transparent">{stat.value}</div>
                 <div className="text-sm text-gray-600">{stat.label}</div>
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* Features Grid */}
           <div className="grid grid-cols-2 gap-4">

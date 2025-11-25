@@ -51,7 +51,7 @@ const StatsCards = ({ dashboardStats }: { dashboardStats: any }) => {
             </div>
             <TrendingUp className="w-5 h-5 text-green-600" />
           </div>
-          <div className="text-3xl font-bold text-gray-900 mb-1">32.5%</div>
+          <div className="text-3xl font-bold text-gray-900 mb-1">0%</div>
           <div className="text-sm text-gray-600">Taxa de Conversão</div>
           <div className="text-xs text-green-600 mt-2">+5% vs. período anterior</div>
         </CardContent>
@@ -68,7 +68,7 @@ const StatsCards = ({ dashboardStats }: { dashboardStats: any }) => {
             </div>
             <Clock className="w-5 h-5 text-orange-600" />
           </div>
-          <div className="text-3xl font-bold text-gray-900 mb-1">{dashboardStats.scheduledInterviews}</div>
+          <div className="text-3xl font-bold text-gray-900 mb-1">0</div>
           <div className="text-sm text-gray-600">Entrevistas Agendadas</div>
           <div className="text-xs text-orange-600 mt-2">3 para hoje</div>
         </CardContent>
