@@ -27,8 +27,8 @@ export class ApplicationHttpGateway implements ApplicationGateway {
     return this.httpClient.get<ApplicationList>({ url: `/applicants/${applicantId}/applications` });
   }
 
-  async create(vacancyId: string, payload: CreateApplicationDto): PromiseResponse<Application> {
-    return this.httpClient.post<Application>({ url: `/vacancies/${vacancyId}/apply`, payload });
+  async create(payload: CreateApplicationDto): PromiseResponse<Application> {
+    return this.httpClient.post<Application>({ url: `/applications`, payload });
   }
 
   async update(id: string, payload: UpdateApplicationDto): PromiseResponse<Application> {

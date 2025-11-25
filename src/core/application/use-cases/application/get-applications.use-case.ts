@@ -1,5 +1,5 @@
 import { ApplicationGateway, ApplicationFilters } from '@core/domain/gateways/application.gateway';
-import { Application, ApplicationStatus } from '@core/domain/entities';
+import { Application, ApplicationStatus, PaginatedList } from '@core/domain/entities';
 import { IUseCase } from '@core/domain/use-case.interface';
 
 export interface GetApplicationsUseCaseInput {
@@ -10,12 +10,7 @@ export interface GetApplicationsUseCaseInput {
   dateTo?: string;
 }
 
-export interface GetApplicationsUseCaseOutput {
-  applications: Application[];
-  total: number;
-  page: number;
-  limit: number;
-}
+export type GetApplicationsUseCaseOutput = PaginatedList<Application>;
 
 export class GetApplicationsUseCase implements IUseCase<GetApplicationsUseCaseInput, GetApplicationsUseCaseOutput> {
   constructor(private readonly gateway: ApplicationGateway) {}
@@ -33,15 +28,13 @@ export class GetApplicationsUseCase implements IUseCase<GetApplicationsUseCaseIn
 
     const response = await this.gateway.findAll(filters);
 
-    if (!response.data) {
+    if (!response?.data) {
       throw new Error('Failed to get applications');
     }
 
     return {
-      applications: response.data.data,
-      total: response.data.meta.total,
-      page: response.data.meta.currentPage,
-      limit: response.data.meta.perPage,
+      data: response?.data.data,
+      meta: response?.data.meta,
     };
   }
 }

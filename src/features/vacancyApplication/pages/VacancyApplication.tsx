@@ -420,7 +420,7 @@ export default function VacancyApplication() {
                   <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-gray-700">
                     Ao se candidatar, você concorda em compartilhar suas informações de perfil e currículo com{' '}
-                    <strong>job.company</strong>.
+                    <strong>{job.company.user.name}</strong>.
                   </div>
                 </div>
               </div>

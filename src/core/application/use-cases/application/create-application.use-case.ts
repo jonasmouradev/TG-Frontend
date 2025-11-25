@@ -16,7 +16,7 @@ export interface CreateApplicationUseCaseOutput {
 export class CreateApplicationUseCase
   implements IUseCase<CreateApplicationUseCaseInput, CreateApplicationUseCaseOutput>
 {
-  constructor(private applicationGateway: ApplicationGateway) {}
+  constructor(private readonly gateway: ApplicationGateway) {}
 
   async execute(input: CreateApplicationUseCaseInput): Promise<CreateApplicationUseCaseOutput> {
     const createApplicationDto: CreateApplicationDto = {
@@ -26,7 +26,7 @@ export class CreateApplicationUseCase
       coverLetter: input.coverLetter,
     };
 
-    const response = await this.applicationGateway.create(input.vacancyId, createApplicationDto);
+    const response = await this.gateway.create(createApplicationDto);
 
     if (!response.data) {
       throw new Error('Failed to create application');

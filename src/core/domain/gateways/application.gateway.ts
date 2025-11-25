@@ -29,7 +29,7 @@ export interface ApplicationGateway {
   findAll(params?: Filters): PromiseResponse<ApplicationList>;
   findByVacancy(vacancyId: string): PromiseResponse<ApplicationList>;
   findByApplicant(applicantId: string): PromiseResponse<ApplicationList>;
-  create(vacancyId: string, payload: Create): PromiseResponse<Application | null>;
+  create(payload: Create): PromiseResponse<Application | null>;
   update(id: string, payload: Update): PromiseResponse<Application | null>;
   remove(id: string): PromiseResponse<void | null>;
   updateStatus(id: string, payload: { status: ApplicationStatus }): PromiseResponse<Application | null>;
