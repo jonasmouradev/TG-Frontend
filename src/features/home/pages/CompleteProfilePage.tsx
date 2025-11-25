@@ -72,8 +72,8 @@ export default function CompleteProfilePage() {
         firstName: data.person.firstName || '',
         lastName: data.person.lastName || '',
         dateOfBirth: data.person.dateOfBirth || '',
-        phone: data.person.phone || '',
-        location: '',
+        phone: data.person.user.phone?.number || '',
+        location: data.person.user?.address?.city || '',
         bio: data.person.bio || '',
         linkedinProfile: data.person.linkedinProfile || '',
         githubProfile: data.person.githubProfile || '',
@@ -241,7 +241,6 @@ export default function CompleteProfilePage() {
           firstName: personalInfo.firstName,
           lastName: personalInfo.lastName,
           dateOfBirth: personalInfo.dateOfBirth,
-          phone: personalInfo.phone,
           bio: personalInfo.bio,
           linkedinProfile: personalInfo.linkedinProfile,
           githubProfile: personalInfo.githubProfile,
@@ -252,20 +251,14 @@ export default function CompleteProfilePage() {
   };
 
   const getStepIcon = (step: number) => {
-    switch (step) {
-      case 1:
-        return User;
-      case 2:
-        return Briefcase;
-      case 3:
-        return GraduationCap;
-      case 4:
-        return Award;
-      case 5:
-        return FileText;
-      default:
-        return User;
-    }
+    const options = {
+      1: User,
+      2: Briefcase,
+      3: GraduationCap,
+      4: Award,
+      5: FileText,
+    };
+    return options[step as keyof typeof options];
   };
 
   const renderStepContent = () => {
