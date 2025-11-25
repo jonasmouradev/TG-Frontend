@@ -32,7 +32,6 @@ import {
   Search,
   Filter,
   MessageSquare,
-  Star,
   Phone,
   Mail,
   FileText,
@@ -326,7 +325,7 @@ export default function VacancyDetail() {
                                   {candidate?.applicant?.user?.address?.street} •{' '}
                                   {candidate?.applicant?.experiences[0]?.position}
                                 </div>
-                                {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
+                                {/* {vacancy?.candidateMatches?.find(cm => cm.personId === candidate?.applicant?.id)
                                   ?.matchScore && (
                                   <div className="flex items-center gap-0.5 mt-1">
                                     {Array.from({ length: 5 }).map((_, i) => (
@@ -343,7 +342,7 @@ export default function VacancyDetail() {
                                       />
                                     ))}
                                   </div>
-                                )}
+                                )} */}
                               </div>
                             </div>
                           </td>
