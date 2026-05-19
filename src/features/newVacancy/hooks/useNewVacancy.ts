@@ -1,0 +1,406 @@
+import { useState, useEffect } from 'react';
+import { ProcessTemplateDto, Step, StepType } from '@core/domain';
+import { useStepCases } from '@shared/hooks/step';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { GetStepsUseCase, GetProcessTemplatesUseCase } from '@core/application';
+import { useCase } from '@shared/contexts/UseCaseContext';
+import { stepOptionsTypes } from '../components/ProcessSection/StepForm';
+import { DateTime } from 'luxon';
+import { useTemplateCases } from '@shared/hooks';
+
+const useNewVacancy = (templateId?: string) => {
+  const { useGetSteps, ...stepCases } = useStepCases();
+  const queryClient = useQueryClient();
+  const { stepGateway } = useCase();
+
+  const { data: stepsData, isLoading } = useGetSteps({
+    input: { filters: templateId ? { templateId } : undefined },
+    enabled: true,
+  });
+
+  const [skills, setSkills] = useState<string[]>([]);
+  const [newSkill, setNewSkill] = useState('');
+  const [steps, setSteps] = useState<Step[]>([]);
+
+  useEffect(() => {
+    if (stepsData?.data?.data) {
+      setSteps(stepsData.data.data);
+    }
+  }, [stepsData]);
+
+  const mapStepTypeToLocal = (type: string): Step['type'] => {
+    return StepType[type as keyof typeof StepType] || 'custom';
+  };
+
+  const mapLocalTypeToStepType = (type: Step['type']) => {
+    const typeMap: Record<Step['type'], (typeof StepType)[keyof typeof StepType]> = {
+      screening: StepType.SCREENING,
+      interview: StepType.INTERVIEW,
+      technical_test: StepType.TECHNICAL_TEST,
+      background_check: StepType.BACKGROUND_CHECK,
+      offer: StepType.OFFER,
+      onboarding: StepType.ONBOARDING,
+      custom: StepType.CUSTOM,
+      application: StepType.APPLICATION,
+    };
+    return typeMap[type];
+  };
+
+  const createStepMutation = useMutation({
+    mutationFn: stepCases.create,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({}),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: GetProcessTemplatesUseCase.queryKey({}),
+      });
+      await queryClient.refetchQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+    },
+  });
+
+  const updateStepMutation = useMutation({
+    mutationFn: stepCases.update,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+    },
+  });
+
+  const deleteStepMutation = useMutation({
+    mutationFn: stepCases.delete,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+    },
+  });
+
+  const reorderStepsMutation = useMutation({
+    mutationFn: stepCases.reorder,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+      await queryClient.refetchQueries({
+        queryKey: GetStepsUseCase.queryKey({
+          filters: templateId ? { templateId } : undefined,
+        }),
+      });
+    },
+  });
+  const [newStep, setNewStep] = useState<Step>(
+    new Step({
+      id: '',
+      name: '',
+      type: StepType.INTERVIEW,
+      description: '',
+      estimatedDuration: '',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      templateId: null,
+      // responsible: '',
+      // autoNotify: false,
+    }),
+  );
+  const [draggedItem, setDraggedItem] = useState<string | null>(null);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [editingStep, setEditingStep] = useState<string | null>(null);
+  const [showStats, setShowStats] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [templateName, setTemplateName] = useState('');
+  const [templateDescription, setTemplateDescription] = useState('');
+
+  const { useGetProcessTemplates } = useTemplateCases();
+  const { data: processTemplates } = useGetProcessTemplates({
+    input: {},
+    enabled: true,
+  });
+
+  const savedTemplates = processTemplates?.templates || [];
+
+  const addSkill = () => {
+    if (newSkill.trim() && !skills.includes(newSkill.trim())) {
+      setSkills([...skills, newSkill.trim()]);
+      setNewSkill('');
+    }
+  };
+
+  const removeSkill = (skillToRemove: string) => {
+    setSkills(skills.filter(s => s !== skillToRemove));
+  };
+
+  const addStep = async () => {
+    if (!newStep.name || !newStep.name.trim()) {
+      return;
+    }
+
+    try {
+      await createStepMutation.mutateAsync({
+        templateId: templateId || null,
+        name: newStep.name,
+        type: mapLocalTypeToStepType(newStep.type),
+        description: newStep.description,
+        estimatedDuration: newStep.estimatedDuration || '',
+      });
+      setNewStep(
+        new Step({
+          id: '',
+          name: '',
+          type: StepType.INTERVIEW,
+          description: '',
+          estimatedDuration: '',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          templateId: null,
+          // responsible: '',
+          // autoNotify: false,
+        }),
+      );
+    } catch (error) {
+      console.error('Erro ao adicionar step:', error);
+    }
+  };
+
+  const duplicateStep = async (step: Step) => {
+    if (templateId) {
+      try {
+        await createStepMutation.mutateAsync({
+          templateId,
+          name: `${step.name} (cópia)`,
+          type: mapLocalTypeToStepType(step.type),
+          description: step.description,
+          estimatedDuration: step.estimatedDuration || '',
+        });
+      } catch (error) {
+        console.error('Erro ao duplicar step:', error);
+      }
+    } else {
+      const newStep = new Step({
+        templateId: null,
+        type: step.type,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        id: Date.now().toString(),
+        name: `${step.name} (cópia)`,
+      });
+      setSteps([...steps, newStep]);
+    }
+  };
+
+  const updateStep = async (id: string, updates: Partial<Step>) => {
+    if (templateId && id) {
+      try {
+        await updateStepMutation.mutateAsync({
+          id,
+          data: {
+            name: updates.name,
+            type: updates.type ? mapLocalTypeToStepType(updates.type) : undefined,
+            description: updates.description,
+            estimatedDuration: updates.estimatedDuration ? updates.estimatedDuration : undefined,
+          },
+        });
+        setEditingStep(null);
+      } catch (error) {
+        console.error('Erro ao atualizar step:', error);
+      }
+    } else {
+      setEditingStep(null);
+    }
+  };
+
+  const { createProcess } = useTemplateCases();
+  const exportAsTemplate = async () => {
+    if (!templateName.trim() || steps.length === 0) return;
+
+    try {
+      await createProcess({
+        name: templateName,
+        description: templateDescription || 'Template personalizado',
+        stages: steps,
+      });
+
+      setShowExportModal(false);
+      setTemplateName('');
+      setTemplateDescription('');
+    } catch (error) {
+      console.error('Erro ao exportar template:', error);
+    }
+  };
+
+  // Estatísticas simuladas - em produção viriam do backend
+  const stepStats = steps.map(step => ({
+    ...step,
+    candidates: Math.floor(Math.random() * 50) + 10,
+    approved: Math.floor(Math.random() * 30) + 5,
+    avgDuration: `${Math.floor(Math.random() * 7) + 1} dias`,
+    approvalRate: Math.floor(Math.random() * 40) + 50,
+  }));
+
+  const removeStep = async (id: string) => {
+    if (templateId && id) {
+      try {
+        await deleteStepMutation.mutateAsync({ id });
+      } catch (error) {
+        console.error('Erro ao remover step:', error);
+      }
+    } else {
+      setSteps(steps.filter(s => s.id !== id));
+    }
+  };
+
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    setDraggedItem(id);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = async (e: React.DragEvent, targetId: string) => {
+    e.preventDefault();
+
+    if (!draggedItem || draggedItem === targetId) return;
+
+    const draggedIndex = steps.findIndex(s => s.id === draggedItem);
+    const targetIndex = steps.findIndex(s => s.id === targetId);
+
+    if (draggedIndex === -1 || targetIndex === -1) return;
+
+    const newSteps = [...steps];
+    const [removed] = newSteps.splice(draggedIndex, 1);
+    newSteps.splice(targetIndex, 0, removed);
+
+    if (templateId) {
+      try {
+        await reorderStepsMutation.mutateAsync({
+          templateId,
+          stepIds: newSteps.map(s => s.id),
+        });
+      } catch (error) {
+        console.error('Erro ao reordenar steps:', error);
+      }
+    } else {
+      setSteps(newSteps);
+    }
+    setDraggedItem(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItem(null);
+  };
+
+  const applyTemplate = async (template: ProcessTemplateDto) => {
+    if (template.id) {
+      try {
+        // Busca os steps do template selecionado
+        const result = await queryClient.fetchQuery({
+          queryKey: GetStepsUseCase.queryKey({ filters: { templateId: template.id } }),
+          queryFn: () => new GetStepsUseCase(stepGateway).execute({ filters: { templateId: template.id } }),
+        });
+
+        if (result?.data?.data) {
+          const stepsArray = Array.isArray(result.data.data) ? result.data.data : [];
+          const mappedSteps = stepsArray.map(
+            step =>
+              new Step({
+                id: step.id,
+                name: step.name,
+                type: mapStepTypeToLocal(step.type),
+                description: step.description,
+                estimatedDuration: step.estimatedDuration || '',
+                templateId: step.templateId,
+                createdAt: step.createdAt,
+                updatedAt: step.updatedAt,
+              }),
+          );
+          setSteps(mappedSteps);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar steps do template:', error);
+      }
+    } else if (template.stages) {
+      setSteps(template.stages);
+    }
+    setShowTemplates(false);
+  };
+
+  const getStepTypeLabel = (type: string) => {
+    return stepOptionsTypes[type as StepType] || type;
+  };
+
+  const getStepTypeColor = (type: string) => {
+    const colors: Record<string, string> = {
+      screening: 'bg-purple-100 text-purple-700',
+      interview: 'bg-blue-100 text-blue-700',
+      test: 'bg-orange-100 text-orange-700',
+      custom: 'bg-gray-100 text-gray-700',
+    };
+    return colors[type] || 'bg-gray-100 text-gray-700';
+  };
+
+  return {
+    showTemplates,
+    steps,
+    setShowTemplates,
+    skills,
+    newSkill,
+    setNewSkill,
+    addSkill,
+    removeSkill,
+    stepsData,
+    newStep,
+    setNewStep,
+    addStep,
+    duplicateStep,
+    editingStep,
+    setEditingStep,
+    updateStep,
+    exportAsTemplate,
+    showExportModal,
+    setShowExportModal,
+    templateName,
+    setTemplateName,
+    templateDescription,
+    setTemplateDescription,
+    savedTemplates,
+    stepStats,
+    showStats,
+    setShowStats,
+    removeStep,
+    handleDragStart,
+    handleDragOver,
+    handleDrop,
+    handleDragEnd,
+    draggedItem,
+    applyTemplate,
+    getStepTypeLabel,
+    getStepTypeColor,
+    isLoading,
+  };
+};
+
+export default useNewVacancy;

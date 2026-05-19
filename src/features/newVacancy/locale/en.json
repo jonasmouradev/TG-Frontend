@@ -1,0 +1,47 @@
+{
+  "newVacancy": {
+    "title": "New Vacancy",
+    "subtitle": "Fill in the information below to publish a new opportunity",
+    "sections": {
+      "basic": {
+        "title": "Basic Information",
+        "fields": {
+          "jobTitle": "Job Title",
+          "department": "Department",
+          "contractType": "Contract Type",
+          "location": "Location",
+          "workMode": "Work Mode"
+        }
+      },
+      "description": {
+        "title": "Job Description",
+        "fields": {
+          "description": "Full Description",
+          "responsibilities": "Main Responsibilities"
+        }
+      },
+      "requirements": {
+        "title": "Requirements and Qualifications",
+        "fields": {
+          "skills": "Technical Skills",
+          "experience": "Required Experience",
+          "education": "Education"
+        }
+      },
+      "benefits": {
+        "title": "Compensation and Benefits",
+        "fields": {
+          "salary": "Salary Range"
+        }
+      },
+      "process": {
+        "title": "Selection Process"
+      }
+    },
+    "buttons": {
+      "save": "Save Draft",
+      "publish": "Publish Vacancy",
+      "addStage": "Add Stage"
+    }
+  }
+}

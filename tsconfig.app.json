@@ -20,7 +20,19 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Config */
+    "baseUrl": "src",
+    "paths": {
+      "@core/*": ["./core/*"],
+      "@components/*": ["./components/*"],
+      "@features/*": ["./features/*"],
+      "@lib/*": ["./lib/*"],
+      "@shared/*": ["./shared/*"],
+      "@assets/*": ["./assets/*"],
+      "@/*": ["./*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "src/features"]
 }
