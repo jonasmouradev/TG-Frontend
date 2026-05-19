@@ -1,0 +1,48 @@
+import { ProcessTemplateDto, TemplateGateway } from '@core/domain/gateways/template.gateway';
+import { IUseCase } from '@core/domain/use-case.interface';
+
+export interface GetProcessTemplatesUseCaseInput {
+  companyId?: string;
+  category?: string;
+  isDefault?: boolean;
+  search?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface GetProcessTemplatesUseCaseOutput {
+  templates: ProcessTemplateDto[];
+  totalCount: number;
+}
+
+export class GetProcessTemplatesUseCase
+  implements IUseCase<GetProcessTemplatesUseCaseInput, GetProcessTemplatesUseCaseOutput>
+{
+  constructor(private readonly gateway: TemplateGateway) {}
+
+  public static readonly queryKey = (input: GetProcessTemplatesUseCaseInput) => {
+    return ['templates', input];
+  };
+
+  async execute(input: GetProcessTemplatesUseCaseInput): Promise<GetProcessTemplatesUseCaseOutput> {
+    const filters = {
+      companyId: input.companyId,
+      category: input.category,
+      isDefault: input.isDefault,
+      search: input.search,
+      limit: input.limit || 30,
+      offset: input.offset || 0,
+    };
+
+    const response = await this.gateway.getProcessTemplates(filters);
+
+    if (!response.data) {
+      throw new Error('Failed to get process templates');
+    }
+
+    return {
+      templates: response.data.templates,
+      totalCount: response.data.totalCount,
+    };
+  }
+}

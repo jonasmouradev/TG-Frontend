@@ -1,29 +1,30 @@
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes';
-import { UserContext } from '@/shared/contexts/UserContext';
-import { useState } from 'react';
-import { User } from './types/user';
+import { Suspense, useMemo } from 'react';
+import { ThemeProvider } from './shared/contexts/Theme/ThemeProvider';
+import { Toaster } from '@shared/components';
+import { DIContainer } from '@core/infra/container';
+import { UseCaseContext } from '@shared/contexts/UseCaseContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function App() {
-  const [user] = useState<User>({
-    id: 1,
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    password: '123456',
-    userType: 'user',
-  });
-
-  if (!user) {
-    return undefined;
-  }
+  const container = useMemo(() => new DIContainer(), []);
+  const queryClient = useMemo(() => new QueryClient(), []);
 
   return (
-    <div className="h-screen w-screen">
-      <UserContext.Provider value={user}>
-        <RouterProvider router={router} />
-      </UserContext.Provider>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Suspense
+        fallback={<div className="flex items-center justify-center h-screen w-screen bg-white">Loading...</div>}
+      >
+        <ThemeProvider>
+          <UseCaseContext.Provider value={container}>
+            <Toaster />
+            <RouterProvider router={router} />
+          </UseCaseContext.Provider>
+        </ThemeProvider>
+      </Suspense>
+    </QueryClientProvider>
   );
 }
 

@@ -1,1 +1,10 @@
-{}
+{
+  "hello": "Hello",
+  "in_progress": "In Progress",
+  "completed": "Completed",
+  "vacancy": "Vacancy",
+  "process": "Process",
+  "view_process": "View Process",
+  "track_data": "Track Data",
+  "last_activities": "Last Activities"
+}

@@ -2,8 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getDefaultLanguage } from '../utils';
 
-import sharedEn from '@/shared/locale/en.json';
-import sharedPt from '@/shared/locale/pt.json';
+import sharedEn from '@shared/locale/en.json';
+import sharedPt from '@shared/locale/pt.json';
 
 import authEn from '@/features/auth/locale/en.json';
 import authPt from '@/features/auth/locale/pt.json';
@@ -17,6 +17,9 @@ import profilePt from '@/features/profile/locale/pt.json';
 import settingsEn from '@/features/settings/locale/en.json';
 import settingsPt from '@/features/settings/locale/pt.json';
 
+import notFoundPt from '@/features/NotFound/locale/pt.json';
+import notFoundEn from '@/features/NotFound/locale/en.json';
+
 const resources = {
   pt: {
     translation: {
@@ -25,6 +28,7 @@ const resources = {
       ...sharedPt,
       ...profilePt,
       ...settingsPt,
+      ...notFoundPt,
     },
   },
   en: {
@@ -34,6 +38,7 @@ const resources = {
       ...sharedEn,
       ...profileEn,
       ...settingsEn,
+      ...notFoundEn,
     },
   },
 };

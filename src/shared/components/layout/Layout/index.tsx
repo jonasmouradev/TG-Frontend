@@ -1,0 +1,30 @@
+import { Outlet } from 'react-router-dom';
+import { SidebarProvider, SidebarInset } from '@shared/components/ui/Sidebar';
+import { UserContext } from '@shared/contexts/UserContext';
+import { useProfile } from '@features/profile';
+import HomeHeader from '@features/home/components/HomeHeader';
+
+const Layout = () => {
+  const { user } = useProfile();
+
+  if (!user) {
+    return undefined;
+  }
+  return (
+    <SidebarProvider>
+      <UserContext value={user}>
+        <div className="flex min-h-screen w-full bg-background">
+          <SidebarInset className="flex-1">
+            <HomeHeader>
+              <main className="flex-1">
+                <Outlet />
+              </main>
+            </HomeHeader>
+          </SidebarInset>
+        </div>
+      </UserContext>
+    </SidebarProvider>
+  );
+};
+
+export default Layout;

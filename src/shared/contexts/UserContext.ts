@@ -1,9 +1,9 @@
-import { User } from '@/types/user';
+import { UserType } from '@features/profile';
 import { createContext, useContext } from 'react';
 
-export const UserContext = createContext<User | undefined>(undefined);
+export const UserContext = createContext<UserType>({} as UserType);
 
-export function useUserContext() {
+export default function useUserContext() {
   const user = useContext(UserContext);
 
   if (!user) {

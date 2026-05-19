@@ -12,13 +12,9 @@ Este repositório contém o código-fonte do Front-end do projeto de Trabalho de
 
 **Vite com SWC** - combinação da ferramenta de construção Vite e do compilador SWC.
 
-**Vitest e Testing Library** - Ferramentas úteis para testes automatizados no front-end. Totalmente compatível com Vite.
-/
-
 ## Objetivo do Projeto
 
 O objetivo deste projeto é desenvolver uma plataforma que atenda o nicho de tecnologia no recrutamento e seleção, trazendo funcionalidades que ofereçam a melhor experiência personalizada, tanto para empresas e recrutadores quanto candidatos, sem a necessidade de "pular" entre diferentes plataformas. 
-
 
 ## Funcionalidades Principais
 
@@ -28,7 +24,6 @@ O objetivo deste projeto é desenvolver uma plataforma que atenda o nicho de tec
 - Filtros Avançados para seleção personalizada de perfis
 - Interação de empresa com recrutadores
 - Interface simples, intuitiva e moderna
-
 
 ## Como Executar o Projeto
 

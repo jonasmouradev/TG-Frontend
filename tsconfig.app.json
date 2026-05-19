@@ -25,8 +25,13 @@
     /* Config */
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"],
-      "@components/*": ["./components/*"]
+      "@core/*": ["./core/*"],
+      "@components/*": ["./components/*"],
+      "@features/*": ["./features/*"],
+      "@lib/*": ["./lib/*"],
+      "@shared/*": ["./shared/*"],
+      "@assets/*": ["./assets/*"],
+      "@/*": ["./*"]
     }
   },
   "include": ["src", "src/features"]
